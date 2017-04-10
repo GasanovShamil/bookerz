@@ -3,9 +3,38 @@
     <head>
         <meta charset="utf-8">
         <title>Bookerz</title>
+        <!-- Font axesome -->
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/bootstrap/css/offcanvas.css" rel="stylesheet">
         <link rel="stylesheet" href="assets/css/style.css">
-        <link rel="stylesheet" href=""> <!-- bootstrap link -->
     </head>
     <body>
         <!-- navbar -->
-        <div class="container">
+        <!-- Menu -->
+        <nav class="navbar navbar-fixed-top navbar-inverse">
+            <div class="contain">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"></a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Accueil</a></li>
+                        <li><a href="#about">Contenus</a></li>
+                        <li><a href="#contact">Salons</a></li>
+                    </ul>
+                    <a id="logo" href="#"><img src="img/livre.png"></a>
+                    <ul class="nav navbar-nav pull-right">
+                        <li><a href="#">Mon Compte / Se connecter</a></li>
+                    </ul>
+                </div><!-- /.nav-collapse -->
+            </div><!-- /.container -->
+        </nav>
+
+        <div class="contain">
