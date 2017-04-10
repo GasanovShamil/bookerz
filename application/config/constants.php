@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+define('CLASSES_DIR', APPPATH . "entities/");
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace
