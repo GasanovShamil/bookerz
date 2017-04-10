@@ -12,6 +12,7 @@ CREATE TABLE `USER` (
 	`email` varchar(100) NOT NULL UNIQUE,
 	`name` varchar(100) NOT NULL,
 	`surname` varchar(100) NOT NULL,
+	'password' varchar(8) NOT NULL,
 	`blocked` boolean NOT NULL,
 	`block_date` DATE,
 	`date_inscription` DATE NOT NULL,
