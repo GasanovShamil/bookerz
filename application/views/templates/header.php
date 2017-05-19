@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <title>Bookerz</title>
         <!-- Font axesome -->
-        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-        <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/bootstrap/css/offcanvas.css" rel="stylesheet">
-        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="<?= base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
+        <link href="<?= base_url('assets/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+        <link href="<?= base_url('assets/bootstrap/css/offcanvas.css'); ?>" rel="stylesheet">
+        <link rel="stylesheet" href="<?= base_url('assets/css/style.css'); ?>">
     </head>
     <body>
         <!-- navbar -->
@@ -25,13 +25,14 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Accueil</a></li>
-                        <li><a href="#about">Contenus</a></li>
+                        <li class="active"><a href="<?= base_url('home') ?>">Accueil</a></li>
+                        <li><a href="<?= base_url('content') ?>">Contenus</a></li>
                         <li><a href="#contact">Salons</a></li>
                     </ul>
-                    <a id="logo" href="#"><img src="img/livre.png"></a>
+                    <a id="logo" href="#"><img src="<?= base_url('assets/img/livre.png'); ?>"></a>
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="#">Mon Compte / Se connecter</a></li>
+                        <li><a href="<?= base_url('profil') ?>">Mon Compte</a></li>
+                        <li><a href="<?= base_url('login/log') ?>">Se connecter</a></li>
                     </ul>
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->
