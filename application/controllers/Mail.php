@@ -14,6 +14,7 @@ class Mail extends CI_Controller {
             $message = '<p>Bienvenu sur Bookerz.</p>';
 
             // Get full html:
+            $urlsite = base_url('login/registration');
             $body = '
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <html xmlns="http://www.w3.org/1999/xhtml">
@@ -29,7 +30,15 @@ class Mail extends CI_Controller {
                 </head>
                 <body>
                     <div style="height: 100px; width: 100%; background-color: teal;text-align: center; line-height: 100px; color: white; font-weight: 400; font-size: 30px;">Bookerz</div>
-                    Salut salut
+                    <br><br>
+                    <div style="font-size: 16px;">Bienvenu sur Bookerz</div>
+                    <br>
+                    <p>Pour continuer votre inscription, merci de <a href="'.$urlsite.'">cliquez ici</a>
+                    <br>
+                    <p>À très vite !<p>
+                    <br>
+                    <p>L\'équipe Bookerz.</p>
+                    <div style="height: 100px; width: 100%; background-color: teal;"></div>
                 </body>
             </html>';
                 // Also, for getting full html you may use the following internal method:

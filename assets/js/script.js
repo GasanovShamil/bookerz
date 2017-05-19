@@ -13,10 +13,11 @@ $(document).ready(function(){
         var email = $("#inputEmail").val();
         var data = {'email': email};
         var url = base_url + "index.php/mail/sub";
-        sendPostData("POST", data, "json", url);
+        sendAjaxData("POST", data, "json", url);
+        $('#sub').trigger("reset");
     });
 
-    function sendPostData(type = "POST", data, datatype, url, cache = "false")
+    function sendAjaxData(type = "POST", data, datatype, url, cache = "false")
     {
         $.ajax({
             type  : type,
@@ -28,4 +29,3 @@ $(document).ready(function(){
         return false;
     }
 });
-
