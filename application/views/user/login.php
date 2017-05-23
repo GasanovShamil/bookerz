@@ -3,13 +3,17 @@
     <h3 class="omb_authTitle">S'authentifier ou <a href="<?= base_url('login/registration') ?>">S'inscrire</a></h3>
     <div class="row omb_row-sm-offset-3 omb_socialButtons">
         <div class="col-xs-4 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block omb_btn-facebook">
-                <i class="fa fa-facebook visible-xs"></i>
-                <span class="hidden-xs">Facebook</span>
-            </a>
+        
+        <?php
+			$helper = $this->fb->getRedirectLoginHelper();
+			$permissions = ['public_profile','email']; // these are the permissions we ask from the Facebook user's profile 
+			echo anchor($helper->getLoginUrl('http://bookerz.dev/user/facebook', $permissions),'<i class="fa fa-facebook visible-xs"></i><span class="hidden-xs">Facebook</span>',array('class' => 'btn btn-lg btn-block omb_btn-facebook'));
+		?>
         </div>
     </div>
-
+    
+	
+	
     <div class="row omb_row-sm-offset-3 omb_loginOr">
         <div class="col-xs-12 col-sm-6">
             <hr class="omb_hrOr">

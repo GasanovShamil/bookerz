@@ -64,8 +64,72 @@ class User extends MY_Controller {
 			}
 		}
 	}
+	
+	public function facebook()
+	{
+		$helper = $this->fb->getRedirectLoginHelper();
+		try
+		{
+			$accessToken = $helper->getAccessToken();
+		}
+		catch(Facebook\Exceptions\FacebookResponseException $e)
+		{
+			// When Graph returns an error
+			echo 'There was an error while trying to login using Facebook: ' . $e->getMessage();
+			exit;
+		}
+		catch(Facebook\Exceptions\FacebookSDKException $e)
+		{
+			// When validation fails or other local issues
+			echo 'Facebook SDK returned an error: ' . $e->getMessage();
+			exit;
+		}
+		
+		if (isset($accessToken))
+		{
+			$this->fb->setDefaultAccessToken($accessToken);
+			try
+			{
+				$response = $this->fb->get('/me?fields=id,name,email');
+				$user = $response->getGraphUser(); // we retrieve the user data
+			}
+			catch(Facebook\Exceptions\FacebookResponseException $e)
+			{
+				// When Graph returns an error
+				echo 'Could not retrieve user data: ' . $e->getMessage();
+				exit;
+			}
+			catch(Facebook\Exceptions\FacebookSDKException $e)
+			{
+				// When validation fails or other local issues
+				echo 'Facebook SDK returned an error: ' . $e->getMessage();
+				exit;
+			}
+			
+			//we do not actually need to verify if the user email address is correct... but we should make sure
+			if($this->form_validation->valid_email($user['email']))
+			{
+				$this->load->model('user_model');
+				if($this->user_model->login_with_facebook($user['email'], $user['name']))
+				{
+					redirect('/');
+				}
+				else
+				{
+					redirect('user/login');
+				}
+			}
+		}
+		else
+		{
+			echo 'oups... where is the access token???';
+		}
+	}
+	
 	public function logout() {
 		$this->ion_auth->logout ();
 		redirect ( '/' );
+		
+		
 	}
 }

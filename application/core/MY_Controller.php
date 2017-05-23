@@ -2,9 +2,15 @@
 		defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		class MY_Controller extends CI_Controller {
 			protected $data = array ();
+			public $fb;
 			function __construct() {
 				parent::__construct ();
-				$this->data ['page_title'] = 'CI App';
+				$this->fb = new Facebook\Facebook([
+						'app_id' => $this->config->item('facebook_app_id'),
+						'app_secret' => $this->config->item('facebook_app_secret'),
+						'default_graph_version' => 'v2.5'
+				]);
+				$this->data ['page_title'] = 'BOOKERZ';
 				$this->data ['page_description'] = 'CI_App';
 				$this->data ['before_closing_head'] = '';
 				$this->data ['before_closing_body'] = '';

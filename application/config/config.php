@@ -2,6 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
+ * Facebook variables:
+ */
+$config['facebook_app_id'] = '310063842756021';
+$config['facebook_app_secret'] = '72a0728d98f5566e8ef7bffcb6d296e3';
+
+/*
 |--------------------------------------------------------------------------
 | Base Site URL
 |--------------------------------------------------------------------------
@@ -137,8 +143,8 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
-
+$config['composer_autoload'] = FCPATH.'vendor/autoload.php';
+//require_once FCPATH.'vendor/autoload.php';
 /*
 |--------------------------------------------------------------------------
 | Allowed URL Characters
