@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class="omb_login">
     <h3 class="omb_authTitle">Authentification</h3>
 

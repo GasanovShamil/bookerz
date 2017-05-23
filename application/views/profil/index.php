@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div id="profil" class="row row-offcanvas row-offcanvas-right">
 
     <div class="col-md-10">

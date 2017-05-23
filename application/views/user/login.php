@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class="omb_login">
     <h3 class="omb_authTitle">S'authentifier ou <a href="<?= base_url('login/registration') ?>">S'inscrire</a></h3>
     <div class="row omb_row-sm-offset-3 omb_socialButtons">
@@ -19,18 +20,19 @@
     <div class="row omb_row-sm-offset-3">
         <div class="col-xs-12 col-sm-6">
             <form class="omb_loginForm" action="" autocomplete="off" method="POST">
+            
+                   <span class="help-block" style="color: red"> <?php  echo form_error('email'); ?></span>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                    <input type="text" class="form-control" name="username" placeholder="Mail">
+                    <input type="text" class="form-control" name="email" placeholder="Mail">
                 </div>
                 <span class="help-block"></span>
-
+				<span class="help-block" style="color: red"> <?php  echo form_error('password'); ?></span>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                     <input  type="password" class="form-control" name="password" placeholder="Mot de passe">
                 </div>
-                <span class="help-block">L'identifiant ou le mot de passe est incorrect !!!</span>
-
+				<span class="help-block" style="color: red"><?php echo isset($_SESSION['auth_message']) ? $_SESSION['auth_message'] : FALSE;?></span>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
             </form>
         </div>
@@ -38,7 +40,7 @@
     <div class="row omb_row-sm-offset-3">
         <div class="col-xs-12 col-sm-3">
             <label class="checkbox">
-                <input type="checkbox" value="remember-me">Se souvenir de moi
+                <input type="checkbox" name="remember" value="1">Se souvenir de moi
             </label>
         </div>
         <div class="col-xs-12 col-sm-3">
