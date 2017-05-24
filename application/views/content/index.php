@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class="contain">
 
     <div class="row row-offcanvas row-offcanvas-right">

@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,10 +33,10 @@
                     <a id="logo" href="#"><img src="<?= base_url('assets/img/livre.png'); ?>"></a>
                     <ul class="nav navbar-nav pull-right">
                         <li><a href="<?= base_url('profil') ?>">Mon Compte</a></li>
-                        <li><a href="<?= base_url('login/log') ?>">Se connecter</a></li>
+                        <li><a href="<?= base_url('user/logout') ?>">Se deconnecter</a></li>
                     </ul>
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->
         </nav>
 
-        <div class="contain">
+        <div class="container">

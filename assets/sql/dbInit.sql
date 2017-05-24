@@ -1,9 +1,10 @@
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS ci_sessions;
 
-CREATE TABLE `users` (
-	`userId` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`name` varchar(100) NOT NULL,
-	`surname` varchar(100) NOT NULL,
-	`email` varchar(100) NOT NULL UNIQUE,
-	`password` varchar(100) NOT NULL
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+`id` varchar(40) NOT NULL,
+`ip_address` varchar(45) NOT NULL,
+`timestamp` int(10) unsigned DEFAULT 0 NOT NULL,
+`data` blob NOT NULL,
+KEY `ci_sessions_timestamp` (`timestamp`)
 );
+

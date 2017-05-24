@@ -1,5 +1,5 @@
 <?php
-class CI_Controller {
+class MY_Controller {
 	/**
 	 *
 	 * @var CI_DB_active_record

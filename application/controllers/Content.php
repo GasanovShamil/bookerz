@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Content extends CI_Controller {
+class Content extends MY_Controller {
 
     public function index()
     {
-        $this->load->view('templates/header');
-        $this->load->view('content/index');
-        $this->load->view('templates/footer');
+        
+        $this->render('content/index');
+        
     }
 }

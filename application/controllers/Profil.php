@@ -1,12 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Profil extends CI_Controller {
+class Profil extends Auth_Controller {
 
-    public function index()
+	function __construct()
+	{
+		parent::__construct();
+	}
+	
+	public function index()
     {
-        $this->load->view('templates/header');
-        $this->load->view('profil/index');
-        $this->load->view('templates/footer');
+        $this->render('profil/index');
     }
 }
