@@ -1,23 +1,4 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* Name:  Ion Auth Model
-*
-* Author:  Ben Edmunds
-* 		   ben.edmunds@gmail.com
-*	  	   @benedmunds
-*
-* Added Awesomeness: Phil Sturgeon
-*
-* Location: http://github.com/benedmunds/CodeIgniter-Ion-Auth
-*
-* Created:  10.01.2009
-*
-* Description:  Modified auth system based on redux_auth with extensive customization.  This is basically what Redux Auth 2 should be.
-* Original Author name has been kept but that does not mean that the method has not been modified.
-*
-* Requirements: PHP5 or above
-*
-*/
 
 class User_model extends CI_Model
 {
@@ -270,22 +251,11 @@ class User_model extends CI_Model
 		return TRUE;
 	}
 	
-	/**
-	 * Misc functions
-	 *
-	 * Hash password : Hashes the password to be stored in the database.
-	 * Hash password db : This function takes a password and validates it
-	 * against an entry in the users table.
-	 * Salt : Generates a random salt value.
-	 *
-	 * @author Mathew
-	 */
-
+	
 	/**
 	 * Hashes the password to be stored in the database.
 	 *
 	 * @return void
-	 * @author Mathew
 	 **/
 	public function hash_password($password, $salt=false, $use_sha1_override=FALSE)
 	{
@@ -317,7 +287,6 @@ class User_model extends CI_Model
 	 * against an entry in the users table.
 	 *
 	 * @return void
-	 * @author Mathew
 	 **/
 	public function hash_password_db($id, $password, $use_sha1_override=FALSE)
 	{
@@ -378,7 +347,6 @@ class User_model extends CI_Model
 	 * Generates a random salt value for forgotten passwords or any other keys. Uses SHA1.
 	 *
 	 * @return void
-	 * @author Mathew
 	 **/
 	public function hash_code($password)
 	{
@@ -391,7 +359,6 @@ class User_model extends CI_Model
 	 * Salt generation code taken from https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
 	 *
 	 * @return void
-	 * @author Anthony Ferrera
 	 **/
 	public function salt()
 	{
@@ -467,14 +434,12 @@ class User_model extends CI_Model
 	 * Activate : Validates and removes activation code.
 	 * Deactivate : Updates a users row with an activation code.
 	 *
-	 * @author Mathew
 	 */
 
 	/**
 	 * activate
 	 *
 	 * @return void
-	 * @author Mathew
 	 **/
 	public function activate($id, $code = false)
 	{
@@ -540,7 +505,6 @@ class User_model extends CI_Model
 	 * Deactivate
 	 *
 	 * @return void
-	 * @author Mathew
 	 **/
 	public function deactivate($id = NULL)
 	{
@@ -605,7 +569,6 @@ class User_model extends CI_Model
 	 * reset password
 	 *
 	 * @return bool
-	 * @author Mathew
 	 **/
 	public function reset_password($identity, $new) {
 		$this->trigger_events('pre_change_password');
@@ -665,7 +628,6 @@ class User_model extends CI_Model
 	 * change password
 	 *
 	 * @return bool
-	 * @author Mathew
 	 **/
 	public function change_password($identity, $old, $new)
 	{
@@ -724,7 +686,6 @@ class User_model extends CI_Model
 	 * Checks username
 	 *
 	 * @return bool
-	 * @author Mathew
 	 **/
 	public function username_check($username = '')
 	{
@@ -748,7 +709,6 @@ class User_model extends CI_Model
 	 * Checks email
 	 *
 	 * @return bool
-	 * @author Mathew
 	 **/
 	public function email_check($email = '')
 	{
@@ -772,7 +732,6 @@ class User_model extends CI_Model
 	 * Identity check
 	 *
 	 * @return bool
-	 * @author Mathew
 	 **/
 	public function identity_check($identity = '')
 	{
@@ -791,9 +750,6 @@ class User_model extends CI_Model
 	 * Insert a forgotten password key.
 	 *
 	 * @return bool
-	 * @author Mathew
-	 * @updated Ryan
-	 * @updated 52aa456eef8b60ad6754b31fbdcc77bb
 	 **/
 	public function forgotten_password($identity)
 	{
@@ -851,7 +807,6 @@ class User_model extends CI_Model
 	 * Forgotten Password Complete
 	 *
 	 * @return string
-	 * @author Mathew
 	 **/
 	public function forgotten_password_complete($code, $salt=FALSE)
 	{
@@ -900,7 +855,6 @@ class User_model extends CI_Model
 	 * register
 	 *
 	 * @return bool
-	 * @author Mathew
 	 **/
 	public function register($identity, $password, $email, $additional_data = array(), $groups = array())
 	{
@@ -985,7 +939,6 @@ class User_model extends CI_Model
 	 * login
 	 *
 	 * @return bool
-	 * @author Mathew
 	 **/
 	public function login($identity, $password, $remember=FALSE)
 	{
@@ -1108,7 +1061,6 @@ class User_model extends CI_Model
 
 	/**
 	 * is_max_login_attempts_exceeded
-	 * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)
 	 *
 	 * @param string $identity
 	 * @return boolean
@@ -1126,7 +1078,6 @@ class User_model extends CI_Model
 
 	/**
 	 * Get number of attempts to login occured from given IP-address or identity
-	 * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)
 	 *
 	 * @param	string $identity
 	 * @return	int
@@ -1183,7 +1134,6 @@ class User_model extends CI_Model
 
 	/**
 	 * increase_login_attempts
-	 * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)
 	 *
 	 * @param string $identity
 	 **/
@@ -1197,7 +1147,6 @@ class User_model extends CI_Model
 
 	/**
 	 * clear_login_attempts
-	 * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)
 	 *
 	 * @param string $identity
 	 **/
@@ -1325,7 +1274,6 @@ class User_model extends CI_Model
 	 * users
 	 *
 	 * @return object Users
-	 * @author Ben Edmunds
 	 **/
 	public function users($groups = NULL)
 	{
@@ -1446,7 +1394,6 @@ class User_model extends CI_Model
 	 * user
 	 *
 	 * @return object
-	 * @author Ben Edmunds
 	 **/
 	public function user($id = NULL)
 	{
@@ -1468,7 +1415,6 @@ class User_model extends CI_Model
 	 * get_users_groups
 	 *
 	 * @return array
-	 * @author Ben Edmunds
 	 **/
 	public function get_users_groups($id=FALSE)
 	{
@@ -1487,7 +1433,6 @@ class User_model extends CI_Model
 	 * add_to_group
 	 *
 	 * @return bool
-	 * @author Ben Edmunds
 	 **/
 	public function add_to_group($group_ids, $user_id=false)
 	{
@@ -1530,7 +1475,6 @@ class User_model extends CI_Model
 	 * remove_from_group
 	 *
 	 * @return bool
-	 * @author Ben Edmunds
 	 **/
 	public function remove_from_group($group_ids=false, $user_id=false)
 	{
@@ -1575,7 +1519,6 @@ class User_model extends CI_Model
 	 * groups
 	 *
 	 * @return object
-	 * @author Ben Edmunds
 	 **/
 	public function groups()
 	{
@@ -1620,7 +1563,6 @@ class User_model extends CI_Model
 	 * group
 	 *
 	 * @return object
-	 * @author Ben Edmunds
 	 **/
 	public function group($id = NULL)
 	{
@@ -1641,7 +1583,6 @@ class User_model extends CI_Model
 	 * update
 	 *
 	 * @return bool
-	 * @author Phil Sturgeon
 	 **/
 	public function update($id, array $data)
 	{
@@ -1704,7 +1645,6 @@ class User_model extends CI_Model
 	* delete_user
 	*
 	* @return bool
-	* @author Phil Sturgeon
 	**/
 	public function delete_user($id)
 	{
@@ -1738,7 +1678,6 @@ class User_model extends CI_Model
 	 * update_last_login
 	 *
 	 * @return bool
-	 * @author Ben Edmunds
 	 **/
 	public function update_last_login($id)
 	{
@@ -1757,7 +1696,6 @@ class User_model extends CI_Model
 	 * set_lang
 	 *
 	 * @return bool
-	 * @author Ben Edmunds
 	 **/
 	public function set_lang($lang = 'en')
 	{
@@ -1787,7 +1725,6 @@ class User_model extends CI_Model
 	 * set_session
 	 *
 	 * @return bool
-	 * @author jrmadsen67
 	 **/
 	public function set_session($user)
 	{
@@ -1816,7 +1753,6 @@ class User_model extends CI_Model
 	 * remember_user
 	 *
 	 * @return bool
-	 * @author Ben Edmunds
 	 **/
 	public function remember_user($id)
 	{
@@ -1870,7 +1806,6 @@ class User_model extends CI_Model
 	 * login_remembed_user
 	 *
 	 * @return bool
-	 * @author Ben Edmunds
 	 **/
 	public function login_remembered_user()
 	{
@@ -1922,7 +1857,6 @@ class User_model extends CI_Model
 	/**
 	 * create_group
 	 *
-	 * @author aditya menon
 	*/
 	public function create_group($group_name = FALSE, $group_description = '', $additional_data = array())
 	{
@@ -1963,7 +1897,6 @@ class User_model extends CI_Model
 	 * update_group
 	 *
 	 * @return bool
-	 * @author aditya menon
 	 **/
 	public function update_group($group_id = FALSE, $group_name = FALSE, $additional_data = array())
 	{
@@ -2016,7 +1949,6 @@ class User_model extends CI_Model
 	* delete_group
 	*
 	* @return bool
-	* @author aditya menon
 	**/
 	public function delete_group($group_id = FALSE)
 	{
@@ -2120,7 +2052,6 @@ class User_model extends CI_Model
 	 * Set the message delimiters
 	 *
 	 * @return void
-	 * @author Ben Edmunds
 	 **/
 	public function set_message_delimiters($start_delimiter, $end_delimiter)
 	{
@@ -2136,7 +2067,6 @@ class User_model extends CI_Model
 	 * Set the error delimiters
 	 *
 	 * @return void
-	 * @author Ben Edmunds
 	 **/
 	public function set_error_delimiters($start_delimiter, $end_delimiter)
 	{
@@ -2152,7 +2082,6 @@ class User_model extends CI_Model
 	 * Set a message
 	 *
 	 * @return void
-	 * @author Ben Edmunds
 	 **/
 	public function set_message($message)
 	{
@@ -2169,7 +2098,6 @@ class User_model extends CI_Model
 	 * Get the messages
 	 *
 	 * @return void
-	 * @author Ben Edmunds
 	 **/
 	public function messages()
 	{
@@ -2189,7 +2117,6 @@ class User_model extends CI_Model
 	 * Get the messages as an array
 	 *
 	 * @return array
-	 * @author Raul Baldner Junior
 	 **/
 	public function messages_array($langify = TRUE)
 	{
@@ -2216,7 +2143,6 @@ class User_model extends CI_Model
 	 * Clear messages
 	 *
 	 * @return void
-	 * @author Ben Edmunds
 	 **/
 	public function clear_messages()
 	{
@@ -2232,7 +2158,6 @@ class User_model extends CI_Model
 	 * Set an error message
 	 *
 	 * @return void
-	 * @author Ben Edmunds
 	 **/
 	public function set_error($error)
 	{
@@ -2247,7 +2172,6 @@ class User_model extends CI_Model
 	 * Get the error message
 	 *
 	 * @return void
-	 * @author Ben Edmunds
 	 **/
 	public function errors()
 	{
@@ -2267,7 +2191,6 @@ class User_model extends CI_Model
 	 * Get the error messages as an array
 	 *
 	 * @return array
-	 * @author Raul Baldner Junior
 	 **/
 	public function errors_array($langify = TRUE)
 	{
@@ -2294,7 +2217,6 @@ class User_model extends CI_Model
 	 * Clear Errors
 	 *
 	 * @return void
-	 * @author Ben Edmunds
 	 **/
 	public function clear_errors()
 	{

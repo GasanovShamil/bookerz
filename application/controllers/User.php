@@ -89,7 +89,6 @@ class User extends MY_Controller {
 				exit;
 			}
 			
-			//we do not actually need to verify if the user email address is correct... but we should make sure
 			if($this->form_validation->valid_email($user['email']))
 			{
 				$this->load->model('User_model');
@@ -137,7 +136,7 @@ class User extends MY_Controller {
 				// if the login was un-successful
 				// redirect them back to the login page
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect('user/login', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+				redirect('user/login', 'refresh'); 
 			}
 		}
 		else
