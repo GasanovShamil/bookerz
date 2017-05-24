@@ -36,7 +36,7 @@
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                     <input  type="password" class="form-control" name="password" placeholder="Mot de passe">
                 </div>
-				<span class="help-block" style="color: red"><?php echo isset($_SESSION['auth_message']) ? $_SESSION['auth_message'] : FALSE;?></span>
+				<span class="help-block" style="color: red"><?php echo $message;?></span>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
             </form>
         </div>

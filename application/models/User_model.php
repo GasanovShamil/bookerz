@@ -265,11 +265,7 @@ class User_model extends CI_Model
 		else
 		{
 			$user = $this->db->where(array('email'=>$user['email']))->limit(1)->get('users')->row();
-			$_SESSION['identity'] = $user->email;
-			$_SESSION['username'] = $user->username;
-			$_SESSION['email'] = $user->email;
-			$_SESSION['user_id'] = $user->id; 
-			$_SESSION['old_last_login'] = $user->last_login;
+			$this->set_session($user);
 		}
 		return TRUE;
 	}
@@ -1802,6 +1798,8 @@ class User_model extends CI_Model
 		    'identity'             => $user->{$this->identity_column},
 		    $this->identity_column             => $user->{$this->identity_column},
 		    'email'                => $user->email,
+		    'first_name'           =>$user->first_name,
+		    'last_name'            =>$user->last_name,
 		    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
 		    'old_last_login'       => $user->last_login,
 		    'last_check'           => time(),
