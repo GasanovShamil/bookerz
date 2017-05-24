@@ -32,7 +32,7 @@
                     </ul>
                     <a id="logo" href="#"><img src="<?= base_url('assets/img/livre.png'); ?>"></a>
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="<?= base_url('user/registration') ?>">S'inscrire</a></li>
+                        <li><a href="<?= base_url('user/create_user') ?>">S'inscrire</a></li>
                         <li><a href="<?= base_url('user/login') ?>">Se connecter</a></li>
                     </ul>
                 </div><!-- /.nav-collapse -->

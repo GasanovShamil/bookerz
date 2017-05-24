@@ -3,7 +3,7 @@
 
 <div id="infoMessage"><?php echo $message;?></div>
 
-<?php echo form_open("auth/create_user");?>
+<?php echo form_open("user/create_user");?>
 
       <p>
             <?php echo lang('create_user_fname_label', 'first_name');?> <br />
@@ -25,11 +25,6 @@
           echo '</p>';
       }
       ?>
-
-      <p>
-            <?php echo lang('create_user_company_label', 'company');?> <br />
-            <?php echo form_input($company);?>
-      </p>
 
       <p>
             <?php echo lang('create_user_email_label', 'email');?> <br />

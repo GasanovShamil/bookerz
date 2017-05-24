@@ -134,7 +134,7 @@ $config['email_config'] = array(
  | Folder where email templates are stored.
  | Default: auth/
  */
-$config['email_templates'] = 'auth/email/';
+$config['email_templates'] = 'user/email/';
 
 /*
  | -------------------------------------------------------------------------

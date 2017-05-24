@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class="omb_login">
-    <h3 class="omb_authTitle">S'authentifier ou <a href="<?= base_url('login/registration') ?>">S'inscrire</a></h3>
+    <h3 class="omb_authTitle">S'authentifier ou <a href="<?= base_url('user/create_user') ?>">S'inscrire</a></h3>
     <div class="row omb_row-sm-offset-3 omb_socialButtons">
         <div class="col-xs-4 col-sm-2">
         
@@ -25,10 +25,10 @@
         <div class="col-xs-12 col-sm-6">
             <form class="omb_loginForm" action="" autocomplete="off" method="POST">
             
-                   <span class="help-block" style="color: red"> <?php  echo form_error('email'); ?></span>
+                   <span class="help-block" style="color: red"> <?php  echo form_error('identity'); ?></span>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                    <input type="text" class="form-control" name="email" placeholder="Mail">
+                    <input type="text" class="form-control" name="identity" placeholder="Mail">
                 </div>
                 <span class="help-block"></span>
 				<span class="help-block" style="color: red"> <?php  echo form_error('password'); ?></span>
