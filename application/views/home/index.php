@@ -30,7 +30,7 @@
                         <div class="view  hm-zoom">
                             <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
                             <div class="stripe dark">
-                                <a>
+                                <a href="/book/view/1">
                                     <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
                                 </a>
                             </div>
