@@ -3,9 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['default_controller'] = 'home';
 
-$route['book/(:any)'] = 'book/view/$1';
+$route['book/view/(:any)'] = 'book/view/$1';
 
-$route['salon/(:any)'] = 'salon/view/$1';
+$route['salon/view/(:any)']         = 'salon/view/$1';
+$route['salon/insertMessage']       = 'salon/insertMessage';
+$route['salon/getMessages/(:any)']  = 'salon/getMessages/(:any)';
 
 $route['mail/sub'] = 'mail/sub';
 

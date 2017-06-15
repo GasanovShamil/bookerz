@@ -16,6 +16,7 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
 
         <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
+        <script src="<?= base_url('assets/js/socket.js'); ?>"></script>
         <script src="<?= base_url('assets/js/script.js'); ?>"></script>
 
     </body>

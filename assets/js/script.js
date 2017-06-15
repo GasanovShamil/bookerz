@@ -7,25 +7,79 @@ $(document).ready(function(){
         $("#myModalInfo").modal();
     });
 
-    $("#sub").submit(function(event){
-        event.preventDefault();
+    /***********************************/
+    /*         CHAT ROOM               */
+    /***********************************/
 
-        var email = $("#inputEmail").val();
-        var data = {'email': email};
-        var url = base_url + "index.php/mail/sub";
-        sendAjaxData("POST", data, "json", url);
-        $('#sub').trigger("reset");
+    $('#sendMessage').submit(function(event) {
+        event.preventDefault();
     });
 
-    function sendAjaxData(type = "POST", data, datatype, url, cache = "false")
-    {
-        $.ajax({
-            type  : type,
-            url   : url,
-            dataType : datatype,
-            data : data,
-            cache: cache
+    if($(".chatArea").length) {
+        var socket = io.connect( 'http://localhost:3002' );
+        var room = $(".chatArea").data("room");
+        var div = $(".chatArea");
+        var height = div[0].scrollHeight;
+        var username = $("#message").data("username");
+        var data = {username: username, room: room};
+
+        socket.emit('newUser', data );
+
+        socket.on('push_message', function(response) {
+            if(response.room == actualRoom) {
+                $('.chatArea').append('<div class="content">'+response.msg+'<div class="author">'+response.username+'</div></div>');
+                div.scrollTop(height);
+            }
         });
-        return false;
+
+        socket.on('newUser', function(response) {
+            if(response.room == room) {
+                $('.chatArea').append('<div class="notif">'+response.username+' rejoint le salon</div>');
+                div.scrollTop(height);
+            }
+        });
+
+        socket.on('leave', function(response) {
+            if(response.room == room) {
+                $('.chatArea').append('<div class="notif">'+response.username+' est deconnecté</div>');
+                div.scrollTop(height);
+            }
+        });
     }
+
+    $('#message').keyup(function(e) {
+        if(e.which === 13) {
+
+            var message = $("#message").val();
+            var room = $("#message").data("room");
+            var username = $("#message").data("username");
+            var userid = $("#message").data("userid");
+
+            var url = base_url + 'salon/insertMessage';
+
+            var newMessageVar = {msg: message, room: room, username: username};
+
+            $.ajax({
+                type  : 'POST',
+                url   : url,
+                dataType : 'json',
+                data : {message:message, userid:userid, room:room},
+                cache: false,
+                success: function(data) {
+                    console.log(data);
+                    socket.emit('newMessage', newMessageVar);
+                }, error: function(ts) {
+                    console.log("error");
+                    console.log(ts.responseText);
+                }
+            });
+
+            $('#message').val('');
+        }
+    });
+
+
+    /***********************************/
+    /*         FIN CHAT ROOM           */
+    /***********************************/
 });
