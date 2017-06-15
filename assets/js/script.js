@@ -28,7 +28,7 @@ $(document).ready(function(){
         socket.emit('newUser', data );
 
         socket.on('push_message', function(response) {
-            if(response.room == actualRoom) {
+            if(response.room == room) {
                 $('.chatArea').append('<div class="content">'+response.msg+'<div class="author">'+response.username+'</div></div>');
                 div.scrollTop(height);
             }
