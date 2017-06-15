@@ -1,0 +1,25 @@
+{
+  "name": "bookerz",
+  "version": "1.0.0",
+  "description": "club de lecture",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.15.3",
+    "socket.io": "^2.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GasanovShamil/bookerz.git"
+  },
+  "author": "Elyes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GasanovShamil/bookerz/issues"
+  },
+  "homepage": "https://github.com/GasanovShamil/bookerz#readme"
+}
