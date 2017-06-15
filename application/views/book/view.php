@@ -11,5 +11,8 @@
 <h5>ISBN-10</h5><?php echo $book['ISBN10']; ?>
 <h5>ISBN-13</h5><?php echo $book['ISBN13']; ?>
 <br>
-
-<a href="/salon/view/<?php echo $book['id']; ?>">Accéder au chat</a>
+<?php if(isset($_SESSION['email'])) {
+    ?>
+    <a href="/salon/view/<?php echo $book['id']; ?>">Accéder au chat</a>
+    <?php
+}

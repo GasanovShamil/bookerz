@@ -23,6 +23,8 @@ $(document).ready(function(){
         var username = $("#message").data("username");
         var data = {username: username, room: room};
 
+        div.scrollTop(height);
+
         socket.emit('newUser', data );
 
         socket.on('push_message', function(response) {
