@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
+
 @font-face
 {
     font-family:"Caviar dreams";
@@ -183,14 +186,14 @@ nav {
     text-align: center;
 	line-height: 300%;
 }
-	
+
 .omb_login .omb_socialButtons a {
-	color: white; // In yourUse @body-bg 
+	color: white; // In yourUse @body-bg
 	opacity:0.9;
 }
 .omb_login .omb_socialButtons a:hover {
     color: white;
-	opacity:1;    	
+	opacity:1;
 }
 .omb_login .omb_socialButtons .omb_btn-facebook {background: #3b5998;}
 .omb_login .omb_socialButtons .omb_btn-twitter {background: #00aced;}
@@ -221,7 +224,7 @@ nav {
 	background-color: white;
 	width: 3em;
 	text-align: center;
-}			
+}
 
 .omb_login .omb_loginForm .input-group.i {
 	width: 2em;
@@ -230,14 +233,193 @@ nav {
     color: red;
 }
 
-	
+
 @media (min-width: 768px) {
     .omb_login .omb_forgotPwd {
         text-align: right;
 		margin-top:10px;
- 	}		
+ 	}
+}
+/************************************************/
+            /* CHAT ROOM */
+/************************************************/
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+.bloc-message {
+    border: blue 2px solid;
+    border-radius: 10px;
+    padding: 0;
 }
 
+.bloc-message p {
+    color: #ffffff;
+}
+
+.bloc-message p {
+    padding: 20px;
+    background-color: #1b1d6b;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 9px;
+}
+
+#liste-participant {
+    padding-right: 0;
+}
+
+#liste-participant ul { padding: 0; }
+
+#liste-participant ul li {
+    list-style: none;
+}
+
+#liste-participant ul li span {
+    font-size: 20px;
+    line-height: 2;
+}
+
+#liste-participant ul li a {
+    font-size: 18px;
+    line-height: 2;
+    cursor: pointer;
+}
+
+#liste-participant ul li a:first-child {
+    margin-right: 5px;
+}
+#liste-participant ul li a:last-child {
+    margin-left: 5px;
+}
+
+#liste-participant ul li img {
+    border: 1px solid #fff;
+    background: #3f9684 none repeat scroll 0 0;
+    border-radius: 50%;
+    float: left;
+    height: 40px;
+    margin: 0 10px 0 0;
+    width: 40px;
+}
+
+#bt-list-participant {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#bt-list-participant span {
+    vertical-align: middle;
+    padding-left: 5px;
+}
+
+.scrollspy-example {
+    position: relative;
+    height: 400px;
+    margin-top: .5rem;
+    overflow: auto;
+}
+.chat .chat-history {
+  padding: 20px 10px 20px;
+  border-bottom: 2px solid white;
+}
+.chat .chat-history .message-data {
+  margin-bottom: 15px;
+}
+.chat .chat-history .message-data-time {
+  color: #a8aab1;
+  padding-left: 6px;
+}
+.chat .chat-history .message {
+  color: white;
+  padding: 18px 20px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 90%;
+  position: relative;
+}
+.chat .chat-history .message:after {
+content: "";
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    border-width: 0 15px 15px;
+    border-style: solid;
+    border-color: #CCDBDC transparent;
+    display: block;
+    width: 0;
+}
+.chat .chat-history .you-message {
+  background: #CCDBDC;
+  color:#003366;
+}
+.chat .chat-history .me-message {
+  background: #E9724C;
+}
+.chat .chat-history .me-message:after {
+  border-color: #E9724C transparent;
+    right: 20px;
+    top: -15px;
+    left: auto;
+    bottom:auto;
+}
+.chat .chat-message {
+  padding: 30px;
+}
+.chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
+  font-size: 16px;
+  color: gray;
+  cursor: pointer;
+}
+
+.chat-ul li{
+    list-style-type: none;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.float-right {
+  float: right;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.you {
+  color: #CCDBDC;
+}
+
+.me {
+  color: #E9724C;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Raleway",sans-serif;
+    color: #003366;
+}
+
+
+
+#chat-box {
+    padding: 0;
+    margin-top: 10px;
+}
+#chat-box input {
+    margin-top: 10px;
+}
 
     /*footer*/
 footer {

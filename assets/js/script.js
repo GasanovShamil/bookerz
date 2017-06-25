@@ -11,16 +11,23 @@ $(document).ready(function(){
     /*         CHAT ROOM               */
     /***********************************/
 
-    $('#sendMessage').submit(function(event) {
+    // $("#chatInput").emojioneArea({
+    //     pickerPosition: "bottom",
+    //     tonesStyle: "radio",
+    //     autoHideFilters: true
+    // });
+
+    $("#chatInput").submit(function(event) {
+        $('#chatInput').val('');
         event.preventDefault();
     });
 
-    if($(".chatArea").length) {
+    if($(".bloc-message").length) {
         var socket = io.connect( 'http://localhost:3002' );
-        var room = $(".chatArea").data("room");
-        var div = $(".chatArea");
+        var room = $(".bloc-message").data("room");
+        var div = $(".scrollspy-example");
         var height = div[0].scrollHeight;
-        var username = $("#message").data("username");
+        var username = $("#chatInput").data("username");
         var data = {username: username, room: room};
 
         div.scrollTop(height);
@@ -29,33 +36,40 @@ $(document).ready(function(){
 
         socket.on('push_message', function(response) {
             if(response.room == room) {
-                $('.chatArea').append('<div class="content">'+response.msg+'<div class="author">'+response.username+'</div></div>');
+                $('.chat-ul').append(
+                    '<li><div class="message-data"><span class="message-data-name"><i class="fa fa-circle you"></i>'
+                    +response.username+
+                    '</span></div><div class="message you-message">'
+                    +response.msg+
+                    '</div></li>');
                 div.scrollTop(height);
             }
         });
 
         socket.on('newUser', function(response) {
             if(response.room == room) {
-                $('.chatArea').append('<div class="notif">'+response.username+' rejoint le salon</div>');
+                $('.chat-ul').append('<div class="notif">'+response.username+' rejoint le salon</div>');
                 div.scrollTop(height);
+
+                $('ul#participant').append('<li class="col-md-12"><img src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg" /><span>'+response.username+'</span><div class="pull-right"><a>signaler</a> | <a>Contacter</a></div></li>');
             }
         });
 
         socket.on('leave', function(response) {
             if(response.room == room) {
-                $('.chatArea').append('<div class="notif">'+response.username+' est deconnecté</div>');
+                $('.chat-ul').append('<div class="notif">'+response.username+' est deconnecté</div>');
                 div.scrollTop(height);
             }
         });
     }
 
-    $('#message').keyup(function(e) {
+    $('#chatInput').keydown(function(e) {
         if(e.which === 13) {
 
-            var message = $("#message").val();
-            var room = $("#message").data("room");
-            var username = $("#message").data("username");
-            var userid = $("#message").data("userid");
+            var message = $("#chatInput").val();
+            var room = $("#chatInput").data("room");
+            var username = $("#chatInput").data("username");
+            var userid = $("#chatInput").data("userid");
 
             var url = base_url + 'salon/insertMessage';
 
@@ -76,9 +90,11 @@ $(document).ready(function(){
                 }
             });
 
-            $('#message').val('');
+            $('#chatInput').val('');
         }
     });
+
+
 
 
     /***********************************/
