@@ -17,7 +17,16 @@ $(document).ready(function(){
     //     autoHideFilters: true
     // });
 
-    $("#chatInput").submit(function(event) {
+    function escapeHtml(text) {
+        return text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+    }
+
+    $("#sendMessage").submit(function(event) {
         $('#chatInput').val('');
         event.preventDefault();
     });
@@ -36,11 +45,12 @@ $(document).ready(function(){
 
         socket.on('push_message', function(response) {
             if(response.room == room) {
+              var message = escapeHtml(response.msg);
                 $('.chat-ul').append(
                     '<li><div class="message-data"><span class="message-data-name"><i class="fa fa-circle you"></i>'
                     +response.username+
                     '</span></div><div class="message you-message">'
-                    +response.msg+
+                    +message+
                     '</div></li>');
                 div.scrollTop(height);
             }

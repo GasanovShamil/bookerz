@@ -46,7 +46,7 @@
                                                     <span class="message-data-name"><i class="fa fa-circle you"></i><?php echo $message['first_name']; ?></span>
                                                 </div>
                                                 <div class="message you-message">
-                                                    <?php echo $message['message']; ?>
+                                                    <?php echo htmlspecialchars($message['message']); ?>
                                                 </div>
                                             </li>
                                         <?php } ?>
