@@ -17,7 +17,7 @@
 </style>
 
 
-<h2>Salon de chat</h2> <?php if(isset($book[0])) {echo $book[0]['title'];} ?>
+<h2>Salon de chat</h2> <?php if(isset($book)) {echo $book->getTitle();} ?>
 
 <div class="contain">
     <div class="row row-offcanvas row-offcanvas-right" id="salon">
@@ -26,7 +26,7 @@
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
             </p>
             <div class="col-md-12">
-                <h1 class="titre-accueil text-center">Salon: <?php if(isset($book[0])) {echo $book[0]['title'];} ?></h1>
+                <h1 class="titre-accueil text-center">Salon: <?php if(isset($book)) {echo $book->getTitle();} ?></h1>
             </div>
 
         </div>
