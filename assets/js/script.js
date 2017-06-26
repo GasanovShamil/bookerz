@@ -27,7 +27,6 @@ $(document).ready(function(){
     }
 
     $("#sendMessage").submit(function(event) {
-        $('#chatInput').val('');
         event.preventDefault();
     });
 
