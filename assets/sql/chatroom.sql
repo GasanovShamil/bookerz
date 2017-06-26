@@ -37,8 +37,8 @@ CREATE TABLE `book` (
 -- Contenu de la table `book`
 --
 
-INSERT INTO `book` (`id`, `title`, `description`, `date`, `author`, `published`, `editor`, `collection`, `ISBN10`, `ISBN13`) VALUES
-(1, 'Miss Peregrine et les enfants particuliers - Tome 1', 'Jacob Portman, seize ans, écoute depuis son enfance les récits fabuleux de son grand-père. Ce dernier, un juif polonais, a passé une partie de sa vie sur une minuscule île du pays de Galles, où ses parents l\'avaient envoyé pour le protéger de la menace nazie. Le jeune Abe Portman y a été recueilli par Miss Peregrine Faucon, la directrice d\'un oprphelinat pour enfants \"particuliers\". Abe y côtoyait une ribambelle d\'enfants doués de capacités surnaturelles, censées les protéger des \"Monstres\".', '2017-05-30', 'Ransom Riggs', '2016-10-05', 'Livre de poche jeunesse', 'Livre de poche jeunesse', '2019110156', '978-2019110154');
+INSERT INTO `book` (`title`, `description`, `date`, `author`, `published`, `editor`, `collection`, `ISBN10`, `ISBN13`) VALUES
+('Miss Peregrine et les enfants particuliers - Tome 1', 'Jacob Portman, seize ans, écoute depuis son enfance les récits fabuleux de son grand-père. Ce dernier, un juif polonais, a passé une partie de sa vie sur une minuscule île du pays de Galles, où ses parents l\'avaient envoyé pour le protéger de la menace nazie. Le jeune Abe Portman y a été recueilli par Miss Peregrine Faucon, la directrice d\'un oprphelinat pour enfants \"particuliers\". Abe y côtoyait une ribambelle d\'enfants doués de capacités surnaturelles, censées les protéger des \"Monstres\".', '2017-05-30', 'Ransom Riggs', '2016-10-05', 'Livre de poche jeunesse', 'Livre de poche jeunesse', '2019110156', '978-2019110154');
 
 -- --------------------------------------------------------
 
