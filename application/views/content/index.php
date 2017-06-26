@@ -45,13 +45,42 @@
             </div>
         </div>
 
+	  <div class="well">
+           
+            <?php
+           
+            $attributes = array('class' => 'form-inline reset-margin', 'id' => 'myform');
+           
+            //save the columns names in a array that we will use as filter         
+            $options_category = array();    
+            foreach ($categories as $array) {
+            	$options_category[$array->getName()] = $array->getName();
+            }
+            echo form_open('content/index', $attributes);
+            $options_order = array('id' => 'id', 'title' => 'title', 'author' => 'author');
+              echo form_label('Search:', 'search_string');
+              echo form_input('search_string', $search_string_selected, 'style="width: 170px;
+height: 26px;"');
+              echo form_label('Category:', 'category');
+              echo form_dropdown('category', $options_category, $category_selected, 'class="span2"');
+              echo form_label('Order by:', 'order');
+              echo form_dropdown('order', $options_order, $order, 'class="span2"');
+              $data_submit = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => 'Go');
+              $options_order_type = array('Asc' => 'Asc', 'Desc' => 'Desc');
+              echo form_dropdown('order_type', $options_order_type, $order_type_selected, 'class="span1"');
+              echo form_submit($data_submit);
+            echo form_close();
+            ?>
+
+          </div>
+
         <!-- section livre -->
         <div class="col-md-12" id="alaune">
             <div class="col-md-10 col-md-offset-1">
 
                 <div class="row bloc">
-                    <!--First column-->
-                    <div class="col-md-3 col-sm-6">
+            <?php foreach ($books as $book){?>
+                    <div class="col-md-3 col-sm-6"	>
                         <!--Collection card-->
                         <div class="card collection-card">
                             <!--Card image-->
@@ -59,7 +88,7 @@
                                 <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
                                 <div class="stripe dark">
                                     <a data-toggle="modal" data-target="#myModal">
-                                        <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
+                                        <p><?php echo $book->getTitle();?><br> <?php echo $book->getId();?> <br> <i class="fa fa-chevron-right"></i></p>
                                     </a>
                                 </div>
                             </div>
@@ -67,145 +96,13 @@
                         </div>
                         <!--/.Collection card-->
                     </div>
-                    <!--/First column-->
-
-                    <!--Second column-->
-                    <div class="col-md-3 col-sm-6">
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a>
-                                        <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
-                                </div>
-                            </div>
-                            <!--/.Card image-->
-                        </div>
-                        <!--/.Collection card-->
-                    </div>
-                    <!--/Second column-->
-
-                    <!--Third column-->
-                    <div class="col-md-3 col-sm-6">
-
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a>
-                                        <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
-                                </div>
-                            </div>
-                            <!--/.Card image-->
-                        </div>
-                        <!--/.Collection card-->
-                    </div>
-                    <!--/Third column-->
-
-                    <!--Fourth column-->
-                    <div class="col-md-3 col-sm-6">
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a>
-                                        <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
-                                </div>
-                            </div>
-                            <!--/.Card image-->
-                        </div>
-                        <!--/.Collection card-->
-
-                    </div>
-                    <!--/Fourth column-->
+                   <?php }?>
                 </div>
-                <div class="row">
-                    <!--First column-->
-                    <div class="col-md-3 col-sm-6">
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a>
-                                        <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
-                                </div>
-                            </div>
-                            <!--/.Card image-->
-                        </div>
-                        <!--/.Collection card-->
-                    </div>
-                    <!--/First column-->
-
-                    <!--Second column-->
-                    <div class="col-md-3 col-sm-6">
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a>
-                                        <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
-                                </div>
-                            </div>
-                            <!--/.Card image-->
-                        </div>
-                        <!--/.Collection card-->
-                    </div>
-                    <!--/Second column-->
-
-                    <!--Third column-->
-                    <div class="col-md-3 col-sm-6">
-
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a>
-                                        <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
-                                </div>
-                            </div>
-                            <!--/.Card image-->
-                        </div>
-                        <!--/.Collection card-->
-                    </div>
-                    <!--/Third column-->
-
-                    <!--Fourth column-->
-                    <div class="col-md-3 col-sm-6">
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a>
-                                        <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
-                                </div>
-                            </div>
-                            <!--/.Card image-->
-                        </div>
-                        <!--/.Collection card-->
-                    </div>
-                    <!--/Fourth column-->
-                </div>
+                 <div class="pagination">
+    				<ul>
+                		<?php echo $links; ?>
+                	</ul>    
+    			</div>
             </div>
         </div>
         <!-- fin a la une -->
