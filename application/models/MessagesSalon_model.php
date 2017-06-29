@@ -1,7 +1,8 @@
 <?php
-
+require_once (CLASSES_DIR . "MessagesSalon_e.php");
 class MessagesSalon_model extends CI_Model
 {
+	// CLASSE A CHANGER TOTALEMENT SI ON A LE TEMPS
 	private $table = "messages_salon";
 	public $id_salon;
 	public $id_user;

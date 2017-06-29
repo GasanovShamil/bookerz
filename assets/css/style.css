@@ -421,6 +421,27 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 10px;
 }
 
+.rating {
+    direction: rtl;
+    padding-top: 75px;
+}
+.rating a {
+    color: #BDBCBA;
+    text-decoration: none;
+    font-size: 3em;
+    transition: color .4s;
+}
+.rating a:hover,
+.rating a:focus,
+.rating a:hover ~ a,
+.rating a:focus ~ a {
+    color: #D99E7E;
+    cursor: pointer;
+}
+#modal-salon {
+    font-size: 20px;
+}
+
     /*footer*/
 footer {
     background-color: #25283C;

@@ -29,7 +29,7 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="<?= base_url('home') ?>">Accueil</a></li>
                         <li><a href="<?= base_url('content') ?>">Contenus</a></li>
-                        <li><a href="#contact">Salons</a></li>
+                        <li><a href="<?= base_url('salon') ?>">Salons</a></li>
                     </ul>
                     <a id="logo" href="#"><img src="<?= base_url('assets/img/livre.png'); ?>"></a>
                     <ul class="nav navbar-nav pull-right">

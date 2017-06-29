@@ -9,17 +9,26 @@ class Salon extends Auth_Controller {
 		$this->load->database();
 	}
 
+	public function index()
+	{
+		$this->load->model('Salon_model');
+		$this->data['rooms'] = $this->Salon_model->getSalon();
+
+
+		$this->render('salon/index');
+	}
+
 	public function view($id = NULL)
     {
         $this->load->model('Book_model');
-				$this->load->model('MessagesSalon_model');
+		$this->load->model('MessagesSalon_model');
         //  'MessagesSalon_model', 'UsersSalon_model', 'Salon_model'
 
         $this->data['book'] = $this->Book_model->getBookById($id);
-				$this->data['messages'] = $this->MessagesSalon_model->getMessagesForRoom($id);
-				$this->data['id_salon'] = $id;
+		$this->data['messages'] = $this->MessagesSalon_model->getMessagesForRoom($id);
+		$this->data['id_salon'] = $id;
 
-				$this->data['book'] = $this->data['book'];
+		$this->data['book'] = $this->data['book'];
         $this->render('salon/view', $this->data, null);
     }
 

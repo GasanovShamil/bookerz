@@ -16,11 +16,11 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
 
         <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
-        <script src="<?= base_url('assets/js/emojionearea.min.js');  ?>">
-
-        </script>
+        <script src="<?= base_url('assets/js/emojionearea.min.js');  ?>"></script>
         <script src="<?= base_url('assets/js/socket.js'); ?>"></script>
         <script src="<?= base_url('assets/js/script.js'); ?>"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
     </body>
 </html>
