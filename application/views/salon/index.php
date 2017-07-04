@@ -72,6 +72,17 @@
             </table>
         </div>
     </div><!--/row-->
+    <?php if (isset($nextRooms) && !empty($nextRooms)): ?>
+        <h1>Prochain salons :</h1>
+        <?php foreach ($nextRooms as $room): ?>
+            <hr>
+            <?php echo $room[1]->getTitle(); ?>
+            <br>
+            le <?php echo $room[0]->getStart_date(); ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <h1>Pas de prochains salons pour le moment</h1>
+    <?php endif; ?>
 </div>
 
 

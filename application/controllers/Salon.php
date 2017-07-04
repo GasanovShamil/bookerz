@@ -14,6 +14,7 @@ class Salon extends Auth_Controller {
 		$this->load->model('Salon_model');
 		$this->data['rooms'] = $this->Salon_model->getSalon();
 
+		$this->data['nextRooms'] = $this->Salon_model->getSalon("next");
 
 		$this->render('salon/index');
 	}
@@ -34,19 +35,19 @@ class Salon extends Auth_Controller {
 
     public function insertMessage()
     {
-				$this->load->model('MessagesSalon_model');
+		$this->load->model('MessagesSalon_model');
 
-				// Vérification à venir
-				if(isset($_POST['message']) && isset($_POST['room']) && isset($_POST['userid'])) {
-						$message = $_POST['message'];
-						$room = $_POST['room'];
-						$userid = $_POST['userid'];
+		// Vérification à venir
+		if(isset($_POST['message']) && isset($_POST['room']) && isset($_POST['userid'])) {
+				$message = $_POST['message'];
+				$room = $_POST['room'];
+				$userid = $_POST['userid'];
 
-						$this->MessagesSalon_model->insertMessage($message, $room, $userid);
-						echo json_encode('success:true');
-				} else {
-						json_encode('error:true');
-				}
+				$this->MessagesSalon_model->insertMessage($message, $room, $userid);
+				echo json_encode('success:true');
+		} else {
+				json_encode('error:true');
+		}
     }
 
 }

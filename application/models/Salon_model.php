@@ -11,14 +11,33 @@ class Salon_model extends CI_Model
 		$this->load->database();
 	}
 
-	public function getSalon($id = null)
+	public function createSalon(Salon_e $salon)
+	{
+		$data = array(
+            'name' 				   => $salon->getName(),
+            'start_date'  		   => $salon->getStart_date(),
+            'end_date'    		   => $salon->getEnd_date(),
+            'id_livre'   		   => $salon->getId_livre(),
+			'nb_max_user' 		   => $salon->getNb_max_user(),
+			'statut'      		   => $salon->getStatut(),
+			'nb_max_report_needed' => $salon->getNb_max_report_user()
+        );
+
+        return $this->db->insert('salon', $data);
+	}
+
+	public function getSalon($params = null)
 	{
 		$this->db->from($this->table);
 		$this->db->order_by("start_date", "asc");
 		$this->db->join("book", "book.id = salon.id_livre");
 
-		if($id != null) {
+		if($params != null && $params > 0) {
 			$this->db->get_where($this->table, array('id' => $id));
+		} elseif ($params == "next") {
+			$this->db->where(array('start_date >' => date('Y-m-d')));
+		} else {
+			$this->db->where(array('statut' => 1));
 		}
 
 		$query = $this->db->get();

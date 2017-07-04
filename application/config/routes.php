@@ -10,7 +10,10 @@ $route['salon/view/(:any)']         = 'salon/view/$1';
 $route['salon/insertMessage']       = 'salon/insertMessage';
 $route['salon/getMessages/(:any)']  = 'salon/getMessages/(:any)';
 
+$route['admin/salon/create'] = 'createsalontempo/create';
+
 $route['mail/sub'] = 'mail/sub';
 
+// A changer pour la personnaliser 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
