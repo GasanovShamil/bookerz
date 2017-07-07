@@ -7,6 +7,10 @@ $(document).ready(function(){
         $("#myModalInfo").modal();
     });
 
+    $("#addSalon").click(function(e) {
+        $("#addSalonModal").slideToggle(800);
+    });
+
     /***********************************/
     /*         CHAT ROOM               */
     /***********************************/
@@ -160,8 +164,35 @@ $(document).ready(function(){
         }
     });
 
+    $(".close").mouseup(function() {
+        $(".modalFade").fadeOut(300);
+    })
 
-    $('#rejoindre-salon').click(function(){
-        $('#modal-note-livre').mod
+    $(document).mouseup(function(e) {
+        var container = $(".modal-content");
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            $('.modalFade').fadeOut(300);
+        }
     });
+
+    $(".modalNote").click(function(e){
+        $(".modalFade").fadeIn(300);
+
+        var idBook  = $(this).attr('id');
+
+        $.ajax({
+            dataType: "json",
+            url: base_url + "book_note/check?id_book=" + idBook,
+            data: data,
+            success: function(data)
+            {
+                if(data === "success") {
+                    document.location.href=base_url + "salon/view/"+idBook;
+                }
+            }
+        });
+    });
+
+
+
 });

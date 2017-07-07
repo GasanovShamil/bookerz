@@ -7,46 +7,15 @@
             <div class="col-md-12">
                 <h1 class="titre-accueil text-center">Salon</h1>
             </div>
-
         </div>
-        <div class="col-md-8 col-md-offset-2">
-            <!-- section filtre -->
-            <div class="col-md-10 col-md-offset-1">
-                <div class="col-md-3">
-                    <select class="form-control">
-                        <option>Catégorie</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-                <div class="col-md-5">
-                    <select class="form-control">
-                        <option>Titre</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-control">
-                        <option>Auteur</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-            </div><br /><br /><br />
             <table id="liste-salon" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Titre</th>
-                        <th>Dates</th>
-                        <th>Numéro de salon</th>
-                        <th>Action</th>
+                        <th>Salon</th>
+                        <th>Livre</th>
+                        <th>Date d'ouverture</th>
+                        <th>Date de fin</th>
+                        <th>Rejoindre</th>
                     </tr>
                 </thead>
 
@@ -60,10 +29,11 @@
                         $book = $room[1];
                         ?>
                             <tr>
+                                <td><?php echo $infoRoom->getName(); ?></td>
                                 <td><?php echo $book->getTitle(); ?></td>
-                                <td><?php echo $infoRoom->getStart_date()." / ".$infoRoom->getEnd_date(); ?></td>
-                                <td>inutile</td>
-                                <td><a id="<?php echo $infoRoom->getId(); ?>" data-toggle="modal" data-target="#myModal">Rejoindre</a></td>
+                                <td><?php echo $infoRoom->getStart_date(); ?></td>
+                                <td><?php echo $infoRoom->getEnd_date(); ?></td>
+                                <td><a id="<?php echo $book->getId(); ?>" class="modalNote">Rejoindre</a></td>
                             </tr>
                     <?php endforeach; ?>
 
@@ -85,15 +55,13 @@
     <?php endif; ?>
 </div>
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+<!-- Own modal -->
+<div class="modalFade">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Vous devez donner une note pour rejoindre le salon!!!</h4>
+                <h4 class="modal-title" id="myModalLabel">Vous devez donner une note au livre avant d'accéder au salon</h4>
             </div>
             <div id="modal-salon" class="modal-body">
                 <div>
@@ -113,5 +81,12 @@
                 <button type="button" class="btn btn-primary">Rejoindre le salon</button>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+
     </div>
 </div>

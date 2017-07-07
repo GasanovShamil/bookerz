@@ -9,7 +9,7 @@
         <link href="<?= base_url('assets/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
         <link href="<?= base_url('assets/bootstrap/css/offcanvas.css'); ?>" rel="stylesheet">
         <link rel="stylesheet" href="<?= base_url('assets/css/style.css'); ?>">
-        <link rel="stylesheet" href="<?= base_url('assets/css/emojionearea.min.css'); ?>">
+        <!-- <link rel="stylesheet" href="<?= base_url('assets/css/emojionearea.min.css'); ?>"> -->
     </head>
     <body>
         <!-- navbar -->

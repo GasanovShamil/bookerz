@@ -411,7 +411,52 @@ h1, h2, h3, h4, h5, h6 {
     color: #003366;
 }
 
+/*********/
+/* admin */
+/*********/
 
+.error {
+
+}
+
+.buttonHover {
+    padding: 7px 7px;
+    border: 1px solid #70BEB1;
+    border-radius: 4px;
+    background: #70BEB1;
+    color: white;
+}
+
+.buttonHover:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #25283C;
+}
+
+.hiddenDiv {
+    display: none;
+    padding: 10px 10px;
+    border-left: 3px solid #70BEB1;
+}
+
+#addSalonModal label {
+    font-weight: normal;
+}
+
+#addSalonModal input {
+    margin-top: 30px;
+    border: none;
+    border-bottom: 1px solid #25283C;
+}
+
+#addSalonModal input:focus {
+    outline: none;
+}
+
+#addSalonModal input.number {
+    width: 50px;
+    text-align: center;
+}
 
 #chat-box {
     padding: 0;
@@ -440,6 +485,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 #modal-salon {
     font-size: 20px;
+}
+
+.modalNote:hover {
+    cursor: pointer;
+}
+
+.modalFade {
+    z-index: 10;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-dialog {
+    margin: 20vh auto !important;
 }
 
     /*footer*/

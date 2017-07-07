@@ -10,9 +10,9 @@ class Salon_e
     private $statut;
     private $nb_max_report_user;
 
-    public function __construct($name, $start_date, $end_date, $id_livre, $nb_max_user, $statut, $nb_max_report_needed)
+    public function __construct($id, $name, $start_date, $end_date, $id_livre, $nb_max_user, $statut, $nb_max_report_needed)
     {
-        // $this->id                   = $id;
+        $this->id                   = $id;
         $this->name                 = $name;
         $this->start_date           = $start_date;
         $this->end_date             = $end_date;

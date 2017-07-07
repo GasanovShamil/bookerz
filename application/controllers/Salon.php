@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Salon extends Auth_Controller {
-
+class Salon extends Auth_Controller
+{
 
 	public function __construct()
 	{

@@ -12,8 +12,10 @@ $route['salon/getMessages/(:any)']  = 'salon/getMessages/(:any)';
 
 $route['admin/salon/create'] = 'createsalontempo/create';
 
+$route['note/check'] = 'book_note/check';
+
 $route['mail/sub'] = 'mail/sub';
 
-// A changer pour la personnaliser 
+// A changer pour la personnaliser
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -6,16 +6,14 @@ class CreateSalonTempo extends Auth_Controller {
         {
             parent::__construct();
             $this->load->database();
+            $this->load->model('Salon_model');
         }
 
         public function create()
         {
-            $this->load->model('Salon_model');
             $this->data['rooms'] = $this->Salon_model->getSalon();
-
     		$this->data['nextRooms'] = $this->Salon_model->getSalon("next");
-
-            // $this->form_validation->set_message('required', 'This is a required item!');
+            $this->data['closedRooms'] = $this->Salon_model->getSalon("finished");
 
     		$this->form_validation->set_rules('name', 'nom du salon', 'required');
     		$this->form_validation->set_rules('start_date_day', 'jour d\'ouverture du salon', 'required');
@@ -38,6 +36,7 @@ class CreateSalonTempo extends Auth_Controller {
                 }
 
                 $salon = new Salon_e(
+                    0,
                     $this->input->post('name'),
                     $start_date,
                     $end_date,
@@ -50,5 +49,16 @@ class CreateSalonTempo extends Auth_Controller {
                 $this->data['success'] = "Le salon vient d'être crée";
                 $this->render('admin/salon/create', $this->data, null);
             }
+        }
+
+        public function delete($id)
+        {
+            $this->Salon_model->delete($id);
+            redirect('createsalontempo/create');
+        }
+
+        public function checkSalon()
+        {
+            $this->Salon_model->checkSalonStatut();
         }
 }
