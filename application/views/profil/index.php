@@ -19,7 +19,7 @@
 
     </div>
 
-
+    <div data-alerts="alerts" data-titles='{"warning": "<em>Warning!</em>", "error": "<em>Error!</em>"}' data-ids="myid" data-fade="3000"></div>
     <!-- a la une -->
     <div class="col-md-10" id="alaune">
         <div class="col-md-11">
@@ -156,7 +156,7 @@
             <div class="col-md-12" id="inscription-flotant">
                 <span id="insc-flotant">Mes informations:</span>
                 <div class="form-group">
-                    <a class="col-md-12" id="myBtnInfo" href="#">Modifier mes informations</a>
+                    <a class="col-md-12" id="myBtnInfo" onclick="getInfoUser(<?php echo $_SESSION['user_id']; ?>)" href="#">Modifier mes informations</a>
                     <a class="col-md-12" id="myBtnMdp" href="#">Modifier mon mot de passe</a>
                     <a class="col-md-12" href="#">Gérer mes contacts</a>
                 </div>
@@ -174,7 +174,6 @@
     <!-- Modal mdp-->
     <div class="modal fade" id="myModalMdp" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -184,20 +183,21 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <form role="form">
+                            <form role="form" method="post">
+                                <div id="verifPass"></div>
                                 <div class="form-group">
                                     <label for="psw"> Ancien mot de passe</label>
-                                    <input type="text" class="form-control" id="psw" placeholder="Entrer l'ancien mot de passe">
+                                    <input type="text" class="form-control" id="ancienmdp" name="ancienmdp" placeholder="Entrer l'ancien mot de passe">
                                 </div>
                                 <div class="form-group">
                                     <label for="psw"> Nouveau mot de passe</label>
-                                    <input type="text" class="form-control" id="psw" placeholder="Entrer le nouveau mot de passe">
+                                    <input type="text" class="form-control" id="nvmdp" name="nvmdp" placeholder="Entrer le nouveau mot de passe">
                                 </div>
                                 <div class="form-group">
                                     <label for="psw"> Confirmer mot de passe</label>
-                                    <input type="text" class="form-control" id="psw" placeholder="Entrer la connfirmer du mot de passe">
+                                    <input type="text" class="form-control" id="nvmdp1" name="nvmdp1" placeholder="Entrer la connfirmer du mot de passe">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
+                                <button onclick="updatePwd(<?php echo $_SESSION['user_id']; ?>)" class="btn btn-success btn-block"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
                             </form>
                         </div>
                     </div>
@@ -206,14 +206,12 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                 </div>
             </div>
-
         </div>
     </div>
 
     <!-- Modal mes informations-->
     <div class="modal fade" id="myModalInfo" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -226,17 +224,21 @@
                             <form role="form">
                                 <div class="form-group">
                                     <label for="usrname"> Nom</label>
-                                    <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+                                    <input type="text" class="form-control" id="lastname" placeholder="Nom">
                                 </div>
                                 <div class="form-group">
                                     <label for="usrname"> Prenom</label>
-                                    <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+                                    <input type="text" class="form-control" id="firstname" placeholder="Prénom">
                                 </div>
                                 <div class="form-group">
                                     <label for="usrname"> Email</label>
-                                    <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+                                    <input type="text" class="form-control" id="email" placeholder="Email">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
+                                <div class="form-group">
+                                    <label for="usrname"> Téléphone</label>
+                                    <input type="text" class="form-control" id="phone" placeholder="Téléphone">
+                                </div>
+                                <button type="submit" id="submitInfo" onclick="updateInfoUser(<?php echo $_SESSION['user_id']; ?>)" class="btn btn-success btn-block"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
                             </form>
                         </div>
                     </div>
@@ -245,7 +247,6 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                 </div>
             </div>
-
         </div>
     </div>
 </div><!--/row-->

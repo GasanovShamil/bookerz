@@ -1,4 +1,75 @@
+function getInfoUser(idUser){
+    var url = base_url + 'user/getInfoUser';
+    $.ajax({
+        type  : 'POST',
+        url   : url,
+        dataType : 'json',
+        data : {id:idUser},
+        cache: false,
+        success: function(data) {
+            $("#lastname").val(data[0].last_name);
+            $("#firstname").val(data[0].first_name);
+            $("#email").val(data[0].email);
+            $("#phone").val(data[0].phone);
+        }, error: function(ts) {
+            console.log("error");
+            console.log(ts.responseText);
+        }
+    });
+}
+function updateInfoUser(idUser) {
+    var url = base_url + 'user/updateInfoUser';
+    $.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'json',
+        data: {id: idUser, lastname: $("#lastname").val(), firstname: $("#firstname").val(), phone: $("#phone").val()},
+        cache: false,
+        success: function (data) {
+            if(data == "success"){
+                $("#myModalInfo").modal("hide");
+                $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 300});
+            }else{
+                console.log("no ok");
+            }
+        }, error: function (ts) {
+            console.log("error");
+            console.log(ts.responseText);
+        }
+    });
+}
+function updatePwd(idUser){
+    console.log($("#ancienmdp").val());
+    console.log($("#nvmdp").val());
+    console.log($("#nvmdp1").val());
+    if($("#nvmdp").val() != $("#nvmdp1").val()){
+        $("#myModalMdp").modal("show");
+        $("#verifPass").html("<p class='bg-danger'>Les nouveaux mot de passe se correspondent pas.</p>")
+    }else{
+        var url = base_url + 'user/updatePwd';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: {id: idUser, ancienmdp: $("#ancienmdp").val(), nvmdp: $("#nvmdp").val(), nvmdp1: $("#nvmdp1").val()},
+            cache: false,
+            success: function (data) {
+                if(data == "success"){
+                    $("#myModalInfo").modal("hide");
+                    $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Mot de passe modifier avec succès',icon:'glyphicon',minTop: 300});
+                 }else{
+
+                 }
+            }, error: function (ts) {
+                console.log("error");
+                console.log(ts.responseText);
+            }
+        });
+    }
+}
 $(document).ready(function(){
+
+
 
     $("#myBtnMdp").click(function(){
         $("#myModalMdp").modal();
@@ -109,4 +180,5 @@ $(document).ready(function(){
     /***********************************/
     /*         FIN CHAT ROOM           */
     /***********************************/
+
 });

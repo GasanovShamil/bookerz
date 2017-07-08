@@ -865,6 +865,47 @@ class User extends MY_Controller {
 		}
 	}
 
+	public function getInfoUser(){
+        $infouser = $this->User_model->getInfoUser($_POST['id']);
+        echo json_encode($infouser);
+    }
+
+    public function updateInfoUser(){
+	    if($_POST['lastname'] == ""){
+            $infousers = $this->User_model->getInfoUser($_POST['id']);
+            $data["lastname"] = $infousers[0]->last_name;
+        }else{
+            $data["lastname"] = $_POST['lastname'];
+        }
+        if($_POST['firstname'] == ""){
+            $infouser = $this->User_model->getInfoUser($_POST['id']);
+            $data["firstname"] = $infouser[0]->first_name;
+        }else{
+            $data["firstname"] = $_POST['firstname'];
+        }
+        if($_POST['phone'] == ""){
+            $infouser = $this->User_model->getInfoUser($_POST['id']);
+            $data["phone"] = $infouser[0]->phone;
+        }else{
+            $data["phone"] = $_POST['phone'];
+        }
+	    if($this->User_model->updateInfoUser($data, $_POST['id']) == true){
+	        echo json_encode("success");
+        }else{
+	        echo json_encode("error");
+        }
+    }
+
+    public function updatePwd(){
+        var_dump($_POST);
+        $infousers = $this->User_model->getInfoUser($_POST['id']);
+        if($this->ion_auth->change_password($infousers[0]->email, $_POST['ancienmdp'], $_POST['nvmdp'])){
+            echo json_encode("success");
+        }else{
+            echo json_encode("error");
+        }
+    }
+
 // 	public function _render_page($view, $data=null, $returnhtml=false)//I think this makes more sense
 // 	{
 
