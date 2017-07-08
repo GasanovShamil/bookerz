@@ -7,9 +7,11 @@ class Book_model extends CI_Model {
 		parent::__construct ();
 		$this->load->database ();
 	}
+	 
 	public function record_count() {
 		return $this->db->count_all ( $this->table );
 	}
+	
 	public function getBooks($search_string=null, $category = null, $order=null, $order_type='Asc', $limit = NULL, $start = NULL) {
 		if (! is_null ( $limit ) && ! is_null ( $start )) {
 			$this->db->limit ( $limit, $start );

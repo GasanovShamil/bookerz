@@ -1,85 +1,51 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
-<div class="contain">
+<div class="container">
 
     <div class="row row-offcanvas row-offcanvas-right">
 
         <div class="col-md-12">
-            <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-            </p>
             <div class="col-md-12">
                 <h1 class="titre-accueil text-center">Contenus</h1>
             </div>
-
         </div>
-
         <!-- section filtre -->
-        <div class="col-md-10 col-md-offset-1">
-            <div class="filtre">
-                <label>Catégorie: </label>
-                <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <div class="filtre">
-                <label>Sous catégorie: </label>
-                <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-10 col-md-offset-1">
-            <div>
-                <label>Titre <a class="btn-minimize" href="#"><i class="icon icon-dark icon-chevron-down"></i></a></label>
-            </div>
-            <div>
-                <label>Filtre <a class="btn-minimize" href="#"><i class="icon icon-dark icon-chevron-down"></i></a></label>
-            </div>
-        </div>
-
-	  <div class="well">
+         <div class="well col-md-12">
+          <div class="col-md-10 col-md-offset-1">
+          
+          
+ <?php
            
-            <?php
-           
-            $attributes = array('class' => 'form-inline reset-margin', 'id' => 'myform');
-           
-            //save the columns names in a array that we will use as filter         
+            $attributes = array('id' => 'myform');
+            $data_submit = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => 'Go');
+            $options_order_type = array('Asc' => 'Asc', 'Desc' => 'Desc');
+            //save the columns names in a array that we will use as filter   
+            $options_order = array('title' => 'title', 'author' => 'author');
             $options_category = array();    
             foreach ($categories as $array) {
             	$options_category[$array->getName()] = $array->getName();
             }
             echo form_open('content/index', $attributes);
-            $options_order = array('id' => 'id', 'title' => 'title', 'author' => 'author');
-              echo form_label('Search:', 'search_string');
-              echo form_input('search_string', $search_string_selected, 'style="width: 170px;
-height: 26px;"');
-              echo form_label('Category:', 'category');
-              echo form_dropdown('category', $options_category, $category_selected, 'class="span2"');
-              echo form_label('Order by:', 'order');
-              echo form_dropdown('order', $options_order, $order, 'class="span2"');
-              $data_submit = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => 'Go');
-              $options_order_type = array('Asc' => 'Asc', 'Desc' => 'Desc');
-              echo form_dropdown('order_type', $options_order_type, $order_type_selected, 'class="span1"');
-              echo form_submit($data_submit);
+           ?> <div class="filtre"> <?php 
+            echo form_label('Search:', 'search_string');
+            echo form_input('search_string', $search_string_selected, ['class' => 'form-control']);
+            ?></div>   <?php 
+            echo form_label('Order by:', 'order');
+            echo form_dropdown('order', $options_order, $order, ['class' => 'form-control']);
+            echo form_dropdown('order_type', $options_order_type, $order_type_selected, 'class="span1"');
+            echo form_submit($data_submit);
             echo form_close();
-            ?>
-
-          </div>
-
+        ?>
+        </div>
+        </div>
+        
         <!-- section livre -->
         <div class="col-md-12" id="alaune">
             <div class="col-md-10 col-md-offset-1">
 
                 <div class="row bloc">
-            <?php foreach ($books as $book){?>
+            <?php 
+            if($books){
+            foreach ($books as $book){?>
                     <div class="col-md-3 col-sm-6"	>
                         <!--Collection card-->
                         <div class="card collection-card">
@@ -96,7 +62,13 @@ height: 26px;"');
                         </div>
                         <!--/.Collection card-->
                     </div>
-                   <?php }?>
+                   <?php }
+            } else {
+                   	?>
+                   	<div class="alert alert-warning col-md-6 col-md-offset-3">
+                   	<p class="text-center">Pas de resultat pour votre recherche!</p>
+                   	</div>
+                  <?php } ?>
                 </div>
                  <div class="pagination">
     				<ul>
