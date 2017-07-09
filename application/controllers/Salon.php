@@ -23,13 +23,15 @@ class Salon extends Auth_Controller
     {
         $this->load->model('Book_model');
 		$this->load->model('MessagesSalon_model');
+		$this->load->model('UsersSalon_model');
         //  'MessagesSalon_model', 'UsersSalon_model', 'Salon_model'
 
         $this->data['book'] = $this->Book_model->getBookById($id);
 		$this->data['messages'] = $this->MessagesSalon_model->getMessagesForRoom($id);
 		$this->data['id_salon'] = $id;
-
 		$this->data['book'] = $this->data['book'];
+		$this->data['usersIn'] = $this->UsersSalon_model->getUsersIn($id);
+
         $this->render('salon/view', $this->data, null);
     }
 
@@ -39,15 +41,37 @@ class Salon extends Auth_Controller
 
 		// Vérification à venir
 		if(isset($_POST['message']) && isset($_POST['room']) && isset($_POST['userid'])) {
-				$message = $_POST['message'];
-				$room = $_POST['room'];
-				$userid = $_POST['userid'];
+			$message = $_POST['message'];
+			$room = $_POST['room'];
+			$userid = $_POST['userid'];
 
-				$this->MessagesSalon_model->insertMessage($message, $room, $userid);
-				echo json_encode('success:true');
+			$this->MessagesSalon_model->insertMessage($message, $room, $userid);
+			echo json_encode('success:true');
 		} else {
-				json_encode('error:true');
+				echo json_encode('error:true');
 		}
     }
+
+	public function userState()
+	{
+		$this->load->model('UsersSalon_model');
+
+		if(isset($_POST['userid']) && isset($_POST['room']) && isset($_POST['state'])) {
+			$room = $_POST['room'];
+			$userid = $_POST['userid'];
+
+			if($_POST['state'] == "new") {
+				if(!$this->UsersSalon_model->isIn($userid, $room)) {
+					$this->UsersSalon_model->newUser($userid, $room);
+				}
+			} elseif ($_POST['state'] == "left") {
+				$this->UsersSalon_model->leftUser($userid, $room);
+			}
+
+			echo json_encode('success:true');
+		} else {
+			echo json_encode('error: true');
+		}
+	}
 
 }

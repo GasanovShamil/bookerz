@@ -3,19 +3,17 @@ class UsersSalon_e
 {
     private $id;
     private $id_user;
-    private $pseudo_user;
     private $id_salon;
     private $role;
     private $nb_signaled;
 
-    public function __construct($id, $id_user, $pseudo_user, $id_salon, $role, $nb_signaled)
+    public function __construct($id, $id_user, $id_salon, $role, $nb_signaled)
     {
         $this->id           = $id;
         $this->id_user      = $id_user;
-        $this->pseudo_user  = $pseudo_user;
         $this->id_salon     = $id_salon;
         $this->role         = $role;
-        $nb_signaled        = $nb_signaled;
+        $this->nb_signaled  = $nb_signaled;
     }
 
     public function getId()
@@ -37,17 +35,6 @@ class UsersSalon_e
     public function setId_user($id_user)
     {
         $this->id_user = $id_user;
-    }
-
-
-    public function getPseudo_user()
-    {
-        return $this->pseudo_user;
-    }
-
-    public function setPseudo_user($pseudo_user)
-    {
-        $this->pseudo_user = $pseudo_user;
     }
 
 

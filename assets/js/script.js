@@ -40,11 +40,25 @@ $(document).ready(function(){
         var div = $(".scrollspy-example");
         var height = div[0].scrollHeight;
         var username = $("#chatInput").data("username");
-        var data = {username: username, room: room};
+        var userid = $("#chatInput").data("userid");
+
+        $('.loading').show();
+        $.ajax({
+            type : 'POST',
+            url : base_url + 'salon/userState',
+            dataType : 'json',
+            data: {userid: userid, room: room, state: 'new'},
+            cache: false,
+            complete: function() {
+                setTimeout(function() {
+                    $('.loading').hide();
+                }, 500);
+            }
+        });
 
         div.scrollTop(height);
 
-        socket.emit('newUser', data );
+        socket.emit('newUser', {username: username, room: room, userid: userid} );
 
         socket.on('push_message', function(response) {
             if(response.room == room) {
@@ -63,15 +77,27 @@ $(document).ready(function(){
             if(response.room == room) {
                 $('.chat-ul').append('<div class="notif">'+response.username+' rejoint le salon</div>');
                 div.scrollTop(height);
-
-                $('ul#participant').append('<li class="col-md-12"><img src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg" /><span>'+response.username+'</span><div class="pull-right"><a>signaler</a> | <a>Contacter</a></div></li>');
+                if(!$('li.user_'+response.userid)[0]) {
+                    $('ul#participant').append('<li class="user_'+response.userid+'"><span>'+response.username+'</span><div><a>signaler</a> | <a>Contacter</a></div></li>');
+                }
             }
         });
 
         socket.on('leave', function(response) {
             if(response.room == room) {
                 $('.chat-ul').append('<div class="notif">'+response.username+' est deconnecté</div>');
+                var userDiv = ".user_"+response.userid;
+                $(userDiv).fadeOut(200);
+
                 div.scrollTop(height);
+
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'salon/userState',
+                    dataType: 'json',
+                    data: {userid: response.userid, room: response.room, state: 'left'},
+                    cache: false
+                });
             }
         });
     }
