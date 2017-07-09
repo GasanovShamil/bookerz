@@ -726,6 +726,7 @@ class User extends MY_Controller {
 // 		$this->_render_page('auth/edit_user', $this->data);
 		$this->render('user/edit_user', $this->data);
 	}
+	
 
 	// create a new group
 	public function create_group()
