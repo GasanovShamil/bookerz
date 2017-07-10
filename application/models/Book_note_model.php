@@ -24,4 +24,16 @@ class Book_note_model extends CI_Model
             return false;
         }
     }
+
+    public function giveGrade($user, $book, $grade)
+    {
+        $data = array(
+            'id_user' => $user,
+            'id_book' => $book,
+            'note'    => $grade,
+            'date'    => date("Y-m-d H:i:s")
+        );
+
+        return $this->db->insert($this->table, $data);
+    }
 }

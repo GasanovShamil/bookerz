@@ -9,8 +9,9 @@ class Salon_e
     private $nb_max_user;
     private $statut;
     private $nb_max_report_user;
+    private $closed;
 
-    public function __construct($id, $name, $start_date, $end_date, $id_livre, $nb_max_user, $statut, $nb_max_report_needed)
+    public function __construct($id, $name, $start_date, $end_date, $id_livre, $nb_max_user, $statut, $nb_max_report_needed, $closed)
     {
         $this->id                   = $id;
         $this->name                 = $name;
@@ -20,6 +21,7 @@ class Salon_e
         $this->nb_max_user          = $nb_max_user;
         $this->statut               = $statut;
         $this->nb_max_report_user   = $nb_max_report_needed;
+        $this->closed               = $closed;
     }
 
     public function getId()
@@ -106,6 +108,17 @@ class Salon_e
     public function setNb_max_report_user($nb_max_report_user)
     {
         $this->nb_max_report_user = $nb_max_report_user;
+    }
+
+
+    public function getClosed()
+    {
+        return $this->closed;
+    }
+
+    public function setClosed($closed)
+    {
+        $this->closed = $closed;
     }
 
 }

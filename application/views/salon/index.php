@@ -65,20 +65,20 @@
             </div>
             <div id="modal-salon" class="modal-body">
                 <div>
-                    <div  class="col-md-12">
-                        <span class="col-md-8 col-md-offset-2">Titre</span>
-                        <span class="col-md-8 col-md-offset-2">Auteur</span>
+                    <div class="col-md-12 bookInfo">
+                        <span class="col-md-12 text-center" id="title">Titre : </span>
+                        <span class="col-md-12 text-center" id="author">Auteur : </span>
                     </div>
-                    <div class="rating" style="text-align: center;">
-                        <a href="#4" title="Donner 4 étoiles">★</a>
-                        <a href="#3" title="Donner 3 étoiles">★</a>
-                        <a href="#2" title="Donner 2 étoiles">★</a>
-                        <a href="#1" title="Donner 1 étoile">★</a>
-                    </div>
+                        <span class="star-rating star-4">
+                            <input type="radio" name="rating" value="1"><i></i>
+                            <input type="radio" name="rating" value="2"><i></i>
+                            <input type="radio" name="rating" value="3"><i></i>
+                            <input type="radio" name="rating" value="4"><i></i>
+                        </span>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Rejoindre le salon</button>
+                <button type="button" class="btn btn-primary" id="gradeSubmit">Rejoindre le salon</button>
             </div>
         </div>
     </div>

@@ -22,5 +22,14 @@ class Book extends MY_Controller {
 		$this->render('book/view', $this->data, null);
 	}
 
+	public function getJsonBook()
+	{
+		if(isset($_GET['id'])) {
+			$this->load->model('Book_model');
+			$data = $this->Book_model->getJsonBook($_GET['id']);
+			echo json_encode($data);
+		}
+	}
+
 
 }

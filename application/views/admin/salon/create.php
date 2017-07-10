@@ -39,68 +39,104 @@
             <input type="number" class="number" name="nb_max_report_needed" placeholder="3">
             <br><br>
             <button type="submit" class="btn btn-default">Enregistrer le salon</button>
-            </form>
-        </div>
-        <br>
-            <table id="admin-liste-salon" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                <thead>
+        </form>
+    </div>
+    <br>
+    <h1>Salon en cours</h1>
+    <table id="admin-liste-salon" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Dates</th>
+                <th>Nom du salon</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <?php if (empty($rooms)): ?>
+            Aucun salon de chat n'est disponible pour le moment
+        <?php else: ?>
+            <tbody>
+                <?php foreach ($rooms as $room): ?>
+                    <?php
+                    $infoRoom = $room[0];
+                    $book = $room[1];
+                    ?>
                     <tr>
-                        <th>Titre</th>
-                        <th>Dates</th>
-                        <th>Nom du salon</th>
-                        <th>Action</th>
+                        <td><?php echo $book->getTitle(); ?> closed : <?php echo $infoRoom->getClosed(); ?></td>
+                        <td><?php echo $infoRoom->getStart_date()." / ".$infoRoom->getEnd_date(); ?></td>
+                        <td><?php echo $infoRoom->getName(); ?></td>
+                        <td>
+                            <a id="<?php echo $infoRoom->getId(); ?>" data-toggle="modal" data-target="#myModal">Rejoindre</a>
+
+                            <?php if ($infoRoom->getClosed()): ?>
+                                <?php echo form_open('/createsalontempo/reopen/'.$infoRoom->getId()) ?>
+                                    <input type="submit" value="Re open" class="btn btn-warning">
+                                </form>
+                            <?php else: ?>
+                                <?php echo form_open('/createsalontempo/delete/'.$infoRoom->getId()) ?>
+                                    <input type="submit" value="Delete" class="btn btn-danger">
+                                </form>
+                            <?php endif; ?>
+                        </td>
                     </tr>
-                </thead>
-                <?php if (empty($rooms)): ?>
-                    Aucun salon de chat n'est disponible pour le moment
-                <?php else: ?>
-                    <tbody>
-                    <?php foreach ($rooms as $room): ?>
-                        <?php
-                        $infoRoom = $room[0];
-                        $book = $room[1];
-                        ?>
-                            <tr>
-                                <td><?php echo $book->getTitle(); ?></td>
-                                <td><?php echo $infoRoom->getStart_date()." / ".$infoRoom->getEnd_date(); ?></td>
-                                <td><?php echo $infoRoom->getName(); ?></td>
-                                <td>
-                                    <a id="<?php echo $infoRoom->getId(); ?>" data-toggle="modal" data-target="#myModal">Rejoindre</a>
-                                    <?php echo form_open('/createsalontempo/delete/'.$infoRoom->getId()) ?>
-                                        <input type="submit" value="Delete" class="btn btn-danger">
-                                    </form>
-                                </td>
-                            </tr>
-                    <?php endforeach; ?>
-
-                <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div><!--/row-->
-
-    <hr>
-    <?php if (isset($nextRooms) && !empty($nextRooms)): ?>
-        <h1>Prochain salons :</h1>
-        <?php foreach ($nextRooms as $room): ?>
-            <hr>
-            <?php echo $room[1]->getTitle(); ?>
-            <br>
-            le <?php echo $room[0]->getStart_date(); ?>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <h1>Pas de prochains salons pour le moment</h1>
-    <?php endif; ?>
-
-    <hr>
-    <?php if (isset($closedRooms) && !empty($closedRooms)): ?>
-        <h1>Anciens salons :</h1>
+                <?php endforeach; ?>
+        <?php endif; ?>
+<?php if(!empty($closedRooms)): ?>
+        <tr>
+            <td colspan="4" class="full-row"><h3>Salons fermés par un administrateur</h3></td>
+        </tr>
         <?php foreach ($closedRooms as $room): ?>
-            <?php echo $room[1]->getTitle(); ?>
-            <br>
-            le <?php echo $room[0]->getStart_date(); ?>
+            <?php
+            $infoRoom = $room[0];
+            $book = $room[1];
+            ?>
+            <tr>
+                <td><?php echo $book->getTitle(); ?> closed : <?php echo $infoRoom->getClosed(); ?></td>
+                <td><?php echo $infoRoom->getStart_date()." / ".$infoRoom->getEnd_date(); ?></td>
+                <td><?php echo $infoRoom->getName(); ?></td>
+                <td>
+                    <a id="<?php echo $infoRoom->getId(); ?>" data-toggle="modal" data-target="#myModal">Rejoindre</a>
+
+                    <?php if ($infoRoom->getClosed()): ?>
+                        <?php echo form_open('/createsalontempo/reopen/'.$infoRoom->getId()) ?>
+                            <input type="submit" value="Re open" class="btn btn-warning">
+                        </form>
+                    <?php else: ?>
+                        <?php echo form_open('/createsalontempo/delete/'.$infoRoom->getId()) ?>
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    <?php endif; ?>
+                </td>
+            </tr>
         <?php endforeach; ?>
-    <?php else: ?>
-        <h1>Aucun ancien salon trouvé</h1>
-    <?php endif; ?>
+    </tbody>
+<?php endif; ?>
+</table>
+</div>
+</div><!--/row-->
+
+<hr>
+<?php if (isset($nextRooms) && !empty($nextRooms)): ?>
+    <h1>Prochain salons :</h1>
+    <?php foreach ($nextRooms as $room): ?>
+        <hr>
+        <?php echo $room[1]->getTitle(); ?>
+        <br>
+        le <?php echo $room[0]->getStart_date(); ?>
+    <?php endforeach; ?>
+<?php else: ?>
+    <h1>Pas de prochains salons pour le moment</h1>
+<?php endif; ?>
+
+<hr>
+<?php if (isset($endedRooms) && !empty($endedRooms)): ?>
+    <h1>Anciens salons :</h1>
+    <?php foreach ($endedRooms as $room): ?>
+        <?php echo $room[1]->getTitle(); ?>
+        <br>
+        le <?php echo $room[0]->getStart_date(); ?>
+    <?php endforeach; ?>
+<?php else: ?>
+    <h1>Aucun ancien salon trouvé</h1>
+<?php endif; ?>
 </div>
