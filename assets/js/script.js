@@ -21,6 +21,10 @@ $(document).ready(function(){
     //     autoHideFilters: true
     // });
 
+    $("#sendMessage").submit(function(e) {
+        e.preventDefault();
+    });
+
     function escapeHtml(text) {
         return text
         .replace(/&/g, "&amp;")
@@ -30,14 +34,10 @@ $(document).ready(function(){
         .replace(/'/g, "&#039;");
     }
 
-    $("#sendMessage").submit(function(event) {
-        event.preventDefault();
-    });
-
-    if($(".bloc-message").length) {
+    if($(".chatroom").length) {
         var socket = io.connect( 'http://localhost:3002' );
-        var room = $(".bloc-message").data("room");
-        var div = $(".scrollspy-example");
+        var room = $(".chatroom").data("room");
+        var div = $(".msg-bloc");
         var height = div[0].scrollHeight;
         var username = $("#chatInput").data("username");
         var userid = $("#chatInput").data("userid");
@@ -62,30 +62,51 @@ $(document).ready(function(){
 
         socket.on('push_message', function(response) {
             if(response.room == room) {
+                var username = escapeHtml(response.username);
                 var message = escapeHtml(response.msg);
-                $('.chat-ul').append(
-                    '<li><div class="message-data"><span class="message-data-name"><i class="fa fa-circle you"></i>'
-                    +response.username+
-                    '</span></div><div class="message you-message">'
+                $('.msg-bloc').append(
+                    '<div class="msg-container"><div class="author-msg">'
+                    +username+
+                    '<div class="message">'
                     +message+
-                    '</div></li>');
+                    '</div></div></div>');
+
                     div.scrollTop(height);
                 }
             });
 
             socket.on('newUser', function(response) {
+                var username = escapeHtml(response.username);
                 if(response.room == room) {
-                    $('.chat-ul').append('<div class="notif">'+response.username+' rejoint le salon</div>');
+                    $('.msg-bloc').append(
+                        '<div class="notif">'
+                        +response.username+
+                        ' rejoint le salon</div>'
+                    );
+
                     div.scrollTop(height);
-                    if(!$('li.user_'+response.userid)[0]) {
-                        $('ul#participant').append('<li class="user_'+response.userid+'"><span>'+response.username+'</span><div><a>signaler</a> | <a>Contacter</a></div></li>');
+
+                    if(!$('.user_'+response.userid)[0]) {
+                        $('.userList').append(
+                            '<div class="user_'
+                            +response.userid+
+                            '"><div class="userL">'
+                            +username+
+                            '<span class="fa fa-chevron-right"></span><span class="fa fa-chevron-right"></span></div></div>'
+                        );
                     }
                 }
             });
 
             socket.on('leave', function(response) {
+                var username = escapeHtml(response.username);
                 if(response.room == room) {
-                    $('.chat-ul').append('<div class="notif">'+response.username+' est deconnecté</div>');
+                    $('.msg-bloc').append(
+                        '<div class="notif">'
+                        +username+
+                        ' est deconnecté</div>'
+                    );
+
                     var userDiv = ".user_"+response.userid;
                     $(userDiv).fadeOut(200);
 

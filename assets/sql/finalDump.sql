@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:8889
--- Généré le :  Ven 14 Juillet 2017 à 11:46
+-- Généré le :  Ven 14 Juillet 2017 à 17:14
 -- Version du serveur :  5.6.35
 -- Version de PHP :  7.1.1
 
@@ -11,7 +11,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Base de données :  `bookerz`
+-- Base de données :  `testsazaaz`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,8 @@ CREATE TABLE `book` (
   `editor` varchar(255) NOT NULL,
   `collection` varchar(255) NOT NULL,
   `ISBN10` varchar(255) NOT NULL,
-  `ISBN13` varchar(255) NOT NULL
+  `ISBN13` varchar(255) NOT NULL,
+  `statut` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -98,6 +99,19 @@ CREATE TABLE `ci_sessions` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `has_book`
+--
+
+CREATE TABLE `has_book` (
+  `id` int(11) NOT NULL,
+  `id_book` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `messages_salon`
 --
 
@@ -125,6 +139,17 @@ CREATE TABLE `salon` (
   `statut` int(11) NOT NULL,
   `nb_max_report_needed` int(11) NOT NULL,
   `closed` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `status_book`
+--
+
+CREATE TABLE `status_book` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -184,6 +209,12 @@ ALTER TABLE `ci_sessions`
   ADD KEY `ci_sessions_timestamp` (`timestamp`);
 
 --
+-- Index pour la table `has_book`
+--
+ALTER TABLE `has_book`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `messages_salon`
 --
 ALTER TABLE `messages_salon`
@@ -196,58 +227,16 @@ ALTER TABLE `salon`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `status_book`
+--
+ALTER TABLE `status_book`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `users_salon`
 --
 ALTER TABLE `users_salon`
   ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `book`
---
-ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `BOOK_CATEGORY`
---
-ALTER TABLE `BOOK_CATEGORY`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `book_note`
---
-ALTER TABLE `book_note`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT pour la table `CATEGORY`
---
-ALTER TABLE `CATEGORY`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `chatroom_to_salon`
---
-ALTER TABLE `chatroom_to_salon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT pour la table `messages_salon`
---
-ALTER TABLE `messages_salon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
---
--- AUTO_INCREMENT pour la table `salon`
---
-ALTER TABLE `salon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
---
--- AUTO_INCREMENT pour la table `users_salon`
---
-ALTER TABLE `users_salon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
---
--- Contraintes pour les tables exportées
---
 
 --
 -- Contraintes pour la table `BOOK_CATEGORY`
