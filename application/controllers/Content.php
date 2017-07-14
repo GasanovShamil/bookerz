@@ -99,7 +99,6 @@ class Content extends MY_Controller {
 			
 			$data ['books'] = $this->Book_model->getBooks ( $search_string, NULL, $order, $order_type, $config ['per_page'], $page );
 			$config ["total_rows"] = count($this->Book_model->getBooks ( $search_string, NULL, $order, $order_type, NULL, NULL ));
-			var_dump(count($data ['books']));
 			$this->pagination->initialize ( $config );
 
 			

@@ -29,7 +29,15 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="<?= base_url('home') ?>">Accueil</a></li>
                         <li><a href="<?= base_url('content') ?>">Contenus</a></li>
+
                         <li><a href="<?= base_url('salon') ?>">Salons</a></li>
+                         <?php 
+                        if ($this->ion_auth->is_admin())
+                        {?>
+                        <li><a href="<?= base_url('dashboard') ?>">Administration</a></li>
+                       <?php
+                        }
+                        ?>
                     </ul>
                     <a id="logo" href="#"><img src="<?= base_url('assets/img/livre.png'); ?>"></a>
                     <ul class="nav navbar-nav pull-right">
