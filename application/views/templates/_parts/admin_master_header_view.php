@@ -16,6 +16,8 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
     <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+
+   
     <style>
     	.error{
     		color:red;
@@ -71,7 +73,7 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="<?php echo base_url(); ?>loadChangePass" class="btn btn-default btn-flat"><i class="fa fa-key"></i> Change Password</a>
+                      <a href="<?php echo base_url(); ?>" class="btn btn-default btn-flat"><i class="fa fa-key"></i> Exit admin</a>
                     </div>
                     <div class="pull-right">
                       <a href="<?php echo base_url('user/logout')?>" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Sign out</a>

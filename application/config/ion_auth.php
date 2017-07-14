@@ -158,6 +158,7 @@ $config['email_forgot_password'] = 'forgot_password.tpl.php';
  | -------------------------------------------------------------------------
  | Default: new_password.tpl.php
  */
+
 $config['email_forgot_password_complete'] = 'new_password.tpl.php';
 
 /*
