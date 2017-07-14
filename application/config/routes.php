@@ -9,7 +9,7 @@ $route['salon']                     = 'salon/index';
 $route['salon/view/(:any)']         = 'salon/view/$1';
 $route['salon/insertMessage']       = 'salon/insertMessage';
 $route['salon/userState']           = 'salon/userState';
-$route['salon/getMessages/(:any)']  = 'salon/getMessages/(:any)';
+$route['salon/chatroomToSelect/(:any)'] = 'salon/chatroomToSelect/$1';
 
 $route['admin/salon/create'] = 'createsalontempo/create';
 

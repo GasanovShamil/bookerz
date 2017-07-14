@@ -201,18 +201,36 @@ $(document).ready(function(){
             }
         });
 
-        $(".modalNote").click(function(e){
-            $(".modalFade").fadeIn(300);
-            var idBook  = $(".modalNote").attr('id');
 
+        $(".modalNote").click(function(e){
+            var idBook  = $(".modalNote").attr('id');
+            $.ajax({
+                type: 'POST',
+                dataType: "json",
+                url: base_url + "book_note/check",
+                data: {id_book: idBook},
+                success: function(data)
+                {
+                    if(data === "success") {
+                        $.get( base_url + "salon/chatroomToSelect/"+idBook, function( data ) {
+                            redirectToChat(data);
+                        });
+                    } else {
+                        window.location.replace(base_url + "salon");
+                    }
+                }
+            });
+
+            // Récupération des infos du livre
             $.getJSON( base_url + "book/getJsonBook?id="+idBook, function( data ) {
                 $('#title').html("Titre : "+data.title);
                 $('#author').html("Auteur : "+data.author);
             });
 
+            $(".modalFade").fadeIn(300);
+
             $("#gradeSubmit").click(function() {
                 var grade = $('input[name=rating]:checked').val();
-                console.log(grade);
 
                 if(grade > 0 && grade < 5) {
                     $.ajax({
@@ -222,26 +240,21 @@ $(document).ready(function(){
                         data: {id_book: idBook, grade: grade},
                         success: function(data)
                         {
-                            document.location.href = base_url + "salon/view/"+idBook;
+                            $.get( base_url + "salon/chatroomToSelect/"+idBook, function( data ) {
+                                redirectToChat(data);
+                            });
                         }
                     });
                 }
             });
-
-            $.ajax({
-                type: 'POST',
-                dataType: "json",
-                url: base_url + "book_note/check",
-                data: {id_book: idBook},
-                success: function(data)
-                {
-                    if(data === "success") {
-                        document.location.href=base_url + "salon/view/"+idBook;
-                    }
-                }
-            });
         });
 
+        function redirectToChat(data)
+        {
+            var id = data.replace(/['"]+/g, '');
+            id = id.replace(/\s/g, '');
+            window.location.replace(base_url + "salon/view/" + id);
+        }
 
 
     });

@@ -28,6 +28,27 @@ class Salon_model extends CI_Model
         return $this->db->insert('salon', $data);
 	}
 
+	public function getSalonByBook($id)
+	{
+		$this->db->from($this->table);
+		$this->db->where(array('id_livre' => $id));
+
+		$query = $this->db->get();
+		$s = $query->row_array();
+		$salon = new Salon_e(
+			$s['id'],
+			$s['name'],
+			$s['start_date'],
+			$s['end_date'],
+			$s['id_livre'],
+			$s['nb_max_user'],
+			$s['statut'],
+			$s['nb_max_report_needed'],
+			$s['closed']
+		);
+		return $salon;
+	}
+
 	public function getSalon($params = null)
 	{
 		$this->db->select("salon.id as sid, salon.name, salon.start_date, salon.end_date, salon.id_livre, salon.nb_max_user, salon.statut, salon.nb_max_report_needed, salon.closed, book.*");

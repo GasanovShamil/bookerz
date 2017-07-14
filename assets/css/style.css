@@ -330,7 +330,6 @@ nav {
     position: relative;
 }
 .chat .chat-history .message:after {
-    content: "";
     position: absolute;
     top: -15px;
     left: 20px;

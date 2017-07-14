@@ -77,4 +77,14 @@ class UsersSalon_model extends CI_Model
 		return false;
 	}
 
+	public function getNbUsers($id_salon) {
+		$this->db->from($this->table);
+		$this->db->where(array('id_salon' => $id_salon));
+		$query = $this->db->get();
+
+		// $result = $query->row_array();
+		// $count = $result['COUNT(*)'];
+		return $query->num_rows();
+	}
+
 }
