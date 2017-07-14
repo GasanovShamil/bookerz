@@ -7,11 +7,12 @@ class Book extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->database();
+        $this->load->model('Book_model');
 	}
 
 	public function view($id = NULL)
 	{
-		$this->load->model('Book_model');
+
 		$this->data['book'] = $this->Book_model->getBookById($id);
 
 		// vérifier les salons, voir si ils ont atteints leur limite d'utilisateur
@@ -22,5 +23,13 @@ class Book extends MY_Controller {
 		$this->render('book/view', $this->data, null);
 	}
 
+	public function getAllBook(){
+	    $data["data"] = $this->Book_model->getAllBook();
+        echo json_encode($data);
+    }
+
+    public function addBookToUser(){
+
+    }
 
 }

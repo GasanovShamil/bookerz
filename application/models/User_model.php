@@ -631,9 +631,6 @@ class User_model extends CI_Model
 	 **/
 	public function change_password($identity, $old, $new)
 	{
-	    var_dump($identity);
-	    var_dump($old);
-	    var_dump($this->identity_column);
 		$this->trigger_events('pre_change_password');
 
 		$this->trigger_events('extra_where');
@@ -643,10 +640,9 @@ class User_model extends CI_Model
 		                  ->limit(1)
 		    			  ->order_by('id', 'desc')
 		                  ->get($this->tables['users']);
-        var_dump($query->num_rows());
+
 		if ($query->num_rows() !== 1)
 		{
-		    var_dump("entrer");
 			$this->trigger_events(array('post_change_password', 'post_change_password_unsuccessful'));
 			$this->set_error('password_change_unsuccessful');
 			return FALSE;
@@ -2275,10 +2271,7 @@ class User_model extends CI_Model
         $user = $query->row();
 
         $password = $this->hash_password_db($id, $pwd);
-        var_dump($this->hash_password($id, $user->salt));
-        var_dump($this->hash_password($id, $user->salt));
         $query =  $this->db->get_where('users', array('id' => $id, 'password' => $this->bcrypt->hash($pwd)));
-        var_dump($query->result());
         return $query->result();
     }
 }

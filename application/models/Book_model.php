@@ -77,4 +77,41 @@ class Book_model extends CI_Model {
 		
 		return null;
 	}
+
+	public function checkBookExist($isbn){
+        if(strlen($isbn) == 10){
+            $query =  $this->db->get_where('book', array('ISBN10' => $isbn));
+        }else{
+            $query =  $this->db->get_where('book', array('ISBN13' => $isbn));
+        }
+        if (!empty($query->result())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function getAllBookUser($idUser, $idStatut){
+        $this->db->select('*');
+        $this->db->from('book');
+        $this->db->join('has_book', 'has_book.id_book = book.id');
+        $this->db->where(array('book.statut' => $idStatut, 'has_book.id_user' => $idUser));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getAllBook(){
+        $query = $this->db->get($this->table);
+        return $query->result();
+    }
+
+    public function addBookToUser($data){
+        $data = array(
+            'title' => 'My title',
+            'name' => 'My Name',
+            'date' => 'My date'
+        );
+
+        $this->db->insert('mytable', $data);
+    }
 }

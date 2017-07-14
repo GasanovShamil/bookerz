@@ -897,12 +897,11 @@ class User extends MY_Controller {
     }
 
     public function updatePwd(){
-        var_dump($_POST);
         $infousers = $this->User_model->getInfoUser($_POST['id']);
         if($this->ion_auth->change_password($infousers[0]->email, $_POST['ancienmdp'], $_POST['nvmdp'])){
             echo json_encode("success");
         }else{
-            echo json_encode("error");
+            echo json_encode("erreurr");
         }
     }
 

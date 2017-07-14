@@ -23,18 +23,18 @@
     <!-- a la une -->
     <div class="col-md-10" id="alaune">
         <div class="col-md-11">
-            <h1 class="titre-accueil">A échanger</h1>
+            <h1 class="titre-accueil">Mes livres</h1>
             <div class="row bloc">
                 <!--First column-->
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-6 col-xs-6">
                     <!--Collection card-->
                     <div class="card collection-card">
                         <!--Card image-->
                         <div class="view  hm-zoom">
                             <img src="<?= base_url('assets/img/blank.png'); ?>" class="img-fluid" alt="">
                             <div class="add-new-image">
-                                <a href="#">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                <a>
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="myModalAddBook"></span>
                                 </a>
                             </div>
                         </div>
@@ -43,9 +43,10 @@
                     <!--/.Collection card-->
                 </div>
                 <!--/First column-->
-
+                <?php if(!empty($has_book)){
+                    foreach ($has_book as $row){  ?>
                 <!--Second column-->
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-6 col-xs-6">
                     <!--Collection card-->
                     <div class="card collection-card">
                         <!--Card image-->
@@ -53,7 +54,7 @@
                             <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
                             <div class="stripe dark">
                                 <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
+                                    <p><?php echo $row->title; ?> <br> <strong><?php echo $row->author; ?></strong> <br> <i class="fa fa-chevron-right"></i></p>
                                 </a>
                             </div>
                         </div>
@@ -62,50 +63,46 @@
                     <!--/.Collection card-->
                 </div>
                 <!--/Second column-->
-
-                <!--Third column-->
-                <div class="col-md-3">
-
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-                </div>
-                <!--/Third column-->
-
-                <!--Fourth column-->
-                <div class="col-md-3">
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-
-                </div>
-                <!--/Fourth column-->
+                <?php }
+                    }else{ ?>
+                    <p>Vous n'avez aucun livre.</p>
+                <?php } ?>
             </div>
         </div>
     </div>
     <!-- fin a la une -->
+
+    <?php if(!empty($non_validate_book)){ ?>
+    <!-- a la une -->
+    <div class="col-md-10" id="alaune">
+        <div class="col-md-11">
+            <h1 class="titre-accueil">Livres en cours de validation.</h1>
+            <div class="row bloc">
+                <?php foreach ($non_validate_book as $row){  ?>
+                    <!--Second column-->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <!--Collection card-->
+                        <div class="card collection-card">
+                            <!--Card image-->
+                            <div class="view  hm-zoom">
+                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
+                                <div class="stripe dark">
+                                    <a>
+                                        <p><?php echo $row->title; ?> <br> <strong><?php echo $row->author; ?></strong> <br> <i class="fa fa-chevron-right"></i></p>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/.Card image-->
+                        </div>
+                        <!--/.Collection card-->
+                    </div>
+                    <!--/Second column-->
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    <!-- fin a la une -->
+    <?php } ?>
 
     <!-- barre -->
     <div class="col-md-12 style-seven"><hr class="col-md-10 col-md-offset-1"></div>
@@ -183,21 +180,22 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <form role="form" method="post">
+                            <form role="form" method="post" action=""  id="formUpdatePwd">
                                 <div id="verifPass"></div>
+                                <input type="hidden" class="form-control" id="idUser" value="<?php echo $_SESSION['user_id']; ?>" >
                                 <div class="form-group">
                                     <label for="psw"> Ancien mot de passe</label>
-                                    <input type="text" class="form-control" id="ancienmdp" name="ancienmdp" placeholder="Entrer l'ancien mot de passe">
+                                    <input type="password" class="form-control" id="ancienmdp" name="ancienmdp" placeholder="Entrer l'ancien mot de passe" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="psw"> Nouveau mot de passe</label>
-                                    <input type="text" class="form-control" id="nvmdp" name="nvmdp" placeholder="Entrer le nouveau mot de passe">
+                                    <input type="password" class="form-control" id="nvmdp" name="nvmdp" placeholder="Entrer le nouveau mot de passe" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="psw"> Confirmer mot de passe</label>
-                                    <input type="text" class="form-control" id="nvmdp1" name="nvmdp1" placeholder="Entrer la connfirmer du mot de passe">
+                                    <input type="password" class="form-control" id="nvmdp1" name="nvmdp1" placeholder="Entrer la connfirmer du mot de passe" required>
                                 </div>
-                                <button onclick="updatePwd(<?php echo $_SESSION['user_id']; ?>)" class="btn btn-success btn-block"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
+                                <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
                             </form>
                         </div>
                     </div>
@@ -249,5 +247,36 @@
             </div>
         </div>
     </div>
-</div><!--/row-->
 
+    <!-- Modal add book-->
+    <div class="modal fade" id="myModalAddBookView" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ajout d'un livre</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="table-book" class="display" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Titre</th>
+                                        <th>Auteur</th>
+                                        <th>ISBN</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/row-->

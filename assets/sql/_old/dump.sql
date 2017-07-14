@@ -1,10 +1,4 @@
------
---
---create database IF NOT EXISTS 'bookerz';
 
---USE 'bookerz';
--- Créer une base de données du nom de 'bookerz'
-------
 
 CREATE TABLE `USER` (
 	`id` INT NOT NULL,

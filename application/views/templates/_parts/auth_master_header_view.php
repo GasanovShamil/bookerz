@@ -7,6 +7,7 @@
         <!-- Font axesome -->
         <link rel="stylesheet" href="<?= base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
         <link href="<?= base_url('assets/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
         <link href="<?= base_url('assets/bootstrap/css/offcanvas.css'); ?>" rel="stylesheet">
         <link rel="stylesheet" href="<?= base_url('assets/css/style.css'); ?>">
         <link rel="stylesheet" href="<?= base_url('assets/css/emojionearea.min.css'); ?>">

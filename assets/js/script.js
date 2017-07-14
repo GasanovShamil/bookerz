@@ -28,7 +28,7 @@ function updateInfoUser(idUser) {
         success: function (data) {
             if(data == "success"){
                 $("#myModalInfo").modal("hide");
-                $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 300});
+                $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
             }else{
                 console.log("no ok");
             }
@@ -38,38 +38,40 @@ function updateInfoUser(idUser) {
         }
     });
 }
-function updatePwd(idUser){
-    console.log($("#ancienmdp").val());
-    console.log($("#nvmdp").val());
-    console.log($("#nvmdp1").val());
-    if($("#nvmdp").val() != $("#nvmdp1").val()){
-        $("#myModalMdp").modal("show");
-        $("#verifPass").html("<p class='bg-danger'>Les nouveaux mot de passe se correspondent pas.</p>")
-    }else{
-        var url = base_url + 'user/updatePwd';
-        $.ajax({
-            type: 'POST',
-            url: url,
-            dataType: 'json',
-            data: {id: idUser, ancienmdp: $("#ancienmdp").val(), nvmdp: $("#nvmdp").val(), nvmdp1: $("#nvmdp1").val()},
-            cache: false,
-            success: function (data) {
-                if(data == "success"){
-                    $("#myModalInfo").modal("hide");
-                    $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Mot de passe modifier avec succès',icon:'glyphicon',minTop: 300});
-                 }else{
 
-                 }
-            }, error: function (ts) {
-                console.log("error");
-                console.log(ts.responseText);
-            }
-        });
-    }
-}
 $(document).ready(function(){
 
-
+    $("#formUpdatePwd").submit(function (e) {
+        e.preventDefault();
+        if($("#nvmdp").val().length < 8 || $("#nvmdp1").val().length < 8){
+            $("#verifPass").html("<p class='bg-danger'>Les mots de passe doivent avoir 8 caractères minimum.</p>");
+        }else{
+            if($("#nvmdp").val() != $("#nvmdp1").val()){
+                $("#verifPass").html("<p class='bg-danger'>Les nouveaux mot de passe se correspondent pas.</p>");
+            }else{
+                var url = base_url + 'user/updatePwd';
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: {id: $("#idUser").val(), ancienmdp: $("#ancienmdp").val(), nvmdp: $("#nvmdp").val(), nvmdp1: $("#nvmdp1").val()},
+                    cache: false,
+                    success: function (data) {
+                        if(data == "success"){
+                            $("#myModalMdp").modal("hide");
+                            $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Mot de passe modifier avec succès',icon:'glyphicon',minTop: 200});
+                        }
+                        if(data == "erreurr"){
+                            $("#verifPass").html("<p class='bg-danger'>Mot de passe incorrect.</p>");
+                        }
+                    }, error: function (ts) {
+                        console.log("error");
+                        console.log(ts.responseText);
+                    }
+                });
+            }
+        }
+    });
 
     $("#myBtnMdp").click(function(){
         $("#myModalMdp").modal();
@@ -180,5 +182,101 @@ $(document).ready(function(){
     /***********************************/
     /*         FIN CHAT ROOM           */
     /***********************************/
+
+
+    var ch = false;
+    $("#myModalAddBook").click(function () {
+       $("#myModalAddBookView").modal("show");
+        var url = base_url + 'book/getAllBook';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                if(ch == false){
+                    ch = true;
+                    var table = $('#table-book').DataTable({
+                        "ajax": {
+                            "url": url,
+                            "dataSrc": "data"
+                        },
+                        "columns": [
+                            { "data": "title" },
+                            { "data": "author" },
+                            { "data": "ISBN13" }
+                        ],
+                        'columnDefs': [{
+                            'targets': 3,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'render': function (data, id){
+                                console.log(data);
+                                console.log(id);
+                                return "<button>Ajouter</button>";
+                            }
+                        }],
+                        autoFill: true,
+                        "language": {
+                            "sProcessing":     "Traitement en cours...",
+                            "sSearch":         "Rechercher&nbsp;:",
+                            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments par page",
+                            "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                            "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                            "sInfoPostFix":    "",
+                            "sLoadingRecords": "Chargement en cours...",
+                            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                            "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                            "oPaginate": {
+                                "sFirst":      "Premier",
+                                "sPrevious":   "Pr&eacute;c&eacute;dent",
+                                "sNext":       "Suivant",
+                                "sLast":       "Dernier"
+                            },
+                            "oAria": {
+                                "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                            }
+                        }
+                    });
+
+                    $('#table-book tbody').on( 'click', 'button', function () {
+                        var data = table.row( $(this).parents('tr') ).data();
+                        var urladd = base_url + 'book/addBookToUser';
+                        console.log("iduser :"+data.id);
+                        $.ajax({
+                            type: 'POST',
+                            url: urladd,
+                            dataType: 'json',
+                            data: {id: data.id},
+                            cache: false,
+                            success: function (data) {
+                                /*if(data == "success"){
+                                    $("#myModalInfo").modal("hide");
+                                    $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
+                                }else{
+                                    console.log("no ok");
+                                }*/
+                            }, error: function (ts) {
+                                console.log("error");
+                                console.log(ts.responseText);
+                            }
+                        });
+                    } );
+                }
+                /*if(data == "success"){
+                    $("#myModalInfo").modal("hide");
+                    $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
+                }else{
+                    console.log("no ok");
+                }*/
+            }, error: function (ts) {
+                console.log("error");
+                console.log(ts.responseText);
+            }
+        });
+    });
 
 });
