@@ -351,8 +351,6 @@ $(document).ready(function(){
         }
 
 
-<<<<<<< HEAD
-
     var ch = false;
     $("#myModalAddBook").click(function () {
        $("#myModalAddBookView").modal("show");
@@ -449,6 +447,3 @@ $(document).ready(function(){
     });
 
 });
-=======
-    });
->>>>>>> 1574610342000d30d344d94266a9ec5d6b36b21a
