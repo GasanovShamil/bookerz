@@ -15,10 +15,11 @@ server.listen(function () {
 
 io.on('connection', function (socket) {
 
-    socket.on('newUser', function(username, room) {
+    socket.on('newUser', function(username, room, userid) {
         socket.username = username;
         socket.room = room;
-        io.emit('newUser', username, room);
+        socket.userid = userid;
+        io.emit('newUser', username, room, userid);
     });
 
     socket.on('newMessage', function(msg, room, username) {
@@ -26,7 +27,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function() {
-        io.emit('leave', socket.username, socket.room);
+        io.emit('leave', socket.username, socket.room, socket.userid);
     });
 
 });

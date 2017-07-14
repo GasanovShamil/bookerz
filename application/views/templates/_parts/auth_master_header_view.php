@@ -9,7 +9,7 @@
         <link href="<?= base_url('assets/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
         <link href="<?= base_url('assets/bootstrap/css/offcanvas.css'); ?>" rel="stylesheet">
         <link rel="stylesheet" href="<?= base_url('assets/css/style.css'); ?>">
-        <link rel="stylesheet" href="<?= base_url('assets/css/emojionearea.min.css'); ?>">
+        <!-- <link rel="stylesheet" href="<?= base_url('assets/css/emojionearea.min.css'); ?>"> -->
     </head>
     <body>
         <!-- navbar -->
@@ -29,7 +29,7 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="<?= base_url('home') ?>">Accueil</a></li>
                         <li><a href="<?= base_url('content') ?>">Contenus</a></li>
-                        <li><a href="#contact">Salons</a></li>
+                        <li><a href="<?= base_url('salon') ?>">Salons</a></li>
                     </ul>
                     <a id="logo" href="#"><img src="<?= base_url('assets/img/livre.png'); ?>"></a>
                     <ul class="nav navbar-nav pull-right">

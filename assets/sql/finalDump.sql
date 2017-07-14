@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:8889
--- Généré le :  Mer 28 Juin 2017 à 10:26
+-- Généré le :  Ven 14 Juillet 2017 à 17:14
 -- Version du serveur :  5.6.35
 -- Version de PHP :  7.1.1
 
@@ -11,7 +11,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Base de données :  `bookerz`
+-- Base de données :  `testsazaaz`
 --
 
 -- --------------------------------------------------------
@@ -30,15 +30,9 @@ CREATE TABLE `book` (
   `editor` varchar(255) NOT NULL,
   `collection` varchar(255) NOT NULL,
   `ISBN10` varchar(255) NOT NULL,
-  `ISBN13` varchar(255) NOT NULL
+  `ISBN13` varchar(255) NOT NULL,
+  `statut` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `book`
---
-
-INSERT INTO `book` (`id`, `title`, `description`, `date`, `author`, `published`, `editor`, `collection`, `ISBN10`, `ISBN13`) VALUES
-(1, 'Miss Peregrine et les enfants particuliers - Tome 1', 'Jacob Portman, seize ans, écoute depuis son enfance les récits fabuleux de son grand-père. Ce dernier, un juif polonais, a passé une partie de sa vie sur une minuscule île du pays de Galles, où ses parents l\'avaient envoyé pour le protéger de la menace nazie. Le jeune Abe Portman y a été recueilli par Miss Peregrine Faucon, la directrice d\'un oprphelinat pour enfants \"particuliers\". Abe y côtoyait une ribambelle d\'enfants doués de capacités surnaturelles, censées les protéger des \"Monstres\".', '2017-05-30', 'Ransom Riggs', '2016-10-05', 'Livre de poche jeunesse', 'Livre de poche jeunesse', '2019110156', '978-2019110154');
 
 -- --------------------------------------------------------
 
@@ -55,12 +49,38 @@ CREATE TABLE `BOOK_CATEGORY` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `book_note`
+--
+
+CREATE TABLE `book_note` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_book` int(11) NOT NULL,
+  `note` int(11) NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `CATEGORY`
 --
 
 CREATE TABLE `CATEGORY` (
   `id` int(11) NOT NULL,
   `name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `chatroom_to_salon`
+--
+
+CREATE TABLE `chatroom_to_salon` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_salon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -79,6 +99,19 @@ CREATE TABLE `ci_sessions` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `has_book`
+--
+
+CREATE TABLE `has_book` (
+  `id` int(11) NOT NULL,
+  `id_book` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `messages_salon`
 --
 
@@ -90,40 +123,6 @@ CREATE TABLE `messages_salon` (
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Contenu de la table `messages_salon`
---
-
-INSERT INTO `messages_salon` (`id`, `id_salon`, `id_user`, `message`, `date`) VALUES
-(55, 1, 4, 'test', '2017-06-14 14:51:48'),
-(56, 1, 4, '1', '2017-06-14 14:55:07'),
-(57, 1, 4, '2', '2017-06-14 14:55:08'),
-(58, 1, 4, '3', '2017-06-14 14:55:08'),
-(59, 1, 4, '1', '2017-06-14 14:55:49'),
-(60, 1, 4, '2', '2017-06-14 14:55:50'),
-(61, 1, 4, '3', '2017-06-14 14:55:51'),
-(62, 1, 5, 'test', '2017-06-14 15:04:56'),
-(63, 1, 5, 'mdr ?', '2017-06-14 15:05:22'),
-(64, 2, 4, 'ah ok ', '2017-06-14 15:05:25'),
-(65, 2, 4, 'test', '2017-06-14 15:08:29'),
-(66, 2, 4, 'ok?', '2017-06-14 15:08:49'),
-(67, 1, 5, 'cool', '2017-06-14 15:08:53'),
-(68, 2, 5, 'oops', '2017-06-14 15:09:00'),
-(69, 2, 4, 'wjaiaz', '2017-06-14 15:09:02'),
-(70, 1, 5, 'test', '2017-06-14 15:23:06'),
-(71, 1, 5, 'test', '2017-06-14 15:24:16'),
-(72, 1, 4, 'alleeeer', '2017-06-14 15:24:21'),
-(73, 1, 4, 'salut', '2017-06-15 21:48:17'),
-(74, 1, 4, 'salut', '2017-06-15 21:48:20'),
-(75, 1, 4, 'salut', '2017-06-15 21:48:26'),
-(76, 1, 4, 'salut', '2017-06-15 21:49:23'),
-(77, 1, 4, 'salut', '2017-06-15 21:49:39'),
-(78, 1, 4, 'salut', '2017-06-15 21:49:49'),
-(79, 1, 5, 'coucou', '2017-06-15 21:49:52'),
-(80, 1, 4, 'woaw', '2017-06-15 21:49:54'),
-(81, 1, 5, 'génial', '2017-06-15 21:49:56'),
-(82, 1, 4, 'oui', '2017-06-19 21:40:51');
-
 -- --------------------------------------------------------
 
 --
@@ -133,12 +132,24 @@ INSERT INTO `messages_salon` (`id`, `id_salon`, `id_user`, `message`, `date`) VA
 CREATE TABLE `salon` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
   `id_livre` int(11) NOT NULL,
   `nb_max_user` int(11) NOT NULL,
   `statut` int(11) NOT NULL,
-  `nb_max_report_needed` int(11) NOT NULL
+  `nb_max_report_needed` int(11) NOT NULL,
+  `closed` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `status_book`
+--
+
+CREATE TABLE `status_book` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -150,7 +161,6 @@ CREATE TABLE `salon` (
 CREATE TABLE `users_salon` (
   `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `pseudo_user` varchar(255) NOT NULL,
   `id_salon` int(11) NOT NULL,
   `role` int(11) NOT NULL,
   `nb_signaled` int(11) DEFAULT NULL
@@ -175,9 +185,21 @@ ALTER TABLE `BOOK_CATEGORY`
   ADD KEY `BOOK_CATEGORY_fk1` (`id_category`);
 
 --
+-- Index pour la table `book_note`
+--
+ALTER TABLE `book_note`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `CATEGORY`
 --
 ALTER TABLE `CATEGORY`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `chatroom_to_salon`
+--
+ALTER TABLE `chatroom_to_salon`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -185,6 +207,12 @@ ALTER TABLE `CATEGORY`
 --
 ALTER TABLE `ci_sessions`
   ADD KEY `ci_sessions_timestamp` (`timestamp`);
+
+--
+-- Index pour la table `has_book`
+--
+ALTER TABLE `has_book`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `messages_salon`
@@ -199,48 +227,16 @@ ALTER TABLE `salon`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `status_book`
+--
+ALTER TABLE `status_book`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `users_salon`
 --
 ALTER TABLE `users_salon`
   ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `book`
---
-ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `BOOK_CATEGORY`
---
-ALTER TABLE `BOOK_CATEGORY`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `CATEGORY`
---
-ALTER TABLE `CATEGORY`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `messages_salon`
---
-ALTER TABLE `messages_salon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
---
--- AUTO_INCREMENT pour la table `salon`
---
-ALTER TABLE `salon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `users_salon`
---
-ALTER TABLE `users_salon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- Contraintes pour les tables exportées
---
 
 --
 -- Contraintes pour la table `BOOK_CATEGORY`
