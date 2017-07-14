@@ -107,6 +107,18 @@ $(document).ready(function(){
         .replace(/'/g, "&#039;");
     }
 
+    function jsUcfirst(string)
+    {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function redirectToChat(data)
+    {
+        var id = data.replace(/['"]+/g, '');
+        id = id.replace(/\s/g, '');
+        window.location.replace(base_url + "salon/view/" + id);
+    }
+
     if($(".chatroom").length) {
         var socket = io.connect( 'http://localhost:3002' );
         var room = $(".chatroom").data("room");
@@ -148,12 +160,12 @@ $(document).ready(function(){
                 }
             });
 
-            socket.on('newUser', function(response) {
+        socket.on('newUser', function(response) {
                 var username = escapeHtml(response.username);
                 if(response.room == room) {
                     $('.msg-bloc').append(
                         '<div class="notif">'
-                        +response.username+
+                        +jsUcfirst(response.username)+
                         ' rejoint le salon</div>'
                     );
 
@@ -163,15 +175,15 @@ $(document).ready(function(){
                         $('.userList').append(
                             '<div class="user_'
                             +response.userid+
-                            '"><div class="userL">'
-                            +username+
+                            '"><div class="userL" data-user="'+response.userid+'">'
+                            +jsUcfirst(username)+
                             '<span class="fa fa-chevron-right"></span><span class="fa fa-chevron-right"></span></div></div>'
                         );
                     }
                 }
             });
 
-            socket.on('leave', function(response) {
+        socket.on('leave', function(response) {
                 var username = escapeHtml(response.username);
                 if(response.room == room) {
                     $('.msg-bloc').append(
@@ -227,7 +239,33 @@ $(document).ready(function(){
             }
         });
 
+        $('.userL').click(function() {
+            var userHit = $(this).data('user');
+            if(userid != userHit) {
+                $('#confirm-modal').modal('show');
 
+                $('#confirmReport').click(function() {
+                    var reason = $('#reason').val();
+                    if($.trim(reason)) {
+                        $.ajax({
+                            type : 'POST',
+                            url : base_url + 'salon/addReport',
+                            dataType : 'json',
+                            data : {id_user_reported: userHit, id_salon: room, reason: reason},
+                            cache: false,
+                            success: function() {
+                                $('#confirm-modal').modal('hide');
+                                // notif
+                            }, error: function() {
+                                // notif
+                            }
+                        })
+                    } else {
+
+                    }
+                });
+            }
+        });
 
 
         /***********************************/
@@ -309,8 +347,6 @@ $(document).ready(function(){
                         $.get( base_url + "salon/chatroomToSelect/"+idBook, function( data ) {
                             redirectToChat(data);
                         });
-                    } else {
-                        window.location.replace(base_url + "salon");
                     }
                 }
             });
@@ -343,18 +379,9 @@ $(document).ready(function(){
             });
         });
 
-        function redirectToChat(data)
-        {
-            var id = data.replace(/['"]+/g, '');
-            id = id.replace(/\s/g, '');
-            window.location.replace(base_url + "salon/view/" + id);
-        }
 
-
-<<<<<<< HEAD
-
-    var ch = false;
-    $("#myModalAddBook").click(function () {
+        var ch = false;
+        $("#myModalAddBook").click(function () {
        $("#myModalAddBookView").modal("show");
         var url = base_url + 'book/getAllBook';
         $.ajax({
@@ -449,6 +476,3 @@ $(document).ready(function(){
     });
 
 });
-=======
-    });
->>>>>>> 1574610342000d30d344d94266a9ec5d6b36b21a

@@ -93,9 +93,9 @@ class Salon extends Auth_Controller
 			$userid = $_POST['userid'];
 
 			$this->MessagesSalon_model->insertMessage($message, $room, $userid);
-			echo json_encode('success:true');
+			echo json_encode('success : true');
 		} else {
-				echo json_encode('error:true');
+			echo json_encode('error : true');
 		}
     }
 
@@ -115,9 +115,25 @@ class Salon extends Auth_Controller
 				$this->UsersSalon_model->leftUser($userid, $room);
 			}
 
-			echo json_encode('success:true');
+			echo json_encode('success : true');
 		} else {
-			echo json_encode('error: true');
+			echo json_encode('error : true');
+		}
+	}
+
+	public function addReport()
+	{
+		$this->load->model('Report_model');
+
+		if(isset($_POST['id_user_reported']) && isset($_POST['id_salon']) && $_POST['reason']) {
+			if(!$this->Report_model->checkReport($_SESSION['user_id'], $_POST['id_user_reported'], $_POST['id_salon'])) {
+				
+				if($this->Report_model->addReport($_SESSION['user_id'], $_POST['id_user_reported'], $_POST['id_salon'], $_POST['reason'], date("Y-m-d H:i:s"))) {
+					echo json_encode('success : true');
+				} else {
+					echo json_encode('error : true');
+				}
+			}
 		}
 	}
 

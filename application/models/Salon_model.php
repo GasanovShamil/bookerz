@@ -67,8 +67,8 @@ class Salon_model extends CI_Model
 		} elseif ($params == "closed") {
 			$this->db->where(array('closed' => 1));
 		} else {
-			$this->db->where(array('closed' => 0));
-			$this->db->where(array('statut' => 1));
+			$this->db->where(array('salon.closed' => 0));
+			$this->db->where(array('salon.statut' => 1));
 		}
 
 		$query = $this->db->get();

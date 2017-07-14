@@ -771,7 +771,7 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     right: 1%;
     width: 79%;
-    height: 100%;
+    height: calc(100% - 50px);
     top: 0;
     overflow-y: scroll;
 }
@@ -779,14 +779,6 @@ h1, h2, h3, h4, h5, h6 {
 .msg-container {
     display: grid;
     margin-bottom: 30px;
-}
-
-.msg-container:first-of-type {
-    margin-top: 30px;
-}
-
-.msg-bloc:last-child {
-    margin-bottom: 80px;
 }
 
 .author-msg {
@@ -799,7 +791,6 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid rgba(241, 240, 240, 0.7);
     float: right;
     width: calc(100% - 65px);
-    min-height: 75px;
     height: auto;
     border-radius: 5px;
 }
