@@ -31,5 +31,14 @@ class Book extends MY_Controller {
     public function addBookToUser(){
 
     }
+	public function getJsonBook()
+	{
+		if(isset($_GET['id'])) {
+			$this->load->model('Book_model');
+			$data = $this->Book_model->getJsonBook($_GET['id']);
+			echo json_encode($data);
+		}
+	}
+
 
 }

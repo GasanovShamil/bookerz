@@ -79,8 +79,6 @@ class Content extends MY_Controller {
 			
 			if ($search_string) {
 				$filter_session_data ['search_string_selected'] = $search_string;
-			} else {
-				$search_string = $this->session->userdata ( 'search_string_selected' );
 			}
 			$data ['search_string_selected'] = $search_string;
 			
@@ -98,19 +96,12 @@ class Content extends MY_Controller {
 			$data['categories'] = $this->Category_model->getCategories();
 			
 			// fetch sql data into arrays
-			if ($search_string) {
-				if ($order) {
-					$data ['books'] = $this->Book_model->getBooks ( $search_string, NULL, $order, $order_type, $config ['per_page'], $page );
-				} else {
-					$data ['books'] = $this->Book_model->getBooks ( $search_string, NULL, NULL, $order_type, $config ['per_page'], $page );
-				}
-			} else {
-				if ($order) {
-					$data ['books'] = $this->Book_model->getBooks ( NULL, NULL, $order, $order_type, $config ['per_page'], $page );
-				} else {
-					$data ['books'] = $this->Book_model->getBooks ( NULL, NULL, NULL, $order_type, $config ['per_page'], $page );
-				}
-			}
+			
+			$data ['books'] = $this->Book_model->getBooks ( $search_string, NULL, $order, $order_type, $config ['per_page'], $page );
+			$config ["total_rows"] = count($this->Book_model->getBooks ( $search_string, NULL, $order, $order_type, NULL, NULL ));
+			$this->pagination->initialize ( $config );
+
+			
 			// $data['books'] = $this->Book_model->getBooks('Test title',NULL,NULL,'acs',$config["per_page"],$limit_end);
 			$data ['links'] = $this->pagination->create_links ();
 			$this->render ( 'content/index', $data );
@@ -124,7 +115,11 @@ class Content extends MY_Controller {
 			$data ['search_string_selected'] = '';
 			$data ['order'] = 'id';
 			// fetch sql data into arrays
-			$data ['books'] = $this->Book_model->getBooks ( 'Test title', NULL, NULL, 'acs', $config ["per_page"], $page );
+// 			$data ['books'] = $this->Book_model->getBooks ( 'Test title', NULL, NULL, 'acs', $config ["per_page"], $page );
+			$data ['books'] = $this->Book_model->getBooks ( $search_string, NULL, $order, $order_type, $config ['per_page'], $page );
+			$config ["total_rows"] = count($this->Book_model->getBooks ( $search_string, NULL, $order, $order_type, NULL, NULL ));
+			$this->pagination->initialize ( $config );
+			
 			$data ['links'] = $this->pagination->create_links ();
 			$this->render ( 'content/index', $data );
 			// $config['total_rows'] = $data['count_products'];
