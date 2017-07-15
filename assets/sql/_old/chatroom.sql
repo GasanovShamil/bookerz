@@ -67,7 +67,7 @@ CREATE TABLE `salon` (
   `end_date` date NOT NULL,
   `id_livre` int(11) NOT NULL,
   `nb_max_user` int(11) NOT NULL,
-  `statut` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
   `nb_max_report_needed` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

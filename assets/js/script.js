@@ -107,6 +107,18 @@ $(document).ready(function(){
         .replace(/'/g, "&#039;");
     }
 
+    function jsUcfirst(string)
+    {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function redirectToChat(data)
+    {
+        var id = data.replace(/['"]+/g, '');
+        id = id.replace(/\s/g, '');
+        window.location.replace(base_url + "salon/view/" + id);
+    }
+
     if($(".chatroom").length) {
         var socket = io.connect( 'http://localhost:3002' );
         var room = $(".chatroom").data("room");
@@ -114,6 +126,7 @@ $(document).ready(function(){
         var height = div[0].scrollHeight;
         var username = $("#chatInput").data("username");
         var userid = $("#chatInput").data("userid");
+        var id_salon_parent = $(".chatroom").data("idsalonparent");
 
         $('.loading').show();
         $.ajax({
@@ -153,7 +166,7 @@ $(document).ready(function(){
                 if(response.room == room) {
                     $('.msg-bloc').append(
                         '<div class="notif">'
-                        +response.username+
+                        +jsUcfirst(response.username)+
                         ' rejoint le salon</div>'
                     );
 
@@ -163,8 +176,8 @@ $(document).ready(function(){
                         $('.userList').append(
                             '<div class="user_'
                             +response.userid+
-                            '"><div class="userL">'
-                            +username+
+                            '"><div class="userL" data-user="'+response.userid+'">'
+                            +jsUcfirst(username)+
                             '<span class="fa fa-chevron-right"></span><span class="fa fa-chevron-right"></span></div></div>'
                         );
                     }
@@ -176,12 +189,12 @@ $(document).ready(function(){
                 if(response.room == room) {
                     $('.msg-bloc').append(
                         '<div class="notif">'
-                        +username+
+                        +jsUcfirst(username)+
                         ' est deconnecté</div>'
                     );
 
                     var userDiv = ".user_"+response.userid;
-                    $(userDiv).fadeOut(200);
+                    $(userDiv).remove();
 
                     div.scrollTop(height);
 
@@ -194,6 +207,28 @@ $(document).ready(function(){
                     });
                 }
             });
+
+            socket.on('checkReport', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'salon/checkBan',
+                    dataType: 'json',
+                    data: {id_salon_parent: id_salon_parent},
+                    cache: false,
+                    success: function(data) {
+                        console.log(data);
+                        if(data.status == 'success') {
+                            $('#alert-modal .modal-header p').html('Exclus du salon');
+                            $('#alert-modal .modal-body').html('Vous avez été exclus du salon suite à votre comportement. Vous allez être redirigé');
+                            $('#alert-modal').modal('show');
+                            setTimeout( function(){
+                                window.location.replace(base_url + "salon/");
+                            }  , 3000 );
+                        }
+                    }
+                });
+            });
+
         }
 
         $('#chatInput').keydown(function(e) {
@@ -227,7 +262,56 @@ $(document).ready(function(){
             }
         });
 
+        $('.userL').click(function() {
+            var userHit = $(this).data('user');
+            if(userid != userHit) {
+                $.ajax({
+                    type : 'POST',
+                    url : base_url + 'salon/checkReport',
+                    dataType : 'json',
+                    data : {id_user_reported: userHit, id_salon: room},
+                    cache : false,
+                    success: function(data){
+                        if( data.status == 'error' ) {
+                            // error handling, show data.message or what you want.
+                            $('#confirm-modal').modal('show');
+                        } else {
+                            // same as above but with success
+                            $('#alert-modal .modal-header p').html('Signaler');
+                            $('#alert-modal .modal-body').html('Vous avez déjà signalé cet utilisateur dans ce salon.');
+                            $('#alert-modal').modal('show');
+                        }
+                    }
+                });
 
+                $('#confirmReport').click(function() {
+                    var reason = $('#reason').val();
+                    if($.trim(reason)) {
+                        $.ajax({
+                            type : 'POST',
+                            url : base_url + 'salon/addReport',
+                            dataType : 'json',
+                            data : {id_user_reported: userHit, id_salon: room, reason: reason},
+                            cache: false,
+                            success: function(data) {
+                                socket.emit('report');
+                                $('#confirm-modal').modal('hide');
+                                $('#alert-modal .modal-header p').html('Signaler');
+                                $('#alert-modal .modal-body').html('Nous avons bien reçu votre signalement.');
+                                $('#alert-modal').modal('show');
+                            }, error: function() {
+                                $('#confirm-modal').modal('hide');
+                                $('#alert-modal .modal-header p').html('Signaler');
+                                $('#alert-modal .modal-body').html('Vous avez déjà signalé cet utilisateur');
+                                $('#alert-modal').modal('show');
+                            }
+                        });
+                    } else {
+
+                    }
+                });
+            }
+        });
 
 
         /***********************************/
@@ -306,11 +390,28 @@ $(document).ready(function(){
                 success: function(data)
                 {
                     if(data === "success") {
-                        $.get( base_url + "salon/chatroomToSelect/"+idBook, function( data ) {
-                            redirectToChat(data);
+                        var id_salon_to_send = $('.modalNote').attr('id');
+                        $.ajax({
+                            type: 'POST',
+                            url: base_url + 'salon/checkBan',
+                            dataType: 'json',
+                            data: {id_salon_parent: id_salon_to_send},
+                            cache: false,
+                            success: function(data) {
+                                console.log(data);
+                                if(data.status == 'success') {
+                                    $('#alert-modal .modal-header p').html('Exclus du salon');
+                                    $('#alert-modal .modal-body').html('Vous avez été exclus du salon suite à votre comportement. Vous ne pouvez pas y retourner');
+                                    $('#alert-modal').modal('show');
+                                } else {
+                                    $.get( base_url + "salon/chatroomToSelect/"+idBook, function( data ) {
+                                        redirectToChat(data);
+                                    });
+                                }
+                            }
                         });
-                    } else {
-                        window.location.replace(base_url + "salon");
+                    } else { 
+                        $(".modalFade").fadeIn(300);
                     }
                 }
             });
@@ -320,8 +421,6 @@ $(document).ready(function(){
                 $('#title').html("Titre : "+data.title);
                 $('#author').html("Auteur : "+data.author);
             });
-
-            $(".modalFade").fadeIn(300);
 
             $("#gradeSubmit").click(function() {
                 var grade = $('input[name=rating]:checked').val();
@@ -343,107 +442,100 @@ $(document).ready(function(){
             });
         });
 
-        function redirectToChat(data)
-        {
-            var id = data.replace(/['"]+/g, '');
-            id = id.replace(/\s/g, '');
-            window.location.replace(base_url + "salon/view/" + id);
-        }
 
-
-    var ch = false;
-    $("#myModalAddBook").click(function () {
-       $("#myModalAddBookView").modal("show");
-        var url = base_url + 'book/getAllBook';
-        $.ajax({
-            type: 'POST',
-            url: url,
-            dataType: 'json',
-            cache: false,
-            success: function (data) {
-                if(ch == false){
-                    ch = true;
-                    var table = $('#table-book').DataTable({
-                        "ajax": {
-                            "url": url,
-                            "dataSrc": "data"
-                        },
-                        "columns": [
-                            { "data": "title" },
-                            { "data": "author" },
-                            { "data": "ISBN13" }
-                        ],
-                        'columnDefs': [{
-                            'targets': 3,
-                            'searchable': false,
-                            'orderable': false,
-                            'className': 'dt-body-center',
-                            'render': function (data, id){
-                                console.log(data);
-                                console.log(id);
-                                return "<button>Ajouter</button>";
-                            }
-                        }],
-                        autoFill: true,
-                        "language": {
-                            "sProcessing":     "Traitement en cours...",
-                            "sSearch":         "Rechercher&nbsp;:",
-                            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments par page",
-                            "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-                            "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-                            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-                            "sInfoPostFix":    "",
-                            "sLoadingRecords": "Chargement en cours...",
-                            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-                            "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
-                            "oPaginate": {
-                                "sFirst":      "Premier",
-                                "sPrevious":   "Pr&eacute;c&eacute;dent",
-                                "sNext":       "Suivant",
-                                "sLast":       "Dernier"
+        var ch = false;
+        $("#myModalAddBook").click(function () {
+            $("#myModalAddBookView").modal("show");
+            var url = base_url + 'book/getAllBook';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if(ch == false){
+                        ch = true;
+                        var table = $('#table-book').DataTable({
+                            "ajax": {
+                                "url": url,
+                                "dataSrc": "data"
                             },
-                            "oAria": {
-                                "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-                                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                            "columns": [
+                                { "data": "title" },
+                                { "data": "author" },
+                                { "data": "ISBN13" }
+                            ],
+                            'columnDefs': [{
+                                'targets': 3,
+                                'searchable': false,
+                                'orderable': false,
+                                'className': 'dt-body-center',
+                                'render': function (data, id){
+                                    console.log(data);
+                                    console.log(id);
+                                    return "<button>Ajouter</button>";
+                                }
+                            }],
+                            autoFill: true,
+                            "language": {
+                                "sProcessing":     "Traitement en cours...",
+                                "sSearch":         "Rechercher&nbsp;:",
+                                "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments par page",
+                                "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                                "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                                "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                                "sInfoPostFix":    "",
+                                "sLoadingRecords": "Chargement en cours...",
+                                "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                                "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                                "oPaginate": {
+                                    "sFirst":      "Premier",
+                                    "sPrevious":   "Pr&eacute;c&eacute;dent",
+                                    "sNext":       "Suivant",
+                                    "sLast":       "Dernier"
+                                },
+                                "oAria": {
+                                    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                                }
                             }
-                        }
-                    });
+                        });
 
-                    $('#table-book tbody').on( 'click', 'button', function () {
-                        var data = table.row( $(this).parents('tr') ).data();
-                        var urladd = base_url + 'book/addBookToUser';
-                        console.log("iduser :"+data.id);
-                        $.ajax({
-                            type: 'POST',
-                            url: urladd,
-                            dataType: 'json',
-                            data: {id: data.id},
-                            cache: false,
-                            success: function (data) {
-                                /*if(data == "success"){
+                        $('#table-book tbody').on( 'click', 'button', function () {
+                            var data = table.row( $(this).parents('tr') ).data();
+                            var urladd = base_url + 'book/addBookToUser';
+                            console.log("iduser :"+data.id);
+                            $.ajax({
+                                type: 'POST',
+                                url: urladd,
+                                dataType: 'json',
+                                data: {id: data.id},
+                                cache: false,
+                                success: function (data) {
+                                    /*if(data == "success"){
                                     $("#myModalInfo").modal("hide");
                                     $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
                                 }else{
-                                    console.log("no ok");
-                                }*/
-                            }, error: function (ts) {
-                                console.log("error");
-                                console.log(ts.responseText);
-                            }
-                        });
-                    } );
-                }
-                /*if(data == "success"){
-                    $("#myModalInfo").modal("hide");
-                    $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
-                }else{
-                    console.log("no ok");
-                }*/
-            }, error: function (ts) {
-                console.log("error");
-                console.log(ts.responseText);
+                                console.log("no ok");
+                            }*/
+                        }, error: function (ts) {
+                            console.log("error");
+                            console.log(ts.responseText);
+                        }
+                    });
+                } );
             }
-        });
-    });
+            /*if(data == "success"){
+            $("#myModalInfo").modal("hide");
+            $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
+        }else{
+        console.log("no ok");
+    }*/
+}, error: function (ts) {
+    console.log("error");
+    console.log(ts.responseText);
+}
+});
+});
 
 });

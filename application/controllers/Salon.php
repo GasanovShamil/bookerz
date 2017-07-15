@@ -71,6 +71,8 @@ class Salon extends Auth_Controller
         $this->load->model('Book_model');
 		$this->load->model('MessagesSalon_model');
 		$this->load->model('UsersSalon_model');
+		$this->load->model('Salon_model');
+		$this->load->model('Chatroom_to_salon_model');
         //  'MessagesSalon_model', 'UsersSalon_model', 'Salon_model'
 
         $this->data['book'] = $this->Book_model->getBookById($id);
@@ -78,6 +80,9 @@ class Salon extends Auth_Controller
 		$this->data['id_salon'] = $id;
 		$this->data['book'] = $this->data['book'];
 		$this->data['usersIn'] = $this->UsersSalon_model->getUsersIn($id);
+
+		$this->data['chatroom'] = $this->Chatroom_to_salon_model->getSalon($id);
+
 
         $this->render('salon/view', $this->data, null);
     }
@@ -93,9 +98,9 @@ class Salon extends Auth_Controller
 			$userid = $_POST['userid'];
 
 			$this->MessagesSalon_model->insertMessage($message, $room, $userid);
-			echo json_encode('success:true');
+			echo json_encode('success : true');
 		} else {
-				echo json_encode('error:true');
+			echo json_encode('error : true');
 		}
     }
 
@@ -115,9 +120,58 @@ class Salon extends Auth_Controller
 				$this->UsersSalon_model->leftUser($userid, $room);
 			}
 
-			echo json_encode('success:true');
+			echo json_encode('success : true');
 		} else {
-			echo json_encode('error: true');
+			echo json_encode('error : true');
+		}
+	}
+
+	public function addReport()
+	{
+		$this->load->model('Report_model');
+
+		if(isset($_POST['id_user_reported']) && isset($_POST['id_salon']) && isset($_POST['reason'])) {
+			if(!$this->Report_model->checkReport($_SESSION['user_id'], $_POST['id_user_reported'], $_POST['id_salon'])) {
+
+				if($this->Report_model->addReport($_SESSION['user_id'], $_POST['id_user_reported'], $_POST['id_salon'], $_POST['reason'], date("Y-m-d H:i:s"))) {
+					echo json_encode('success : true');
+				} else {
+					echo json_encode('error : true');
+				}
+			}
+		}
+	}
+
+	public function checkReport()
+	{
+		if(isset($_POST['id_user_reported']) && isset($_POST['id_salon'])) {
+			$this->load->model('Report_model');
+			$check = $this->Report_model->checkReport($_SESSION['user_id'], $_POST['id_user_reported'], $_POST['id_salon']);
+
+			if($check) {
+				$response['status'] = 'success';
+			} else {
+				$response['status'] = 'error';
+			}
+			echo json_encode($response);
+		}
+	}
+
+	public function checkBan()
+	{
+		if(isset($_POST['id_salon_parent'])) {
+			$this->load->model('Report_model');
+			$check = $this->Report_model->checkBan($_SESSION['user_id'], $_POST['id_salon_parent']);
+
+			$this->load->model('Salon_model');
+			$max_report = $this->Salon_model->getMaxReport($_POST['id_salon_parent']);
+
+			if($check >= $max_report) {
+				$response['status'] = 'success';
+			} else {
+				$response['status'] = 'error';
+			}
+			echo json_encode($response);
 		}
 	}
 

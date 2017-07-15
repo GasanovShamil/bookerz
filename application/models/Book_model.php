@@ -92,11 +92,11 @@ class Book_model extends CI_Model {
         }
     }
 
-    public function getAllBookUser($idUser, $idStatut){
+    public function getAllBookUser($idUser, $idstatus){
         $this->db->select('*');
         $this->db->from('book');
         $this->db->join('has_book', 'has_book.id_book = book.id');
-        $this->db->where(array('book.statut' => $idStatut, 'has_book.id_user' => $idUser));
+        $this->db->where(array('book.status' => $idstatus, 'has_book.id_user' => $idUser));
         $query = $this->db->get();
         return $query->result();
     }

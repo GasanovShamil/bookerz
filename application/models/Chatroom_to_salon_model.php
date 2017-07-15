@@ -40,4 +40,23 @@ class chatroom_to_salon_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
+    public function getSalon($id_chatroom)
+    {
+        $this->db->from($this->table);
+        $this->db->where(array('id' => $id_chatroom));
+
+        $query = $this->db->get();
+        if($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $chatroom = new Chatroom_to_salon_e(
+                    $row->id,
+                    $row->id_user,
+                    $row->id_salon
+                );
+                return $chatroom;
+            }
+        }
+        return false;
+    }
+
 }

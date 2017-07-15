@@ -31,9 +31,9 @@ class CreateSalonTempo extends Auth_Controller {
                 $end_date = $this->input->post('end_date_day') . " " . $this->input->post('end_date_hour');
 
                 if($start_date <= date('Y-m-d H:i:s')) {
-                    $statut = 1;
+                    $status = 1;
                 } else {
-                    $statut = 0;
+                    $status = 0;
                 }
 
                 $salon = new Salon_e(
@@ -43,7 +43,7 @@ class CreateSalonTempo extends Auth_Controller {
                     $end_date,
                     $this->input->post('id_livre'),
                     $this->input->post('nb_max_user'),
-                    $statut,
+                    $status,
                     $this->input->post('nb_max_report_needed'),
                     0
                 );
@@ -67,6 +67,6 @@ class CreateSalonTempo extends Auth_Controller {
 
         public function checkSalon()
         {
-            $this->Salon_model->checkSalonStatut();
+            $this->Salon_model->checkSalonstatus();
         }
 }

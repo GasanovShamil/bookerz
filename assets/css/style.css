@@ -244,9 +244,7 @@ nav {
 /* CHAT ROOM */
 /************************************************/
 
-*, *:before, *:after {
-    box-sizing: border-box;
-}
+
 
 .bloc-message {
     border: blue 2px solid;
@@ -771,22 +769,14 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     right: 1%;
     width: 79%;
-    height: 100%;
+    height: calc(100% - 50px);
     top: 0;
     overflow-y: scroll;
 }
 
 .msg-container {
     display: grid;
-    margin-bottom: 30px;
-}
-
-.msg-container:first-of-type {
-    margin-top: 30px;
-}
-
-.msg-bloc:last-child {
-    margin-bottom: 80px;
+    margin-bottom: 20px;
 }
 
 .author-msg {
@@ -799,7 +789,6 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid rgba(241, 240, 240, 0.7);
     float: right;
     width: calc(100% - 65px);
-    min-height: 75px;
     height: auto;
     border-radius: 5px;
 }
@@ -831,6 +820,8 @@ h1, h2, h3, h4, h5, h6 {
 .notif {
     color: grey;
     font-style: italic;
+    margin-left: 15px;
+    margin-bottom: 20px;
 }
 
 /*footer*/

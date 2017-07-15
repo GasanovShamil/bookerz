@@ -20,7 +20,7 @@ class Salon_model extends CI_Model
             'end_date'    		   => $salon->getEnd_date(),
             'id_livre'   		   => $salon->getId_livre(),
 			'nb_max_user' 		   => $salon->getNb_max_user(),
-			'statut'      		   => $salon->getStatut(),
+			'status'      		   => $salon->getstatus(),
 			'nb_max_report_needed' => $salon->getNb_max_report_user(),
 			'closed'			   => $salon->getClosed()
         );
@@ -42,7 +42,7 @@ class Salon_model extends CI_Model
 			$s['end_date'],
 			$s['id_livre'],
 			$s['nb_max_user'],
-			$s['statut'],
+			$s['status'],
 			$s['nb_max_report_needed'],
 			$s['closed']
 		);
@@ -51,7 +51,7 @@ class Salon_model extends CI_Model
 
 	public function getSalon($params = null)
 	{
-		$this->db->select("salon.id as sid, salon.name, salon.start_date, salon.end_date, salon.id_livre, salon.nb_max_user, salon.statut, salon.nb_max_report_needed, salon.closed, book.*");
+		$this->db->select("salon.id as sid, salon.name, salon.start_date, salon.end_date, salon.id_livre, salon.nb_max_user, salon.status, salon.nb_max_report_needed, salon.closed, book.*");
 		$this->db->from($this->table);
 		$this->db->order_by("salon.id", "desc");
 		$this->db->join("book", "book.id = salon.id_livre");
@@ -67,8 +67,8 @@ class Salon_model extends CI_Model
 		} elseif ($params == "closed") {
 			$this->db->where(array('closed' => 1));
 		} else {
-			$this->db->where(array('closed' => 0));
-			$this->db->where(array('statut' => 1));
+			$this->db->where(array('salon.closed' => 0));
+			$this->db->where(array('salon.status' => 1));
 		}
 
 		$query = $this->db->get();
@@ -83,7 +83,7 @@ class Salon_model extends CI_Model
 						$row->end_date,
 						$row->id_livre,
 						$row->nb_max_user,
-						$row->statut,
+						$row->status,
 						$row->nb_max_report_needed,
 						$row->closed
 					), new Book_e (
@@ -104,7 +104,7 @@ class Salon_model extends CI_Model
 		return false;
 	}
 
-	public function checkSalonStatut()
+	public function checkSalonstatus()
 	{
 		$query = $this->db->from($this->table);
 		$query = $this->db->get();
@@ -112,16 +112,16 @@ class Salon_model extends CI_Model
 		if($query->num_rows() > 0) {
 			foreach ($query->result() as $row) {
 				if($row->closed == 0) {
-					if($row->statut == 1) {
+					if($row->status == 1) {
 						if($row->end_date <= date('Y-m-d H:i:s')) {
-							 $data = array('statut' => 0);
+							 $data = array('status' => 0);
 							 $this->db->where('id', $row->id);
 							 $this->db->update('salon', $data);
 						}
 					}
-					if($row->statut == 0) {
+					if($row->status == 0) {
 						if($row->start_date <= date('Y-m-d H:i:s')) {
-							 $data = array('statut' => 1);
+							 $data = array('status' => 1);
 							 $this->db->where('id', $row->id);
 							 $this->db->update('salon', $data);
 						}
@@ -129,6 +129,15 @@ class Salon_model extends CI_Model
 				}
 			}
 		}
+	}
+
+	public function getMaxReport($id)
+	{
+		$this->db->select('nb_max_report_needed');
+		$this->db->from($this->table);
+		$query = $this->db->get();
+		$res = $query->row();
+		return $res->nb_max_report_needed;
 	}
 
 	public function delete($id)
