@@ -25,7 +25,11 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['dashboard'] = 'admin/index';
 $route['userListing'] = 'admin/userListing';
-$route['userListing/(:num)'] = "admin/userListing/$1"; 
+$route['userListing/(:num)'] = 'admin/userListing/$1';
+$route['categoryListing'] = 'admin/categoryListing';
+$route['categoryListing/(:num)'] = 'admin/categoryListing/$1';
 $route['deleteUser'] = 'admin/deleteUser';
+$route['deleteCategory'] = 'admin/deleteCategory';
 $route['activateUser'] = 'admin/activate';
-$route['desactivateUser'] = 'admin/desactivate';
+$route['desactivateUser'] = 'admin/deactivate';
+

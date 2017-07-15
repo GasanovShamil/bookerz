@@ -96,6 +96,12 @@
               <a href="<?php echo base_url('dashboard'); ?>">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
               </a>
+            </li>  
+            <li class="treeview">
+              <a href="#" >
+                <i class="fa fa-files-o"></i>
+                <span>Pages statiques</span>
+              </a>
             </li>         
             <li class="treeview">
               <a href="<?php echo base_url(); ?>userListing">
@@ -103,7 +109,7 @@
                 <span>Utilisateurs</span>
               </a>
             </li>
-            <li class="treeview">
+            <li class="treeview">	
               <a href="#" >
                 <i class="fa fa-ticket"></i>
                 <span>Salons</span>
@@ -111,8 +117,14 @@
             </li>
             <li class="treeview">
               <a href="#" >
-                <i class="fa fa-files-o"></i>
+                <i class="fa fa-book"></i>
                 <span>Livres</span>
+              </a>
+            </li>  
+            <li class="treeview">
+              <a href="<?php echo base_url(); ?>categoryListing" >
+                <i class="fa fa-cubes"></i>
+                <span>Categories</span>
               </a>
             </li>  
           </ul>

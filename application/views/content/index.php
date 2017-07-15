@@ -21,8 +21,10 @@
             //save the columns names in a array that we will use as filter   
             $options_order = array('title' => 'title', 'author' => 'author');
             $options_category = array();    
+            if(! empty($categories)){
             foreach ($categories as $array) {
             	$options_category[$array->getName()] = $array->getName();
+            }
             }
             echo form_open('content/index', $attributes);
            ?> <div class="filtre"> <?php 
@@ -44,7 +46,7 @@
 
                 <div class="row bloc">
             <?php 
-            if($books){
+            if(! empty($books)){
             foreach ($books as $book){?>
                     <div class="col-md-3 col-sm-6"	>
                         <!--Collection card-->

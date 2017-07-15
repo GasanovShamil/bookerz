@@ -68,7 +68,8 @@ CREATE TABLE `book_note` (
 
 CREATE TABLE `category` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `name` varchar(40) NOT NULL
+  `name` varchar(40) NOT NULL,
+  `description` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------

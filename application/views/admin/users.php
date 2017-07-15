@@ -63,6 +63,7 @@
                      <?php	}else {   ?>
                       		<a class="activation" href="#" data-userid ="<?php echo $user->id; ?>" data-url = "<?php echo base_url()."admin/activate/" ;?>" ><span class="label label-danger activate">Inactive</span></a>
                       <?php	}	?>
+                      </td>
                       <td class="text-center">
                      
                         <a class="btn btn-sm btn-info" href="<?php echo base_url().'admin/edit_user/'.$user->id;?>"><i class="fa fa-pencil"></i></i></a>
@@ -172,7 +173,7 @@
         			data : { userId : userId } 
         			}).done(function(data){
         				console.log('ok');
-        				if(data.status = true) { 
+        				if(data.status == true) { 
         					$('#confirm-modal .modal-header p').html('Success');
         					$('#confirm-modal .modal-body').html('User successfully changed');
         					if(data.mode == 'active'){
@@ -183,7 +184,7 @@
             					currentRow.data('url', '<?php echo base_url()."admin/activate/" ; ?>');
             				}
             			}
-        				else if(data.status = false) { 
+        				else if(data.status == false) { 
             				$('#confirm-modal .modal-header p').html('Fail');
         					$('#confirm-modal .modal-body').html('User deletion failed');
             			}
