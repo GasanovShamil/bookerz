@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `book` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `date` date NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `book` (
 --
 
 CREATE TABLE `BOOK_CATEGORY` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_book` int(11) NOT NULL,
   `id_category` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -53,7 +53,7 @@ CREATE TABLE `BOOK_CATEGORY` (
 --
 
 CREATE TABLE `book_note` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_book` int(11) NOT NULL,
   `note` int(11) NOT NULL,
@@ -67,8 +67,9 @@ CREATE TABLE `book_note` (
 --
 
 CREATE TABLE `CATEGORY` (
-  `id` int(11) NOT NULL,
-  `name` varchar(40) NOT NULL
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `description` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -78,7 +79,7 @@ CREATE TABLE `CATEGORY` (
 --
 
 CREATE TABLE `chatroom_to_salon` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_salon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -103,7 +104,7 @@ CREATE TABLE `ci_sessions` (
 --
 
 CREATE TABLE `has_book` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_book` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_status` int(11) NOT NULL
@@ -116,7 +117,7 @@ CREATE TABLE `has_book` (
 --
 
 CREATE TABLE `messages_salon` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_salon` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `message` text NOT NULL,
@@ -130,7 +131,7 @@ CREATE TABLE `messages_salon` (
 --
 
 CREATE TABLE `salon` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
@@ -148,7 +149,7 @@ CREATE TABLE `salon` (
 --
 
 CREATE TABLE `status_book` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `libelle` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -159,52 +160,19 @@ CREATE TABLE `status_book` (
 --
 
 CREATE TABLE `users_salon` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_salon` int(11) NOT NULL,
   `role` int(11) NOT NULL,
   `nb_signaled` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
---
--- Index pour les tables exportées
---
 
---
--- Index pour la table `book`
---
-ALTER TABLE `book`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `BOOK_CATEGORY`
---
 ALTER TABLE `BOOK_CATEGORY`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `BOOK_CATEGORY_fk0` (`id_book`),
   ADD KEY `BOOK_CATEGORY_fk1` (`id_category`);
 
---
--- Index pour la table `book_note`
---
-ALTER TABLE `book_note`
-  ADD PRIMARY KEY (`id`);
 
---
--- Index pour la table `CATEGORY`
---
-ALTER TABLE `CATEGORY`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `chatroom_to_salon`
---
-ALTER TABLE `chatroom_to_salon`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `ci_sessions`
---
 ALTER TABLE `ci_sessions`
   ADD KEY `ci_sessions_timestamp` (`timestamp`);
 

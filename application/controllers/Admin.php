@@ -8,7 +8,9 @@ class Admin extends Admin_Controller {
 		$this->load->model ( 'Book_model' );
 		$this->load->model ( 'Salon_model' );
 		$this->load->model ( 'User_model' );
+		$this->load->model ( 'Category_model' );
 		$this->load->helper ( "url",'language');
+		$this->load->library('pagination');
 		$this->load->library(array('ion_auth','form_validation','pagination'));
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 		
@@ -21,12 +23,14 @@ class Admin extends Admin_Controller {
 	}
 	
 	
+	// START USER ADMINISTRATION
+	
 	public function userListing()
 	{		
 			$searchText = $this->input->post('searchText');
 			$this->data['searchText'] = $searchText;
 			
-			$this->load->library('pagination');
+			
 			
 			$count = $this->User_model->userListingCount($searchText);
 			$returns = $this->paginationCompress ( "userListing/", $count, 5 );
@@ -41,14 +45,19 @@ class Admin extends Admin_Controller {
 			$this->render ( 'admin/users', $this->data);		
 	}
 	
+	
+	
 	function deleteUser()
 	{
 			
 			$userId = $this->input->post('userId');
 			$result = $this->User_model->delete_user($userId);
 			
-			if ($result === true) { echo(json_encode(array('status'=>TRUE))); }
-			else { echo(json_encode(array('status'=>FALSE))); }
+			if ($result === true) { 
+				echo(json_encode(array('status'=>TRUE))); }
+			else { 
+				echo(json_encode(array('status'=>FALSE))); 
+			}
 		
 	}
 	
@@ -299,6 +308,160 @@ class Admin extends Admin_Controller {
 		if ($desactivation=== true) { echo(json_encode(array('status'=>TRUE,'mode'=>'inactive','message' => $this->ion_auth->messages()))); }
 		else { echo(json_encode(array('status'=>FALSE, 'message'=> $this->ion_auth->errors()))); }
 	}
+	
+	
+	
+	// END USER ADMINISTRATION
+	
+	// START CATEGORY ADMINISTRATION
+	
+	public function categoryListing()
+	{
+		$searchText = $this->input->post('searchText');
+		$this->data['searchText'] = $searchText;
+		
+		
+		
+		$count = $this->Category_model->categoryListingCount($searchText);
+		$returns = $this->paginationCompress ( "categoryListing/", $count, 2 );
+		
+		$this->data['categoryRecords'] = $this->Category_model->categoryListing($searchText, $returns["page"], $returns["segment"]);
+		$this->render ( 'admin/categories', $this->data);
+	}
+	
+	
+	
+	
+	public function editCategory($id)
+	{
+		$category = $this->Category_model->getCategory($id);
+				
+		// validate form input
+		$this->form_validation->set_rules('name', 'Nom de category', 'required');
+		$this->form_validation->set_rules('description', 'Description de category', 'required');
+		
+		if (isset($_POST) && !empty($_POST))
+		{
+			if ($this->form_validation->run() === TRUE)
+			{
+				$data = array(
+						'name' => $this->input->post('name'),
+						'description'  => $this->input->post('description')
+				);
+				
+				
+				if($this->Category_model->updateCategory($data, $id))
+				{
+					$this->session->set_flashdata('message', 'Category cree!');
+					redirect('categoryListing', 'refresh');
+				}
+				else
+				{
+					// redirect them back to the admin page if admin, or to the base url if non admin
+					$this->session->set_flashdata('message', 'erreur' );
+					redirect('categoryListing', 'refresh');
+				}
+				
+			}
+		}
+		
+		
+		
+		// set the flash data error message if there is one
+		$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+		
+		// pass the user to the view
+		$this->data['id'] = $category->getId();
+			
+		$this->data['name'] = array(
+				'name'  => 'name',
+				'id'    => 'name',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('name', $category->getName()),
+		);
+		$this->data['description'] = array(
+				'name'  => 'description',
+				'id'    => 'description',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('last_name', $category->getDescription()),
+		);
+				
+		// 		$this->_render_page('auth/edit_user', $this->data);
+		$this->render('admin/edit_category', $this->data);
+	}
+	
+	public function create_category()
+	{
+		
+		// validate form input
+		$this->form_validation->set_rules('name', 'Nom de category', 'required');
+		$this->form_validation->set_rules('description', 'Description de category', 'required');
+		
+		if (isset($_POST) && !empty($_POST))
+		{
+			if ($this->form_validation->run() === TRUE)
+			{
+				$data = array(
+						'name' => $this->input->post('name'),
+						'description'  => $this->input->post('description')
+				);
+				
+				
+				if($this->Category_model->createCategory($data))
+				{
+					$this->session->set_flashdata('message', 'Category cree!');
+					redirect('categoryListing', 'refresh');
+				}
+				else
+				{
+					// redirect them back to the admin page if admin, or to the base url if non admin
+					$this->session->set_flashdata('message', 'erreur' );
+					redirect('categoryListing', 'refresh');
+				}
+				
+			}
+		}
+		
+		// set the flash data error message if there is one
+		$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+			
+		$this->data['name'] = array(
+				'name'  => 'name',
+				'id'    => 'name',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('name'),
+		);
+		$this->data['description'] = array(
+				'name'  => 'description',
+				'id'    => 'description',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('description'),
+		);
+		
+		// 		$this->_render_page('auth/edit_user', $this->data);
+		$this->render('admin/create_category', $this->data);
+	}
+	
+	
+	function deleteCategory()
+	{
+		
+		$categoryId= $this->input->post('categoryId');
+		
+		if ($this->Category_model->isCategoryUsed($categoryId)){
+			echo(json_encode(array('status'=>FALSE, 'message'=>'Category used in book')));
+		}else{
+		$result = $this->Category_model->deleteCategory($categoryId);
+		
+		if ($result === true) { echo(json_encode(array('status'=>TRUE, 'message'=>'Categorie successfully deleted'))); }
+		else { echo(json_encode(array('status'=>FALSE,'message'=>'Unknown error'))); }
+		}
+	}
+	
+	// END  CATEGORY ADMINISTRATION
+	
+	
+	//help functions
 	
 	public function _get_csrf_nonce()
 	{
