@@ -7,11 +7,11 @@ class Salon_e
     private $end_date;
     private $id_livre;
     private $nb_max_user;
-    private $statut;
+    private $status;
     private $nb_max_report_user;
     private $closed;
 
-    public function __construct($id, $name, $start_date, $end_date, $id_livre, $nb_max_user, $statut, $nb_max_report_needed, $closed)
+    public function __construct($id, $name, $start_date, $end_date, $id_livre, $nb_max_user, $status, $nb_max_report_needed, $closed)
     {
         $this->id                   = $id;
         $this->name                 = $name;
@@ -19,7 +19,7 @@ class Salon_e
         $this->end_date             = $end_date;
         $this->id_livre             = $id_livre;
         $this->nb_max_user          = $nb_max_user;
-        $this->statut               = $statut;
+        $this->status               = $status;
         $this->nb_max_report_user   = $nb_max_report_needed;
         $this->closed               = $closed;
     }
@@ -89,14 +89,14 @@ class Salon_e
     }
 
 
-    public function getStatut()
+    public function getstatus()
     {
-        return $this->statut;
+        return $this->status;
     }
 
-    public function setStatut($statut)
+    public function setstatus($status)
     {
-        $this->statut = $statut;
+        $this->status = $status;
     }
 
 

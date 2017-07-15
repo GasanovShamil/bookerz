@@ -46,7 +46,7 @@ CREATE TABLE `SALON` (
 	`end_date` DATE NOT NULL,
 	`id_livre` int NOT NULL,
 	`nb_max_user` int NOT NULL,
-	`statut` int NOT NULL,
+	`status` int NOT NULL,
 	`nb_max_report_needed` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
@@ -117,7 +117,7 @@ CREATE TABLE `SHARE` (
 	`id_user_get` int,
 	`id_book` int NOT NULL,
 	`date` DATE NOT NULL,
-	`statut` int NOT NULL,
+	`status` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
 

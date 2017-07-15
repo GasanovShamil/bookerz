@@ -126,6 +126,7 @@ $(document).ready(function(){
         var height = div[0].scrollHeight;
         var username = $("#chatInput").data("username");
         var userid = $("#chatInput").data("userid");
+        var id_salon_parent = $(".chatroom").data("idsalonparent");
 
         $('.loading').show();
         $.ajax({
@@ -188,12 +189,12 @@ $(document).ready(function(){
                 if(response.room == room) {
                     $('.msg-bloc').append(
                         '<div class="notif">'
-                        +username+
+                        +jsUcfirst(username)+
                         ' est deconnecté</div>'
                     );
 
                     var userDiv = ".user_"+response.userid;
-                    $(userDiv).fadeOut(200);
+                    $(userDiv).remove();
 
                     div.scrollTop(height);
 
@@ -206,6 +207,28 @@ $(document).ready(function(){
                     });
                 }
             });
+
+            socket.on('checkReport', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'salon/checkBan',
+                    dataType: 'json',
+                    data: {id_salon_parent: id_salon_parent},
+                    cache: false,
+                    success: function(data) {
+                        console.log(data);
+                        if(data.status == 'success') {
+                            $('#alert-modal .modal-header p').html('Exclus du salon');
+                            $('#alert-modal .modal-body').html('Vous avez été exclus du salon suite à votre comportement. Vous allez être redirigé');
+                            $('#alert-modal').modal('show');
+                            setTimeout( function(){
+                                window.location.replace(base_url + "salon/");
+                            }  , 3000 );
+                        }
+                    }
+                });
+            });
+
         }
 
         $('#chatInput').keydown(function(e) {
@@ -242,7 +265,24 @@ $(document).ready(function(){
         $('.userL').click(function() {
             var userHit = $(this).data('user');
             if(userid != userHit) {
-                $('#confirm-modal').modal('show');
+                $.ajax({
+                    type : 'POST',
+                    url : base_url + 'salon/checkReport',
+                    dataType : 'json',
+                    data : {id_user_reported: userHit, id_salon: room},
+                    cache : false,
+                    success: function(data){
+                        if( data.status == 'error' ) {
+                            // error handling, show data.message or what you want.
+                            $('#confirm-modal').modal('show');
+                        } else {
+                            // same as above but with success
+                            $('#alert-modal .modal-header p').html('Signaler');
+                            $('#alert-modal .modal-body').html('Vous avez déjà signalé cet utilisateur dans ce salon.');
+                            $('#alert-modal').modal('show');
+                        }
+                    }
+                });
 
                 $('#confirmReport').click(function() {
                     var reason = $('#reason').val();
@@ -253,13 +293,19 @@ $(document).ready(function(){
                             dataType : 'json',
                             data : {id_user_reported: userHit, id_salon: room, reason: reason},
                             cache: false,
-                            success: function() {
+                            success: function(data) {
+                                socket.emit('report');
                                 $('#confirm-modal').modal('hide');
-                                // notif
+                                $('#alert-modal .modal-header p').html('Signaler');
+                                $('#alert-modal .modal-body').html('Nous avons bien reçu votre signalement.');
+                                $('#alert-modal').modal('show');
                             }, error: function() {
-                                // notif
+                                $('#confirm-modal').modal('hide');
+                                $('#alert-modal .modal-header p').html('Signaler');
+                                $('#alert-modal .modal-body').html('Vous avez déjà signalé cet utilisateur');
+                                $('#alert-modal').modal('show');
                             }
-                        })
+                        });
                     } else {
 
                     }
@@ -344,9 +390,28 @@ $(document).ready(function(){
                 success: function(data)
                 {
                     if(data === "success") {
-                        $.get( base_url + "salon/chatroomToSelect/"+idBook, function( data ) {
-                            redirectToChat(data);
+                        var id_salon_to_send = $('.modalNote').attr('id');
+                        $.ajax({
+                            type: 'POST',
+                            url: base_url + 'salon/checkBan',
+                            dataType: 'json',
+                            data: {id_salon_parent: id_salon_to_send},
+                            cache: false,
+                            success: function(data) {
+                                console.log(data);
+                                if(data.status == 'success') {
+                                    $('#alert-modal .modal-header p').html('Exclus du salon');
+                                    $('#alert-modal .modal-body').html('Vous avez été exclus du salon suite à votre comportement. Vous ne pouvez pas y retourner');
+                                    $('#alert-modal').modal('show');
+                                } else {
+                                    $.get( base_url + "salon/chatroomToSelect/"+idBook, function( data ) {
+                                        redirectToChat(data);
+                                    });
+                                }
+                            }
                         });
+                    } else { 
+                        $(".modalFade").fadeIn(300);
                     }
                 }
             });
@@ -356,8 +421,6 @@ $(document).ready(function(){
                 $('#title').html("Titre : "+data.title);
                 $('#author').html("Auteur : "+data.author);
             });
-
-            $(".modalFade").fadeIn(300);
 
             $("#gradeSubmit").click(function() {
                 var grade = $('input[name=rating]:checked').val();

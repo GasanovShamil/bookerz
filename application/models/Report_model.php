@@ -38,4 +38,13 @@ class Report_model extends CI_Model
 
         return false;
     }
+
+    public function checkBan($id_user_reported, $room)
+    {
+        $this->db->from($this->table);
+        $this->db->where(array('id_user_reported' => $id_user_reported, 'id_salon' => $room));
+        $query = $this->db->get();
+
+        return $query->num_rows();
+    }
 }

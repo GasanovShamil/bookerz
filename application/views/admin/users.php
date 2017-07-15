@@ -159,7 +159,7 @@
         	var userId = currentRow.data("userid");
 			var hitURL = currentRow.data('url');
         	$('#confirm-modal .modal-header p').html('Confirmation');
-			$('#confirm-modal .modal-body').html('Etes-vous sur(e) de vouloir changer le statut cet utilisateur ?');
+			$('#confirm-modal .modal-body').html('Etes-vous sur(e) de vouloir changer le status cet utilisateur ?');
 			$('#confirm-modal .modal-footer').show();
 			$('#confirm-modal .modal-footer a').html('Yes');
             $('#confirm-modal').modal('show');   

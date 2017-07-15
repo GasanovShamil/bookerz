@@ -30,4 +30,8 @@ io.on('connection', function (socket) {
         io.emit('leave', socket.username, socket.room, socket.userid);
     });
 
+    socket.on('report', function() {
+        io.emit('checkReport');
+    })
+
 });

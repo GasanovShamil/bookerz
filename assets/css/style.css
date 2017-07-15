@@ -244,9 +244,7 @@ nav {
 /* CHAT ROOM */
 /************************************************/
 
-*, *:before, *:after {
-    box-sizing: border-box;
-}
+
 
 .bloc-message {
     border: blue 2px solid;
@@ -778,7 +776,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .msg-container {
     display: grid;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .author-msg {
@@ -822,6 +820,8 @@ h1, h2, h3, h4, h5, h6 {
 .notif {
     color: grey;
     font-style: italic;
+    margin-left: 15px;
+    margin-bottom: 20px;
 }
 
 /*footer*/
