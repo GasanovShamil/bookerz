@@ -11,9 +11,10 @@ class Book_e {
 	private $collection;
 	private $ISBN10;
 	private $ISBN13;
+	private $statut;
 	
 	
-	public function __construct($id, $title, $description, $date, $author, $published, $editor, $collection, $ISBN10 = NULL, $ISBN13 = NULL) {
+	public function __construct($id, $title, $description, $date, $author, $published, $editor, $collection, $ISBN10 = NULL, $ISBN13 = NULL,$statut) {
 		$this->id = $id;
 		$this->title = $title;
 		$this->description = $description;
@@ -24,6 +25,7 @@ class Book_e {
 		$this->collection= $collection;
 		$this->ISBN10= $ISBN10;
 		$this->ISBN13= $ISBN13;
+		$this->statut = $statut;
 	}
 	
 	
@@ -62,5 +64,8 @@ class Book_e {
 	}
 	public function getISBN13(){
 		return $this->ISBN13;
+	}
+	public function getStatut(){
+		return $this->statut;
 	}
 }

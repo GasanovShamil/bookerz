@@ -28,8 +28,11 @@ $route['userListing'] = 'admin/userListing';
 $route['userListing/(:num)'] = 'admin/userListing/$1';
 $route['categoryListing'] = 'admin/categoryListing';
 $route['categoryListing/(:num)'] = 'admin/categoryListing/$1';
+$route['bookListing'] = 'admin/bookListing';
+$route['bookListing/(:num)'] = 'admin/bookListing/$1';
 $route['deleteUser'] = 'admin/deleteUser';
 $route['deleteCategory'] = 'admin/deleteCategory';
 $route['activateUser'] = 'admin/activate';
 $route['desactivateUser'] = 'admin/deactivate';
+$route['deleteBook'] = 'admin/deleteBook';
 

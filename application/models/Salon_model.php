@@ -1,4 +1,5 @@
 <?php
+defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 require_once (CLASSES_DIR . "Salon_e.php");
 require_once (CLASSES_DIR . "Book_e.php");
 class Salon_model extends CI_Model

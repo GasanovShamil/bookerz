@@ -79,7 +79,7 @@ class Category_model extends CI_Model {
 		return count ( $query->result () );
 	}
 	
-	function categoryListing($searchText = '', $page = NULL, $segment = NULL) {
+	function categoryListing($searchText = '', $page, $segment) {
 		$this->db->select ( 'id, name, description' );
 		$this->db->from ( $this->table );
 		if (! empty ( $searchText )) {
@@ -87,9 +87,9 @@ class Category_model extends CI_Model {
 							 OR  description  LIKE '%" . $searchText . "%')";
 			$this->db->where ( $likeCriteria );
 		}
-		if ($page && $segment) {
-			$this->db->limit ( $page, $segment );
-		}
+		
+		$this->db->limit ( $page, $segment );
+		
 		$query = $this->db->get ();
 		if ($query->num_rows () > 0) {
 			foreach ( $query->result () as $row ) {

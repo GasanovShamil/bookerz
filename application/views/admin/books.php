@@ -2,7 +2,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fa fa-users"></i> Category Management
+        <i class="fa fa-users"></i> Book Management
         <small>Add, Edit, Delete</small>
       </h1>
     </section>
@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-xs-12 text-right">
                 <div class="form-group">
-                    <?php echo anchor('admin/create_category', '<i class="fa fa-plus"></i> Add New', array('class' => 'btn btn-primary'))?>
+                    <?php echo anchor('admin/create_book', '<i class="fa fa-plus"></i> Add New', array('class' => 'btn btn-primary'))?>
                 </div>
             </div>
         </div>
@@ -18,15 +18,18 @@
             <div class="col-xs-12">
               <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Categories List</h3>
+                    <h3 class="box-title">Books List</h3>
                     <div class="box-tools">
-                        <form action="<?php echo base_url() ?>categoryListing" method="POST" id="searchList">
+                        <form action="<?php echo base_url() ?>bookListing" method="POST" id="searchList" class="form-inline">
                             <div class="input-group">
+                             <?php echo form_dropdown('category', $categories, $category,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
+                           
                               <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
                               <div class="input-group-btn">
                                 <button class="btn btn-sm btn-default searchList"><i class="fa fa-search"></i></button>
                               </div>
                             </div>
+                           
                         </form>
                     </div>
                 </div><!-- /.box-header -->
@@ -34,23 +37,39 @@
                   <table class="table table-hover">
                     <tr>
                       <th>Id</th>
-                      <th>Name</th>
+                      <th>Title</th>
                       <th>Description</th>
+                      <th>Date</th>
+                      <th>Author</th>
+                      <th>Published</th>
+                      <th>Editor</th>
+                      <th>Collection</th>
+                      <th>ISBN10</th>
+                      <th>ISBN13</th>
+                      <th>statut</th>
                       <th class="text-center">Actions</th>
                     </tr>
                     <?php
-                    if(!empty($categoryRecords))
+                    if(!empty($bookRecords))
                     {
-                    	foreach($categoryRecords as $category)
+                    	foreach($bookRecords as $book)
                         {
                     ?>
                     <tr>
-                      <td><?php echo $category->getId(); ?></td>
-                      <td><?php echo $category->getName(); ?></td>
-                      <td><?php echo $category->getDescription();?></td>
+                      <td><?php echo $book->getId(); ?></td>
+                      <td><?php echo $book->getTitle(); ?></td>
+                      <td><?php echo $book->getDescription();?></td>
+                      <td><?php echo $book->getDate(); ?></td>
+                      <td><?php echo $book->getAuthor(); ?></td>
+                      <td><?php echo $book->getPublished(); ?></td>
+                      <td><?php echo $book->getEditor(); ?></td>
+                      <td><?php echo $book->getCollection(); ?></td>
+                      <td><?php echo $book->getISBN10(); ?></td>
+                      <td><?php echo $book->getISBN13(); ?></td>
+                      <td><?php echo $book->getStatut(); ?></td>
                       <td class="text-center">
-                        <a class="btn btn-sm btn-info" href="<?php echo base_url().'admin/editCategory/'.$category->getId();?>"><i class="fa fa-pencil"></i></i></a>
-                        <a class="btn btn-sm btn-danger deleteCategory" href="#" data-categoryid="<?php echo $category->getId(); ?>"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-sm btn-info" href="<?php echo base_url().'admin/editBook/'.$book->getId();?>"><i class="fa fa-pencil"></i></i></a>
+                        <a class="btn btn-sm btn-danger deleteBook" href="#" data-bookid="<?php echo $book->getId(); ?>"><i class="fa fa-trash"></i></a>
                         
                       </td>
                     </tr>
@@ -94,28 +113,26 @@
             e.preventDefault();            
             var link = $(this).get(0).href;            
             var value = link.substring(link.lastIndexOf('/') + 1);
-            $("#searchList").attr("action", baseURL + "categoryListing/" + value);
+            $("#searchList").attr("action", baseURL + "bookListing/" + value);
             $("#searchList").submit();
         });
 
-        $(document).on("click", ".deleteCategory", function(){
+        $(document).on("click", ".deleteBook", function(){
         	var currentRow = $(this);
-        	var categoryId = currentRow.data("categoryid");
-        	console.log(categoryId);
-			var hitURL = baseURL + "deleteCategory";
+        	var bookid = currentRow.data("bookid");
+			var hitURL = baseURL + "deleteBook";
 			currentRow = $(this);
         	$('#confirm-modal .modal-header p').html('Confirmation');
-			$('#confirm-modal .modal-body').html('Vous etes sur de vouloir supprimer cette category ?');
+			$('#confirm-modal .modal-body').html('Vous etes sur de vouloir supprimer ce livre ?');
 			$('#confirm-modal .modal-footer').show();
 			$('#confirm-modal .modal-footer a').html('Delete');
             $('#confirm-modal').modal('show');   
             $('#confirm').click(function(e){
-                console.log("ok");
                 $.ajax({
         			type : "POST",
         			dataType : "json",
         			url : hitURL,
-        			data : { categoryId : categoryId } 
+        			data : { bookid : bookid } 
         			}).done(function(data){
         				   				
         				if(data.status == true) { 

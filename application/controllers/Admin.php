@@ -1,5 +1,7 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
+require_once (CLASSES_DIR . "Salon_e.php");
+require_once (CLASSES_DIR . "Book_e.php");
 class Admin extends Admin_Controller {
 	
 	public function __construct() {
@@ -323,7 +325,7 @@ class Admin extends Admin_Controller {
 		
 		
 		$count = $this->Category_model->categoryListingCount($searchText);
-		$returns = $this->paginationCompress ( "categoryListing/", $count, 2 );
+		$returns = $this->paginationCompress ( "categoryListing/", $count, 5 );
 		
 		$this->data['categoryRecords'] = $this->Category_model->categoryListing($searchText, $returns["page"], $returns["segment"]);
 		$this->render ( 'admin/categories', $this->data);
@@ -459,6 +461,70 @@ class Admin extends Admin_Controller {
 	}
 	
 	// END  CATEGORY ADMINISTRATION
+	
+	// START SALON ADMINISTRATION
+	
+	public function salonListing()
+	{
+		$searchText = $this->input->post('searchText');
+		$this->data['searchText'] = $searchText;
+		
+		
+		
+		$count = $this->User_model->userListingCount($searchText);
+		$returns = $this->paginationCompress ( "userListing/", $count, 5 );
+		
+		$this->data['userRecords'] = $this->User_model->userListing(NULL, $searchText, $returns["page"], $returns["segment"])->result();
+		
+		foreach ($this->data['userRecords'] as $k => $user)
+		{
+			$this->data['userRecords'][$k]->groups = $this->User_model->get_users_groups($user->id)->result();
+		}
+		
+		$this->render ( 'admin/users', $this->data);
+	}
+	
+	// END SALON ADMINISTRATION
+	
+	// START BOOK ADMINISTRATION
+	
+	public function bookListing()
+	{
+		$searchText = $this->input->post('searchText');
+		$this->data['searchText'] = $searchText;
+		$category= $this->input->post('category');
+		$this->data['category'] = $category;
+		
+		$count = $this->Book_model->bookListingCount($searchText,$category);
+		$returns = $this->paginationCompress ( "bookListing/", $count, 5 );
+		
+		$this->data['bookRecords'] = $this->Book_model->bookListing($searchText, $category, $returns["page"], $returns["segment"]);
+		$catArray = $this->Category_model->getCategories();
+		$categories ['0'] = 'All categories';
+		foreach ($catArray as $cat ) {
+			$categories [$cat->getId()] = $cat->getName();
+		}
+		
+		$this->data['categories'] = $categories;
+				
+		$this->render ( 'admin/books', $this->data);
+	}
+	
+	function deleteBook()
+	{
+		
+		$bookId= $this->input->post('bookid');
+		
+		if ($this->Book_model->hasOpenRoom($bookId)){
+			echo(json_encode(array('status'=>FALSE, 'message'=>'Can not delete book with opened room')));
+		}else{
+			$result = $this->Book_model->deleteBook($bookId);
+			
+			if ($result === true) { echo(json_encode(array('status'=>TRUE, 'message'=>'Book successfully deleted'))); }
+			else { echo(json_encode(array('status'=>FALSE,'message'=>'Unknown error'))); }
+		}
+	}
+	// END BOOK ADMINISTRATION
 	
 	
 	//help functions

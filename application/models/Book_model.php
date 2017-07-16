@@ -96,7 +96,7 @@ class Book_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('book');
         $this->db->join('has_book', 'has_book.id_book = book.id');
-        $this->db->where(array('book.status' => $idstatus, 'has_book.id_user' => $idUser));
+        $this->db->where(array('book.statut' => $idstatus, 'has_book.id_user' => $idUser));
         $query = $this->db->get();
         return $query->result();
     }
@@ -123,6 +123,82 @@ class Book_model extends CI_Model {
 		if (isset($row)){
 			return $row;
 		}
+	}
+	
+	public function bookListing($searchText=null, $category = null, $page , $segment) {
+		
+		$this->db->limit ( $page, $segment);
+		
+		
+		$this->db->select('*');
+		$this->db->from($this->table);
+		
+		if($searchText){
+			$this->db->like('title', $searchText);
+		}
+		
+		if ($category){
+			$this->db->like('collection',$category);
+		}
+		
+		$query = $this->db->get();
+		
+		$books = array ();
+		if ($query->num_rows () > 0) {
+			foreach ( $query->result () as $row ) {
+				$books [] = new Book_e (
+						$row->id,
+						$row->title,
+						$row->description,
+						$row->date,
+						$row->author,
+						$row->published,
+						$row->editor,
+						$row->collection,
+						$row->ISBN10,
+						$row->ISBN13,
+						$row->statut
+						);
+			}
+			return $books;
+		}
+		return false;
+	}
+	
+	public function bookListingCount($searchText=null, $category = null) {
+		
+		$this->db->select('*');
+		$this->db->from($this->table);
+		
+		if($searchText){
+			$this->db->like('title', $searchText);
+		}
+		
+// 		if ($category){
+// 			$this->db->like('collection',$category);
+// 		}
+		
+		$query = $this->db->get();
+		
+		return $query->num_rows ();
+	}
+	
+	
+	public function hasOpenRoom($id){
+		$this->db->select('*');
+		$this->db->from('salon');
+		$data = array('id_livre'=> $id, 'closed'=>0);
+		$this->db->where($data);
+		return  $this->db->affected_rows () > 0;
+	}
+	
+	public function deleteBook($id){
+		$this->db->where('id_book', $id);
+		$this->db->delete('book_category');
+		
+		$this->db->where('id', $id);
+		$this->db->delete($this->table);
+		return  $this->db->affected_rows () > 0;
 	}
 
 }
