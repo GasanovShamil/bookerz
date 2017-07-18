@@ -618,79 +618,91 @@ $(document).ready(function(){
                             "dataSrc": "data"
                         },
                         "columns": [
-                            { "data": "title" },
-                            { "data": "author" },
-                            { "data": "ISBN13" }
+                            {"data": "title"},
+                            {"data": "author"},
+                            {"data": "ISBN13"}
                         ],
                         'columnDefs': [{
                             'targets': 3,
                             'searchable': false,
                             'orderable': false,
                             'className': 'dt-body-center',
-                            'render': function (data, id, value){
-                                return "<a onclick='addBookUser("+value.id+")'><span class='glyphicon glyphicon-plus'></span></a>";
+                            'render': function (data, id, value) {
+                                return "<a onclick='addBookUser(" + value.id + ")'><span class='glyphicon glyphicon-plus'></span></a>";
                             }
                         }],
-                            autoFill: true,
-                            "language": {
-                                "sProcessing":     "Traitement en cours...",
-                                "sSearch":         "Rechercher&nbsp;:",
-                                "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments par page",
-                                "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-                                "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-                                "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-                                "sInfoPostFix":    "",
-                                "sLoadingRecords": "Chargement en cours...",
-                                "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-                                "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
-                                "oPaginate": {
-                                    "sFirst":      "Premier",
-                                    "sPrevious":   "Pr&eacute;c&eacute;dent",
-                                    "sNext":       "Suivant",
-                                    "sLast":       "Dernier"
-                                },
-                                "oAria": {
-                                    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-                                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                        autoFill: true,
+                        "language": {
+                            "sProcessing": "Traitement en cours...",
+                            "sSearch": "Rechercher&nbsp;:",
+                            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments par page",
+                            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                            "sInfoPostFix": "",
+                            "sLoadingRecords": "Chargement en cours...",
+                            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                            "oPaginate": {
+                                "sFirst": "Premier",
+                                "sPrevious": "Pr&eacute;c&eacute;dent",
+                                "sNext": "Suivant",
+                                "sLast": "Dernier"
+                            },
+                            "columns": [
+                                {"data": "title"},
+                                {"data": "author"},
+                                {"data": "ISBN13"}
+                            ],
+                            'columnDefs': [{
+                                'targets': 3,
+                                'searchable': false,
+                                'orderable': false,
+                                'className': 'dt-body-center',
+                                'render': function (data, id) {
+                                    console.log(data);
+                                    console.log(id);
+                                    return "<button>Ajouter</button>";
                                 }
-                            }
-                        });
-
+                            }]
+                        }
+                    });
                         $('#table-book tbody').on( 'click', 'button', function () {
-                                    var data = table.row( $(this).parents('tr') ).data();
-                                    var urladd = base_url + 'book/addBookToUser';
-                                    console.log("iduser :"+data.id);
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: urladd,
-                                        dataType: 'json',
-                                        data: {id: data.id},
-                                        cache: false,
-                                        success: function (data) {
-                                            /*if(data == "success"){
-                                            $("#myModalInfo").modal("hide");
-                                            $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
-                                        }else{
-                                        console.log("no ok");
-                                    }*/
-                                }, error: function (ts) {
-                                    console.log("error");
-                                    console.log(ts.responseText);
-                                }
-                            });
-                        } );
-          }
-                        /*if(data == "success"){
-                        $("#myModalInfo").modal("hide");
-                        $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
-                    }else{
+                            var data = table.row( $(this).parents('tr') ).data();
+                            var urladd = base_url + 'book/addBookToUser';
+                            console.log("iduser :"+data.id);
+                            $.ajax({
+                                type: 'POST',
+                                url: urladd,
+                                dataType: 'json',
+                                data: {id: data.id},
+                                cache: false,
+                                success: function (data) {
+                                    /*if(data == "success"){
+                                    $("#myModalInfo").modal("hide");
+                                    $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
+                                }else{
+                                console.log("no ok");
+                            }*/
+                        }, error: function (ts) {
+                            console.log("error");
+                            console.log(ts.responseText);
+                        }
+                    });
+                } );
+
+                }
+                /*if(data == "success"){
+                    $("#myModalInfo").modal("hide");
+                    $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
+                }else{
                     console.log("no ok");
                 }*/
-                }, error: function (ts) {
-                    console.log("error");
-                    console.log(ts.responseText);
-                }
-            });
+            }, error: function (ts) {
+                console.log("error");
+                console.log(ts.responseText);
+            }
+    });
 });
 
 

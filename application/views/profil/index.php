@@ -34,7 +34,7 @@
                                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="myModalAddBook"></span>
                                         </a><img class="max-height-img" src="<?= base_url('assets/img/blank.png'); ?>" alt=""></a></figure>
                                 <div class="caption">
-                                    <a href="#" id="myModalAddBook">Ajouter un livre</a>
+                                    <a href="#" id="myModalAddBook" >Ajouter un livre</a>
                                     <p class="title"></p>
                                 </div>
                             </div>
