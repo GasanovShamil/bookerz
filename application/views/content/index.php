@@ -48,22 +48,19 @@
             <?php 
             if(! empty($books)){
             foreach ($books as $book){?>
-                    <div class="col-md-3 col-sm-6"	>
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a data-toggle="modal" data-target="#myModal">
-                                        <p><?php echo $book->getTitle();?><br> <?php echo $book->getId();?> <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
+                   
+                    <article class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
+                    <div class="thumb-pad2 maxheight1"><div class="box_inner">
+                        <div class="thumbnail">
+                            <figure><a href="#"><img class="max-height-img" src="<?php echo $book->getCover(); ?>" alt=""></a></figure>
+                                <div class="caption">
+                                    <a href="#"><?php echo $book->getTitle(); ?></a>
+                                    <p class="title" title="<?php echo $book->getAuthor(); ?>">de <?php echo $book->getAuthor(); ?> <br></p>
                                 </div>
                             </div>
-                            <!--/.Card image-->
                         </div>
-                        <!--/.Collection card-->
                     </div>
+                </article>
                    <?php }
             } else {
                    	?>

@@ -63,9 +63,12 @@
                       <td><?php echo $book->getAuthor(); ?></td>
                       <td><?php echo $book->getPublished(); ?></td>
                       <td><?php echo $book->getEditor(); ?></td>
-                      <td><?php foreach ($book->getCategories()as $cat):?>
+                      <td><?php 
+                      if(! empty($book->getCategories())){
+                      			foreach ($book->getCategories() as $cat):?>
 								<?php echo '<span class="label label-primary">'.htmlspecialchars($cat->getName(),ENT_QUOTES,'UTF-8').'</span>';?><br />
-			                <?php endforeach?></td>
+			                <?php endforeach;     
+                      }?></td>
                       <td><?php echo $book->getISBN10(); ?></td>
                       <td><?php echo $book->getISBN13(); ?></td>
                       <td class="text-center"><?php if($book->isAccepted()){ 
