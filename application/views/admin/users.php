@@ -22,6 +22,7 @@
                     <div class="box-tools">
                         <form action="<?php echo base_url() ?>userListing" method="POST" id="searchList">
                             <div class="input-group">
+                            <?php echo form_dropdown('status', $statuses, $status,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
                               <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
                               <div class="input-group-btn">
                                 <button class="btn btn-sm btn-default searchList"><i class="fa fa-search"></i></button>

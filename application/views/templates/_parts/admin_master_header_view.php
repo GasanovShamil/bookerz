@@ -96,7 +96,13 @@
               <a href="<?php echo base_url('dashboard'); ?>">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
               </a>
-            </li>  
+            </li> 
+            <li class="treeview">
+              <a href="#" >
+                <i class="fa fa-cog"></i>
+                <span>Configuration</span>
+              </a>
+            </li> 
             <li class="treeview">
               <a href="#" >
                 <i class="fa fa-files-o"></i>
@@ -116,7 +122,7 @@
               </a>
             </li>
             <li class="treeview">
-              <a href="#" >
+              <a href="<?php echo base_url(); ?>bookListing" >
                 <i class="fa fa-book"></i>
                 <span>Livres</span>
               </a>

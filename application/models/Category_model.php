@@ -38,6 +38,27 @@ class Category_model extends CI_Model {
 		}
 	}
 	
+	public function getBookCategories($book_id = NULL) {		
+		
+	
+		
+		$this->db->select('c.id,c.name,c.description')
+		->from('category c')
+		->join('book_category bc', 'bc.id_category = c.id', 'inner')
+		->where('bc.id_book', $book_id);
+		
+		$query= $this->db->get();
+		
+		if ($query->num_rows () > 0) {
+			foreach ( $query->result () as $row ) {
+				$categories [] = new Category_e ( $row->id, $row->name, $row->description );
+			}
+			return $categories;
+		}else{
+			return false;
+		}
+	}
+	
 	public function isCategoryUsed($id = NULL) {
 		
 		$this->db->select ( '*' );
@@ -79,7 +100,7 @@ class Category_model extends CI_Model {
 		return count ( $query->result () );
 	}
 	
-	function categoryListing($searchText = '', $page = NULL, $segment = NULL) {
+	function categoryListing($searchText = '', $page, $segment) {
 		$this->db->select ( 'id, name, description' );
 		$this->db->from ( $this->table );
 		if (! empty ( $searchText )) {
@@ -87,9 +108,9 @@ class Category_model extends CI_Model {
 							 OR  description  LIKE '%" . $searchText . "%')";
 			$this->db->where ( $likeCriteria );
 		}
-		if ($page && $segment) {
-			$this->db->limit ( $page, $segment );
-		}
+		
+		$this->db->limit ( $page, $segment );
+		
 		$query = $this->db->get ();
 		if ($query->num_rows () > 0) {
 			foreach ( $query->result () as $row ) {

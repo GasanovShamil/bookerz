@@ -20,6 +20,8 @@ class Home extends MY_Controller {
      */
     public function index()
     {
-    	$this->render('home/index');
+    	$homeTemplateName = $this->Config_model->getHomeTemplate();
+    	redirect ('pages/'.$homeTemplateName);
+    	//$this->render('home/index');
     }
 }

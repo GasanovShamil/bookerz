@@ -14,7 +14,6 @@ class Book_e {
 	private $cover;
 	private $categories;
 
-
 	public function __construct($id, $title, $description, $date, $author, $published, $editor, $ISBN10 = NULL, $ISBN13 = NULL,$accepted=FALSE, $cover = NULL, $categories = NULL) {
 		$this->id = $id;
 		$this->title = $title;
@@ -77,4 +76,6 @@ class Book_e {
 	public function setCategories($cat){
 		return $this->categories = $cat;
 	}
+
 }
+

@@ -2,7 +2,7 @@
     <section class="content-header">
       <h1>
         404
-        <small><?php echo $page->text ?></small>
+        <small><?php echo $page->text?></small>
       </h1>
     </section>
     <section class="content">
