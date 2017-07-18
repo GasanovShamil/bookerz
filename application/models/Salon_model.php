@@ -94,9 +94,10 @@ class Salon_model extends CI_Model
 						$row->author,
 						$row->published,
 						$row->editor,
-						$row->collection,
 						$row->ISBN10,
-						$row->ISBN13
+						$row->ISBN13,
+						$row->accepted,
+						$row->cover
 					)];
 			}
 			return $rooms;

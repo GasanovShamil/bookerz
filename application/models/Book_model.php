@@ -7,11 +7,11 @@ class Book_model extends CI_Model {
 		parent::__construct ();
 		$this->load->database ();
 	}
-	 
+
 	public function record_count() {
 		return $this->db->count_all ( $this->table );
 	}
-	
+
 	public function getBooks($search_string=null, $category = null, $order=null, $order_type='Asc', $limit = NULL, $start = NULL) {
 		if (! is_null ( $limit ) && ! is_null ( $start )) {
 			$this->db->limit ( $limit, $start );
@@ -47,9 +47,10 @@ class Book_model extends CI_Model {
 						$row->author,
 						$row->published,
 						$row->editor,
-						$row->collection,
 						$row->ISBN10,
-						$row->ISBN13
+						$row->ISBN13,
+						$row->accepted,
+						$row->cover
 						);
 			}
 			return $books;
@@ -70,9 +71,10 @@ class Book_model extends CI_Model {
 					$row->author,
 					$row->published,
 					$row->editor,
-					$row->collection,
 					$row->ISBN10,
-					$row->ISBN13 );
+					$row->ISBN13,
+					$row->accepted,
+					$row->cover);
 
 			return $book;
 		}
@@ -96,7 +98,7 @@ class Book_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('book');
         $this->db->join('has_book', 'has_book.id_book = book.id');
-        $this->db->where(array('book.status' => $idstatus, 'has_book.id_user' => $idUser));
+        $this->db->where(array('book.accepted' => $idstatus, 'has_book.id_user' => $idUser));
         $query = $this->db->get();
         return $query->result();
     }
@@ -123,6 +125,87 @@ class Book_model extends CI_Model {
 		if (isset($row)){
 			return $row;
 		}
+	}
+
+	public function bookListing($searchText = NULL, $category = NULL,$status = NULL, $page , $segment) {
+
+		$this->db->limit ( $page, $segment);
+
+
+		$this->db->select('b.*');
+		$this->db->from($this->table.' b');
+
+		if($searchText){
+			$this->db->like('title', $searchText);
+		}
+
+		if ($category != 0){
+			$this->db->join('book_category bc','bc.id_book = b.id', 'inner')->where('bc.id_category', $category);
+		}
+
+		if($status != -1){
+			$this->db->like('accepted', $status);
+		}
+
+		$query = $this->db->get();
+
+		$books = array ();
+		if ($query->num_rows () > 0) {
+			foreach ( $query->result () as $row ) {
+				$books [] = new Book_e (
+						$row->id,
+						$row->title,
+						$row->description,
+						$row->date,
+						$row->author,
+						$row->published,
+						$row->editor,
+						$row->ISBN10,
+						$row->ISBN13,
+						$row->accepted,
+						$row->cover
+						);
+			}
+			return $books;
+		}
+		return false;
+	}
+
+	public function bookListingCount($searchText=NULL, $category = NULL) {
+
+		$this->db->select('b.*');
+		$this->db->from($this->table.' b');
+
+		if($searchText){
+			$this->db->like('title', $searchText);
+		}
+
+		if ($category != 0){
+			$this->db->join('book_category bc','bc.id_book = b.id', 'inner')->where('bc.id_category', $category);
+		}
+
+		$query = $this->db->get();
+
+		return $query->num_rows ();
+	}
+
+
+	public function hasOpenRoom($id){
+		$this->db->select('*');
+		$this->db->from('salon');
+		$this->db->where('id_livre', $id);
+		$this->db->where('closed', 0);
+		$this->db->get();
+		return  $this->db->affected_rows () > 0;
+	}
+
+	public function deleteBook($id){
+		$this->db->where('id_book', $id);
+		$this->db->delete('book_category');
+
+		$this->db->where('id', $id);
+		$this->db->delete($this->table);
+		return  $this->db->affected_rows () > 0;
 	}
 
 }
