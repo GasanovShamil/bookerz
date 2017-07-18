@@ -416,6 +416,14 @@ $(document).ready(function(){
                 });
 
                 $('#chatInput').val('');
+                $('.msg-bloc').append(
+                    '<div class="msg-container"><div class="author-msg">'
+                    +username+
+                    '<div class="message">'
+                    +message+
+                    '</div></div></div>');
+
+                    div.scrollTop(height);
             }
         });
 
