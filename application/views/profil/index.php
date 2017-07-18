@@ -13,7 +13,8 @@
             <div class="col-md-7">
                 <h3><?php echo $_SESSION['last_name']." ".$_SESSION['first_name']?></h3>
                 <h4><?php echo $_SESSION['email']?></h4>
-                <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus.</p>
+                <!--<p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus.</p>-->
+                <button id="modal-book-api">Proposer un livre</button>
             </div>
         </div>
 
@@ -26,10 +27,25 @@
             <h1 class="titre-accueil">Mes livres</h1>
             <div class="row bloc">
                 <!--First column-->
+                <article class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
+                    <div class="thumb-pad2 maxheight1"><div class="box_inner">
+                            <div class="thumbnail thumbnail-vide">
+                                <figure><a href="#"><a>
+                                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="myModalAddBook"></span>
+                                        </a><img class="max-height-img" src="<?= base_url('assets/img/blank.png'); ?>" alt=""></a></figure>
+                                <div class="caption">
+                                    <a href="#" id="myModalAddBook">Ajouter un livre</a>
+                                    <p class="title"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <!--
                 <div class="col-md-3 col-sm-6 col-xs-6">
-                    <!--Collection card-->
+                    <!--Collection card--
                     <div class="card collection-card">
-                        <!--Card image-->
+                        <!--Card image--
                         <div class="view  hm-zoom">
                             <img src="<?= base_url('assets/img/blank.png'); ?>" class="img-fluid" alt="">
                             <div class="add-new-image">
@@ -38,31 +54,45 @@
                                 </a>
                             </div>
                         </div>
-                        <!--/.Card image-->
+                        <!--/.Card image--
                     </div>
-                    <!--/.Collection card-->
+                    <!--/.Collection card--
                 </div>
                 <!--/First column-->
                 <?php if(!empty($has_book)){
                     foreach ($has_book as $row){  ?>
-                <!--Second column-->
+                <!--Second column--
                 <div class="col-md-3 col-sm-6 col-xs-6">
-                    <!--Collection card-->
+                    <!--Collection card--
                     <div class="card collection-card">
-                        <!--Card image-->
+                        <!--Card image--
                         <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
+                            <img src="<?php echo $row->cover; ?>" class="img-fluid" alt="">
+                            <!--<img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">--
                             <div class="stripe dark">
                                 <a>
                                     <p><?php echo $row->title; ?> <br> <strong><?php echo $row->author; ?></strong> <br> <i class="fa fa-chevron-right"></i></p>
                                 </a>
                             </div>
                         </div>
-                        <!--/.Card image-->
+                        <!--/.Card image--
                     </div>
-                    <!--/.Collection card-->
+                    <!--/.Collection card--
                 </div>
                 <!--/Second column-->
+
+                <article class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
+                    <div class="thumb-pad2 maxheight1"><div class="box_inner">
+                        <div class="thumbnail">
+                            <figure><a href="#"><img class="max-height-img" src="<?php echo $row->cover; ?>" alt=""></a></figure>
+                                <div class="caption">
+                                    <a href="#"><?php echo $row->title; ?></a>
+                                    <p class="title" title="<?php echo $row->author; ?>">de <?php echo $row->author; ?> <br></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
                 <?php }
                     }else{ ?>
                     <p>Vous n'avez aucun livre.</p>
@@ -79,24 +109,18 @@
             <h1 class="titre-accueil">Livres en cours de validation.</h1>
             <div class="row bloc">
                 <?php foreach ($non_validate_book as $row){  ?>
-                    <!--Second column-->
-                    <div class="col-md-3 col-sm-6 col-xs-6">
-                        <!--Collection card-->
-                        <div class="card collection-card">
-                            <!--Card image-->
-                            <div class="view  hm-zoom">
-                                <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                                <div class="stripe dark">
-                                    <a>
-                                        <p><?php echo $row->title; ?> <br> <strong><?php echo $row->author; ?></strong> <br> <i class="fa fa-chevron-right"></i></p>
-                                    </a>
+                    <article class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
+                        <div class="thumb-pad2 maxheight1"><div class="box_inner">
+                                <div class="thumbnail">
+                                    <figure><a href="#"><img class="max-height-img" src="<?php echo $row->cover; ?>" alt=""></a></figure>
+                                    <div class="caption">
+                                        <a href="#"><?php echo $row->title; ?></a>
+                                        <p class="title" title="<?php echo $row->author; ?>">de <?php echo $row->author; ?> <br></p>
+                                    </div>
                                 </div>
                             </div>
-                            <!--/.Card image-->
                         </div>
-                        <!--/.Collection card-->
-                    </div>
-                    <!--/Second column-->
+                    </article>
                 <?php } ?>
             </div>
         </div>
@@ -270,6 +294,40 @@
                                     </tr>
                                 </thead>
                             </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal add book with api-->
+    <div class="modal fade" id="myModalAddBookAPI" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Proposer un livre.</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-inline" onsubmit="event.preventDefault(); searchBookApi(1);">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="title-book" placeholder="Titre">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="isbn-book" placeholder="ISBN">
+                                </div>
+                                <button type="submit"  class="btn btn-default">Submit</button>
+                            </form>
+                            <div id="results"></div>
+
+
                         </div>
                     </div>
                 </div>
