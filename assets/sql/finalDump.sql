@@ -28,10 +28,10 @@ CREATE TABLE `book` (
   `author` varchar(255) NOT NULL,
   `published` date NOT NULL,
   `editor` varchar(255) NOT NULL,
-  `collection` varchar(255) NOT NULL,
   `ISBN10` varchar(255) NOT NULL,
   `ISBN13` varchar(255) NOT NULL,
-  `statut` tinyint(1) NOT NULL
+  `accepted` BOOLEAN NOT NULL,
+  `cover` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -68,7 +68,8 @@ CREATE TABLE `book_note` (
 
 CREATE TABLE `category` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `name` varchar(40) NOT NULL
+  `name` varchar(40) NOT NULL,
+  `description` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
@@ -208,6 +209,43 @@ CREATE TABLE `banned_user`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `pages`
+--
+
+CREATE TABLE `pages` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NOT NULL,
+	`label` VARCHAR(100) NOT NULL,
+	`title` VARCHAR(150) NOT NULL,
+	`text` VARCHAR(2000) NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `templates` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NOT NULL,
+	`label` VARCHAR(100) NOT NULL,
+	`title` VARCHAR(150) NOT NULL,
+	`text` VARCHAR(2000) NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
+
+CREATE TABLE `config` (
+	`key` VARCHAR(50) NOT NULL,
+	`value` VARCHAR(2000) NOT NULL,
+	PRIMARY KEY (`key`)
+);
+
+
+CREATE TABLE `on_top` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`id_book` VARCHAR(50) NOT NULL,
+	PRIMARY KEY (`id`)
+);
 --
 -- Index pour la table `book_category`
 --
@@ -225,10 +263,52 @@ ALTER TABLE `ci_sessions`
 --
 -- Contraintes pour les tables exportées
 --
-
+ALTER TABLE `on_top`
+  ADD CONSTRAINT `on_top_fk0` FOREIGN KEY (`id_book`) REFERENCES `book` (`id`);
 --
 -- Contraintes pour la table `book_category`
 --
 ALTER TABLE `book_category`
   ADD CONSTRAINT `book_category_fk0` FOREIGN KEY (`id_book`) REFERENCES `book` (`id`),
   ADD CONSTRAINT `book_category_fk1` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`);
+
+  INSERT INTO `config` (`key`, `value`) VALUES
+('home_template', 'home-main');
+
+
+
+INSERT INTO `templates` (`name`, `label`, `title`, `text`) VALUES
+('error-page', 'Le Club des Critiques', 'Error', 'This is not the page you are looking for'),
+('home-main', 'Le Club des Critiques', 'Le concept', 'This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.'),
+('home-light', 'Le Club des Critiques', 'Light template', 'This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.');
+
+
+INSERT INTO `category`(`name`, `description`) VALUES
+('Fantasy','Fantasy'),
+('Anthologie','Anthologie'),
+('Anthropologie','Anthropologie'),
+('Arts','Arts'),
+('Autobiographie','Autobiographie'),
+('Autoportrait','Autoportrait'),
+('Bd','Bd'),
+('Beaux-Livres','Beaux-Livres'),
+('Biographie','Biographie'),
+('Chroniques','Chroniques'),
+('Comics','Comics'),
+('Dictionnaire','Dictionnaire'),
+('Espionnage','Espionnage'),
+('Fantastique','Fantastique'),
+('Humour','Humour'),
+('Philosophie','Philosophie'),
+('Roman','Roman'),
+('Trag�die','Trag�die');
+
+
+INSERT INTO `book`(`title`, `description`, `date`, `author`, `published`, `editor`, `ISBN10`, `ISBN13`, `accepted`,`cover`) VALUES
+('Les Torrents d’argent','Drizzt et ses compagnons partent en qu�te de la cit� de Castelmithral, le berceau l�gendaire du peuple de Bruenor. Confront� au racisme, Drizzt envisage s�rieusement de regagner les t�n�bres de l�Outreterre. De son c�t�, Wulfgar commence � surmonter son aversion atavique pour la magie. Quant � R�gis, il cherche � �chapper � un redoutable assassin qui s�est alli� � des magiciens mal�fiques. Ces derniers ont jur� la perte des compagnons et CattiBrie est la seule � pouvoir contrecarrer leurs plans.','2017-07-16','R.A. Salvatore','2010-11-24','Milady','2820500552',' 9782820500557',FALSE,'https://books.google.fr/books/content?id=VXmGAQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71f2u1t3-snXEJdN6eYzsmt9M3c7_19jbG5uKMtd5OIN--ZaT1-C90OawwTeYjiR7ou9UP15dmQLJDsKXeUIA2emT4KdJ_qpyL5WYtDgfM1DEV45U7Kx6md26eoW12RqWjhHgof'),
+('Les Compagnons','Mailikki, d�esse de la nature, offre aux Compagnons de la Halle une chance d�aider Drizzt : ils vivront une nouvelle existence, sans jamais se croiser, jusqu�au jour o� ils retrouveront leur ami et le sauveront des griffes de Lloth, la terrible d�esse-araign�e. Aux quatre coins des Royaumes Oubli�s, une jeune sorci�re maniant la magie interdite, un voleur aussi malingre que f�roce et un nain � la force surnaturelle luttent pour rencontrer leur destin... mais rien ne dit qu�ils survivront jusqu�� ce jour, alors que dans l�ombre une cabale de sorciers les surveille de pr�s et que des dieux oubli�s renaissent de leurs cendres.','2017-07-16','R.A. Salvatore','2015-05-29','Milady','2820519792',' 9782820519795',TRUE,'https://books.google.fr/books/content?id=PPpwCQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE73AIXtxUHWmcOy0oQ0QRNrBPO93oGsWOpjeYb5euRU-_qv9UlyW3vdvb99tWT3zLCWbxoMaQrqJpWL9k3EzXb_kLgybqidH0WfyrtNNWWplpoynQS_U3BVfxVETsupKO7knJCJe');
+
+INSERT INTO `book_category`(`id_book`, `id_category`) VALUES
+(1,1),
+(2,1),
+(1,14);
