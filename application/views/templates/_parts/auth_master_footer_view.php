@@ -19,6 +19,8 @@
         <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
         <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
         <script src="<?= base_url('assets/js/bootstrap-flash-alert.min.js');  ?>"></script>
+        <script src="<?= base_url('assets/js/jquery.bootpag.min.js');  ?>"></script>
+        <script src="<?= base_url('assets/js/jquery.twbsPagination.min.js');  ?>"></script>
         <script src="<?= base_url('assets/js/emojionearea.min.js');  ?>"></script>
         <script src="<?= base_url('assets/js/socket.js'); ?>"></script>
         <script src="<?= base_url('assets/js/script.js'); ?>"></script>
