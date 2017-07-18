@@ -98,7 +98,7 @@ class Book_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('book');
         $this->db->join('has_book', 'has_book.id_book = book.id');
-        $this->db->where(array('book.statut' => $idstatus, 'has_book.id_user' => $idUser));
+        $this->db->where(array('book.accepted' => $idstatus, 'has_book.id_user' => $idUser));
         $query = $this->db->get();
         return $query->result();
     }
