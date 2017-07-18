@@ -14,6 +14,7 @@
 				$this->data ['page_description'] = 'CI_App';
 				$this->data ['before_closing_head'] = '';
 				$this->data ['before_closing_body'] = '';
+				
 			}
 			protected function render($the_view = NULL, $mydata = NULL, $template = NULL) {
 				if ($template == 'json' || $this->input->is_ajax_request ()) {

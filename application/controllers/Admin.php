@@ -11,6 +11,7 @@ class Admin extends Admin_Controller {
 		$this->load->model ( 'Salon_model' );
 		$this->load->model ( 'User_model' );
 		$this->load->model ( 'Category_model' );
+		$this->load->model ( 'Config_model' );
 		$this->load->helper ( "url",'language');
 		$this->load->library('pagination');
 		$this->load->library(array('ion_auth','form_validation','pagination'));
@@ -25,24 +26,58 @@ class Admin extends Admin_Controller {
 	}
 	
 	
+	// START CONFIG ADMINISTRATION
+	public function configListing(){
+		
+		
+	}
+		
+	
+	public function setConfig(){
+		
+		
+	}
+	//END CONFIG ADMINISTRATION
+	
+	// START STATIC PAGES ADMINISTRATION
+	public function staticPageListing()
+	{
+		$searchText = $this->input->post('searchText');
+		$this->data['searchText'] = $searchText;
+				
+		$count = $this->Page_model->staticPageListingCount($searchText);
+		$returns = $this->paginationCompress ( "staticPageListing/", $count, 5 );
+		
+		$this->data['staticPageRecords'] = $this->Page_model->staticPageListing($searchText, $returns["page"], $returns["segment"]);
+				
+		$this->render ( 'admin/staticPages', $this->data);
+	}
+	
+	//END STATIC PAGES ADMINISTRATION
+	
 	// START USER ADMINISTRATION
 	
 	public function userListing()
 	{		
 			$searchText = $this->input->post('searchText');
 			$this->data['searchText'] = $searchText;
+			$status= $this->input->post('status');
+			$this->data['status'] = $status;
 			
 			
-			
-			$count = $this->User_model->userListingCount($searchText);
+			$count = $this->User_model->userListingCount($searchText, $status);
 			$returns = $this->paginationCompress ( "userListing/", $count, 5 );
 			
-			$this->data['userRecords'] = $this->User_model->userListing(NULL, $searchText, $returns["page"], $returns["segment"])->result();
+			$this->data['userRecords'] = $this->User_model->userListing(NULL, $searchText, $status, $returns["page"], $returns["segment"])->result();
 				
 			foreach ($this->data['userRecords'] as $k => $user)
 			{
 				$this->data['userRecords'][$k]->groups = $this->User_model->get_users_groups($user->id)->result();
 			}
+			
+			// here is status search dropdown
+			$this->data['statuses']= array ('-1'=>'Status all','1'=>'Active','0'=>'Inactive');
+			//end of status search dropdown
 			
 			$this->render ( 'admin/users', $this->data);		
 	}
@@ -494,20 +529,153 @@ class Admin extends Admin_Controller {
 		$this->data['searchText'] = $searchText;
 		$category= $this->input->post('category');
 		$this->data['category'] = $category;
+		$status= $this->input->post('status');
+		$this->data['status'] = $status;
 		
 		$count = $this->Book_model->bookListingCount($searchText,$category);
 		$returns = $this->paginationCompress ( "bookListing/", $count, 5 );
 		
-		$this->data['bookRecords'] = $this->Book_model->bookListing($searchText, $category, $returns["page"], $returns["segment"]);
+		$this->data['bookRecords'] = $this->Book_model->bookListing($searchText, $category,$status, $returns["page"], $returns["segment"]);
+		if ($this->data['bookRecords']){
+			foreach ($this->data['bookRecords'] as $k => $book)
+			{
+				$this->data['bookRecords'][$k]->setCategories($this->Category_model->getBookCategories($book->getId()));
+			}
+		}
+		
+		// here is status search dropdown
+		$this->data['statuses']= array ('-1'=>'Status all','1'=>'Accepted','0'=>'Not accepted');
+		//end of status search dropdown
+		
+		
+		// here is category search dropdown
 		$catArray = $this->Category_model->getCategories();
 		$categories ['0'] = 'All categories';
 		foreach ($catArray as $cat ) {
 			$categories [$cat->getId()] = $cat->getName();
 		}
+		// end category search dropdown
 		
 		$this->data['categories'] = $categories;
 				
 		$this->render ( 'admin/books', $this->data);
+	}
+	
+	public function editBook($id)
+	{	
+		$book = $this->Book_model->getBookById($id);
+		
+		// here is category search dropdown
+		$catArray = $this->Category_model->getCategories();
+		$categories ['0'] = 'All categories';
+		foreach ($catArray as $cat ) {
+			$categories [$cat->getId()] = $cat->getName();
+		}
+		// end category search dropdown
+		
+		$this->data['categories'] = $categories;
+		
+		
+		// validate form input
+		$this->form_validation->set_rules('cover','Page de couverture', 'valid_url');
+		$this->form_validation->set_rules('title', 'Le titre', 'required');
+		$this->form_validation->set_rules('description', 'Description', 'required');
+		$this->form_validation->set_rules('author', 'L\'auteur', 'required');
+		$this->form_validation->set_rules('published', 'Date de publication', 'required');
+		$this->form_validation->set_rules('editor', 'L\'editeur', 'required');
+		
+		if (isset($_POST) && !empty($_POST))
+		{
+						
+						
+			if ($this->form_validation->run() === TRUE)
+			{
+				$data = array(
+						'cover' => $this->input->post('cover'),
+						'title'  => $this->input->post('title'),
+						'description'      => $this->input->post('description'),
+						'author' => $this->input->post('author'),
+						'published' => $this->input->post('published'),
+						'editor' => $this->input->post('editor')
+				);
+				
+				
+				
+				
+				
+				
+				//Update the groups user belongs to
+				$groupData = $this->input->post('groups');
+				
+				if (isset($groupData) && !empty($groupData)) {
+					
+					$this->ion_auth->remove_from_group('', $id);
+					
+					foreach ($groupData as $grp) {
+						$this->ion_auth->add_to_group($grp, $id);
+					}
+					
+				}
+				
+				
+				// check to see if we are updating the user
+				if($this->ion_auth->update($user->id, $data))
+				{
+					$this->session->set_flashdata('message', $this->ion_auth->messages() );
+					redirect('userListing', 'refresh');
+				}
+				else
+				{
+					// redirect them back to the admin page if admin, or to the base url if non admin
+					$this->session->set_flashdata('message', $this->ion_auth->errors() );
+					redirect('user', 'refresh');
+				}
+				
+			}
+		}
+		
+		// display the edit user form
+		$this->data['csrf'] = $this->_get_csrf_nonce();
+		
+		// set the flash data error message if there is one
+		$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+		
+		// pass the user to the view
+		$this->data['user'] = $user;
+		$this->data['groups'] = $groups;
+		$this->data['currentGroups'] = $currentGroups;
+		
+		$this->data['first_name'] = array(
+				'name'  => 'first_name',
+				'id'    => 'first_name',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('first_name', $user->first_name),
+		);
+		$this->data['last_name'] = array(
+				'name'  => 'last_name',
+				'id'    => 'last_name',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('last_name', $user->last_name),
+		);
+		$this->data['phone'] = array(
+				'name'  => 'phone',
+				'id'    => 'phone',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('phone', $user->phone),
+		);
+		$this->data['password'] = array(
+				'name' => 'password',
+				'id'   => 'password',
+				'type' => 'password'
+		);
+		$this->data['password_confirm'] = array(
+				'name' => 'password_confirm',
+				'id'   => 'password_confirm',
+				'type' => 'password'
+		);
+		
+		// 		$this->_render_page('auth/edit_user', $this->data);
+		$this->render('admin/edit_user', $this->data);
 	}
 	
 	function deleteBook()

@@ -273,7 +273,7 @@ class User_model extends CI_Model {
 	 *        	: This is optional search text
 	 * @return number $count : This is row count
 	 */
-	function userListingCount($searchText = '') {
+	function userListingCount($searchText = '', $status = NULL) {
 		$this->db->select ( 'u.id, u.email, u.first_name, u.last_name, g.name as role' );
 		$this->db->from ( 'users as u' );
 		$this->db->join ( 'users_groups as ug', 'u.id = ug.user_id', 'left' );
@@ -286,13 +286,16 @@ class User_model extends CI_Model {
 			$this->db->where ( $likeCriteria );
 		}
 
+		if($status != -1){
+			$this->db->like('active', $status);
+		}
 		$query = $this->db->get ();
 		
 		return count ( $query->result () );
 	}
 	
 	
-	function userListing($groups = NULL, $searchText = '', $page, $segment) {
+	function userListing($groups = NULL, $searchText = '', $status = NULL, $page, $segment) {
 			
 			if (isset ( $this->_ion_select ) && ! empty ( $this->_ion_select )) {
 				foreach ( $this->_ion_select as $select ) {
@@ -386,6 +389,9 @@ class User_model extends CI_Model {
 							 OR  first_name  LIKE '%" . $searchText . "%'
 							OR  last_name  LIKE '%" . $searchText . "%')";
 				$this->db->where ( $likeCriteria );
+			}
+			if($status != -1){
+				$this->db->like('active', $status);
 			}
 			
 			$this->db->limit ( $page, $segment );

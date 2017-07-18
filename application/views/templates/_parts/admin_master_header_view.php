@@ -96,7 +96,13 @@
               <a href="<?php echo base_url('dashboard'); ?>">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
               </a>
-            </li>  
+            </li> 
+            <li class="treeview">
+              <a href="#" >
+                <i class="fa fa-cog"></i>
+                <span>Configuration</span>
+              </a>
+            </li> 
             <li class="treeview">
               <a href="#" >
                 <i class="fa fa-files-o"></i>

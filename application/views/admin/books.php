@@ -23,7 +23,7 @@
                         <form action="<?php echo base_url() ?>bookListing" method="POST" id="searchList" class="form-inline">
                             <div class="input-group">
                              <?php echo form_dropdown('category', $categories, $category,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
-                           
+                           	<?php echo form_dropdown('status', $statuses, $status,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
                               <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
                               <div class="input-group-btn">
                                 <button class="btn btn-sm btn-default searchList"><i class="fa fa-search"></i></button>
@@ -36,17 +36,17 @@
                 <div class="box-body table-responsive no-padding">
                   <table class="table table-hover">
                     <tr>
-                      <th>Id</th>
+                      <th>Cover</th>
                       <th>Title</th>
                       <th>Description</th>
                       <th>Date</th>
                       <th>Author</th>
                       <th>Published</th>
                       <th>Editor</th>
-                      <th>Collection</th>
+                      <th>Categories</th>
                       <th>ISBN10</th>
                       <th>ISBN13</th>
-                      <th>statut</th>
+                      <th>Accepted</th>
                       <th class="text-center">Actions</th>
                     </tr>
                     <?php
@@ -56,17 +56,23 @@
                         {
                     ?>
                     <tr>
-                      <td><?php echo $book->getId(); ?></td>
+                      <td><img src="<?php echo $book->getCover(); ?>"></td>
                       <td><?php echo $book->getTitle(); ?></td>
                       <td><?php echo $book->getDescription();?></td>
                       <td><?php echo $book->getDate(); ?></td>
                       <td><?php echo $book->getAuthor(); ?></td>
                       <td><?php echo $book->getPublished(); ?></td>
                       <td><?php echo $book->getEditor(); ?></td>
-                      <td><?php echo $book->getCollection(); ?></td>
+                      <td><?php foreach ($book->getCategories()as $cat):?>
+								<?php echo '<span class="label label-primary">'.htmlspecialchars($cat->getName(),ENT_QUOTES,'UTF-8').'</span>';?><br />
+			                <?php endforeach?></td>
                       <td><?php echo $book->getISBN10(); ?></td>
                       <td><?php echo $book->getISBN13(); ?></td>
-                      <td><?php echo $book->getStatut(); ?></td>
+                      <td class="text-center"><?php if($book->isAccepted()){ 
+                      	echo '<i class="fa fa-check-square fa-2x" aria-hidden="true" style="color:green"></i>'; 
+                      }else{
+                      	echo '<i class="fa fa-minus-square fa-2x" aria-hidden="true" style="color:red"></i>';
+                        }?></td>
                       <td class="text-center">
                         <a class="btn btn-sm btn-info" href="<?php echo base_url().'admin/editBook/'.$book->getId();?>"><i class="fa fa-pencil"></i></i></a>
                         <a class="btn btn-sm btn-danger deleteBook" href="#" data-bookid="<?php echo $book->getId(); ?>"><i class="fa fa-trash"></i></a>

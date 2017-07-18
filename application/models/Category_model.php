@@ -38,6 +38,27 @@ class Category_model extends CI_Model {
 		}
 	}
 	
+	public function getBookCategories($book_id = NULL) {		
+		
+	
+		
+		$this->db->select('c.id,c.name,c.description')
+		->from('category c')
+		->join('book_category bc', 'bc.id_category = c.id', 'inner')
+		->where('bc.id_book', $book_id);
+		
+		$query= $this->db->get();
+		
+		if ($query->num_rows () > 0) {
+			foreach ( $query->result () as $row ) {
+				$categories [] = new Category_e ( $row->id, $row->name, $row->description );
+			}
+			return $categories;
+		}else{
+			return false;
+		}
+	}
+	
 	public function isCategoryUsed($id = NULL) {
 		
 		$this->db->select ( '*' );

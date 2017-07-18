@@ -18,7 +18,7 @@ $route['note/check'] = 'book_note/check';
 $route['mail/sub'] = 'mail/sub';
 
 // A changer pour la personnaliser
-$route['404_override'] = '';
+$route['404_override'] = 'templates/index';
 $route['translate_uri_dashes'] = FALSE;
 
 // ADMIN ROUTES
@@ -35,4 +35,8 @@ $route['deleteCategory'] = 'admin/deleteCategory';
 $route['activateUser'] = 'admin/activate';
 $route['desactivateUser'] = 'admin/deactivate';
 $route['deleteBook'] = 'admin/deleteBook';
+
+// STATIC PAGES ROUTE
+$route['pages/(:any)'] = 'templates/index/$1';
+$route['static/(:any)'] = 'pages/index/$1';
 

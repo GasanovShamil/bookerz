@@ -47,9 +47,10 @@ class Book_model extends CI_Model {
 						$row->author,
 						$row->published,
 						$row->editor,
-						$row->collection,
 						$row->ISBN10,
-						$row->ISBN13
+						$row->ISBN13,
+						$row->accepted,
+						$row->cover
 						);
 			}
 			return $books;
@@ -70,9 +71,10 @@ class Book_model extends CI_Model {
 					$row->author,
 					$row->published,
 					$row->editor,
-					$row->collection,
 					$row->ISBN10,
-					$row->ISBN13 );
+					$row->ISBN13,
+					$row->accepted,
+					$row->cover);
 
 			return $book;
 		}
@@ -125,20 +127,24 @@ class Book_model extends CI_Model {
 		}
 	}
 	
-	public function bookListing($searchText=null, $category = null, $page , $segment) {
+	public function bookListing($searchText = NULL, $category = NULL,$status = NULL, $page , $segment) {
 		
 		$this->db->limit ( $page, $segment);
 		
 		
-		$this->db->select('*');
-		$this->db->from($this->table);
+		$this->db->select('b.*');
+		$this->db->from($this->table.' b');
 		
 		if($searchText){
 			$this->db->like('title', $searchText);
 		}
 		
-		if ($category){
-			$this->db->like('collection',$category);
+		if ($category != 0){
+			$this->db->join('book_category bc','bc.id_book = b.id', 'inner')->where('bc.id_category', $category);
+		}
+		
+		if($status != -1){
+			$this->db->like('accepted', $status);
 		}
 		
 		$query = $this->db->get();
@@ -154,10 +160,10 @@ class Book_model extends CI_Model {
 						$row->author,
 						$row->published,
 						$row->editor,
-						$row->collection,
 						$row->ISBN10,
 						$row->ISBN13,
-						$row->statut
+						$row->accepted,
+						$row->cover
 						);
 			}
 			return $books;
@@ -165,18 +171,18 @@ class Book_model extends CI_Model {
 		return false;
 	}
 	
-	public function bookListingCount($searchText=null, $category = null) {
+	public function bookListingCount($searchText=NULL, $category = NULL) {
 		
-		$this->db->select('*');
-		$this->db->from($this->table);
+		$this->db->select('b.*');
+		$this->db->from($this->table.' b');
 		
 		if($searchText){
 			$this->db->like('title', $searchText);
 		}
 		
-// 		if ($category){
-// 			$this->db->like('collection',$category);
-// 		}
+		if ($category != 0){
+			$this->db->join('book_category bc','bc.id_book = b.id', 'inner')->where('bc.id_category', $category);
+		}
 		
 		$query = $this->db->get();
 		
@@ -187,8 +193,9 @@ class Book_model extends CI_Model {
 	public function hasOpenRoom($id){
 		$this->db->select('*');
 		$this->db->from('salon');
-		$data = array('id_livre'=> $id, 'closed'=>0);
-		$this->db->where($data);
+		$this->db->where('id_livre', $id);
+		$this->db->where('closed', 0);
+		$this->db->get();
 		return  $this->db->affected_rows () > 0;
 	}
 	
