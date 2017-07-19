@@ -143,7 +143,7 @@ class Content extends MY_Controller {
 		$this->data['order'] = $order;
 		
 		$count = $this->Book_model->bookListingCount($searchText,$category, $order, $status);
-		$returns = $this->paginationCompress ( "contentListing/", $count, 5 );
+		$returns = $this->paginationCompress ( "content/", $count, 8 );
 		
 		$this->data['bookRecords'] = $this->Book_model->bookListing($searchText, $category,$order, $status, $returns["page"], $returns["segment"]);
 		if ($this->data['bookRecords']){

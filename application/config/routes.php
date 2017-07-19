@@ -30,6 +30,9 @@ $route['categoryListing'] = 'admin/categoryListing';
 $route['categoryListing/(:num)'] = 'admin/categoryListing/$1';
 $route['bookListing'] = 'admin/bookListing';
 $route['bookListing/(:num)'] = 'admin/bookListing/$1';
+$route['salonListing'] = 'admin/salonListing';
+$route['salonListing/(:num)'] = 'admin/salonListing/$1';
+
 $route['deleteUser'] = 'admin/deleteUser';
 $route['deleteCategory'] = 'admin/deleteCategory';
 $route['activateUser'] = 'admin/activate';

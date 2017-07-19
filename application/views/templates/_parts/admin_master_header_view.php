@@ -44,6 +44,7 @@
     <![endif]-->
   </head>
   <body class="skin-blue sidebar-mini">
+  <div id="status-message"></div>
     <div class="wrapper">
       
       <header class="main-header">
@@ -122,7 +123,7 @@
               </a>
             </li>
             <li class="treeview">	
-              <a href="#" >
+              <a href="<?php echo base_url(); ?>salonListing" >
                 <i class="fa fa-ticket"></i>
                 <span>Salons</span>
               </a>

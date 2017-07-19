@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
-<h1><?php echo lang('edit_user_heading');?></h1>
-<p><?php echo lang('edit_user_subheading');?></p>
+<h1>Livre</h1>
+<p>Create/Update un livre</p>
 </section>
 <section class="content">
 <div id="infoMessage"><?php echo $message;?></div>
