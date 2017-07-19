@@ -66,6 +66,18 @@ CREATE TABLE `category` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `invitation`
+--
+CREATE TABLE `invitation` (
+  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `url` varchar(20) NOT NULL,
+  `chatroom_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `chatroom_to_salon`
 --
 
@@ -251,34 +263,25 @@ ALTER TABLE `ci_sessions`
   ADD KEY `ci_sessions_timestamp` (`timestamp`);
 
 
---
--- Contraintes pour les tables exportÃ©es
---
 
---ALTER TABLE `on_top`
---  ADD CONSTRAINT `on_top_fk0` FOREIGN KEY (`id_book`) REFERENCES `book` (`id`);
-
---
--- Contraintes pour la table `book_category`
---
 ALTER TABLE `book_category`
   ADD CONSTRAINT `book_category_fk0` FOREIGN KEY (`id_book`) REFERENCES `book` (`id`),
   ADD CONSTRAINT `book_category_fk1` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`);
-  
-  INSERT INTO `config` (`key`, `value`) VALUES 
+
+  INSERT INTO `config` (`key`, `value`) VALUES
 ('home_template', 'home-main');
 
 
 
 
-INSERT INTO `templates` (`name`, `label`, `title`, `text`) VALUES 
+INSERT INTO `templates` (`name`, `label`, `title`, `text`) VALUES
 ('error-page', 'Le Club des Critiques', 'Error', 'This is not the page you are looking for'),
 ('home-main', 'Le Club des Critiques', 'Le concept', 'This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.'),
 ('home-light', 'Le Club des Critiques', 'Light template', 'This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.');
 
 
 
-INSERT INTO `category`(`name`, `description`) VALUES 
+INSERT INTO `category`(`name`, `description`) VALUES
 ('Fantasy','Fantasy'),
 ('Anthologie','Anthologie'),
 ('Anthropologie','Anthropologie'),
@@ -296,18 +299,21 @@ INSERT INTO `category`(`name`, `description`) VALUES
 ('Humour','Humour'),
 ('Philosophie','Philosophie'),
 ('Roman','Roman'),
-('Tragédie','Tragédie');
-	
+('Tragï¿½die','Tragï¿½die');
+
 
-INSERT INTO `book`(`title`, `description`, `date`, `author`, `published`, `editor`, `ISBN10`, `ISBN13`, `accepted`,`cover`) VALUES 
-('Les Torrents d’argent','Drizzt et ses compagnons partent en quête de la cité de Castelmithral, le berceau légendaire du peuple de Bruenor. Confronté au racisme, Drizzt envisage sérieusement de regagner les ténèbres de l’Outreterre. De son côté, Wulfgar commence à surmonter son aversion atavique pour la magie. Quant à Régis, il cherche à échapper à un redoutable assassin qui s’est allié à des magiciens maléfiques. Ces derniers ont juré la perte des compagnons et CattiBrie est la seule à pouvoir contrecarrer leurs plans.','2017-07-16','R.A. Salvatore','2010-11-24','Milady','2820500552',' 9782820500557',FALSE,'https://books.google.fr/books/content?id=VXmGAQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71f2u1t3-snXEJdN6eYzsmt9M3c7_19jbG5uKMtd5OIN--ZaT1-C90OawwTeYjiR7ou9UP15dmQLJDsKXeUIA2emT4KdJ_qpyL5WYtDgfM1DEV45U7Kx6md26eoW12RqWjhHgof'),
-('Les Compagnons','Mailikki, déesse de la nature, offre aux Compagnons de la Halle une chance d’aider Drizzt : ils vivront une nouvelle existence, sans jamais se croiser, jusqu’au jour où ils retrouveront leur ami et le sauveront des griffes de Lloth, la terrible déesse-araignée. Aux quatre coins des Royaumes Oubliés, une jeune sorcière maniant la magie interdite, un voleur aussi malingre que féroce et un nain à la force surnaturelle luttent pour rencontrer leur destin... mais rien ne dit qu’ils survivront jusqu’à ce jour, alors que dans l’ombre une cabale de sorciers les surveille de près et que des dieux oubliés renaissent de leurs cendres.','2017-07-16','R.A. Salvatore','2015-05-29','Milady','2820519792',' 9782820519795',TRUE,'https://books.google.fr/books/content?id=PPpwCQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE73AIXtxUHWmcOy0oQ0QRNrBPO93oGsWOpjeYb5euRU-_qv9UlyW3vdvb99tWT3zLCWbxoMaQrqJpWL9k3EzXb_kLgybqidH0WfyrtNNWWplpoynQS_U3BVfxVETsupKO7knJCJe');
+INSERT INTO `book`(`title`, `description`, `date`, `author`, `published`, `editor`, `ISBN10`, `ISBN13`, `accepted`,`cover`) VALUES
+('Les Torrents dï¿½argent','Drizzt et ses compagnons partent en quï¿½te de la citï¿½ de Castelmithral, le berceau lï¿½gendaire du peuple de Bruenor. Confrontï¿½ au racisme, Drizzt envisage sï¿½rieusement de regagner les tï¿½nï¿½bres de lï¿½Outreterre. De son cï¿½tï¿½, Wulfgar commence ï¿½ surmonter son aversion atavique pour la magie. Quant ï¿½ Rï¿½gis, il cherche ï¿½ ï¿½chapper ï¿½ un redoutable assassin qui sï¿½est alliï¿½ ï¿½ des magiciens malï¿½fiques. Ces derniers ont jurï¿½ la perte des compagnons et CattiBrie est la seule ï¿½ pouvoir contrecarrer leurs plans.','2017-07-16','R.A. Salvatore','2010-11-24','Milady','2820500552',' 9782820500557',FALSE,'https://books.google.fr/books/content?id=VXmGAQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71f2u1t3-snXEJdN6eYzsmt9M3c7_19jbG5uKMtd5OIN--ZaT1-C90OawwTeYjiR7ou9UP15dmQLJDsKXeUIA2emT4KdJ_qpyL5WYtDgfM1DEV45U7Kx6md26eoW12RqWjhHgof'),
+('Les Compagnons','Mailikki, dï¿½esse de la nature, offre aux Compagnons de la Halle une chance dï¿½aider Drizzt : ils vivront une nouvelle existence, sans jamais se croiser, jusquï¿½au jour oï¿½ ils retrouveront leur ami et le sauveront des griffes de Lloth, la terrible dï¿½esse-araignï¿½e. Aux quatre coins des Royaumes Oubliï¿½s, une jeune sorciï¿½re maniant la magie interdite, un voleur aussi malingre que fï¿½roce et un nain ï¿½ la force surnaturelle luttent pour rencontrer leur destin... mais rien ne dit quï¿½ils survivront jusquï¿½ï¿½ ce jour, alors que dans lï¿½ombre une cabale de sorciers les surveille de prï¿½s et que des dieux oubliï¿½s renaissent de leurs cendres.','2017-07-16','R.A. Salvatore','2015-05-29','Milady','2820519792',' 9782820519795',TRUE,'https://books.google.fr/books/content?id=PPpwCQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE73AIXtxUHWmcOy0oQ0QRNrBPO93oGsWOpjeYb5euRU-_qv9UlyW3vdvb99tWT3zLCWbxoMaQrqJpWL9k3EzXb_kLgybqidH0WfyrtNNWWplpoynQS_U3BVfxVETsupKO7knJCJe');
 
-INSERT INTO `book_category`(`id_book`, `id_category`) VALUES 
+INSERT INTO `book_category`(`id_book`, `id_category`) VALUES
 (1,1),
 (2,1),
 (1,14);
 
-INSERT INTO `status_book`(`id`, `libelle`) VALUES 
-(1,'Dispo'),
-(2,	'')
+INSERT INTO `status_book` (`id`, `libelle`) VALUES
+(1, 'Disponible'),
+(2, 'Prêté'),
+(3, 'Je le veux'),
+(4, 'Je ne veux pas prêter');
+
