@@ -20,7 +20,9 @@ class Home extends MY_Controller {
      */
     public function index()
     {
+    	$this->load->model('Book_model');
     	$homeTemplateName = $this->Config_model->getHomeTemplate();
+    	
     	redirect ('pages/'.$homeTemplateName);
     	//$this->render('home/index');
     }

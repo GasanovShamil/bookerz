@@ -317,3 +317,6 @@ INSERT INTO `status_book` (`id`, `libelle`) VALUES
 (3, 'Je le veux'),
 (4, 'Je ne veux pas prêter');
 
+INSERT INTO `on_top`(`id_book`) VALUES 
+(1),
+(2);

@@ -1,9 +1,9 @@
 
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>CodeInsect</b> Admin System | Version 1.0
+         Admin System | Version 1.0
         </div>
-        <strong>Copyright &copy; 2014-2015 <a href="<?php echo base_url(); ?>">CodeInsect</a>.</strong> All rights reserved.
+        
     </footer>
      <script type="text/javascript">
             var base_url = "<?php echo base_url(); ?>";

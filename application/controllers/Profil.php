@@ -17,6 +17,7 @@ class Profil extends Auth_Controller {
         $this->data["has_book"] = $this->Book_model->getAllBookUser($idUser, 1);
         $this->data["category"] = $this->Status_book_model->getStatus();
         $this->data["non_validate_book"] = $this->Book_model->getAllBookSuggest($idUser, 0);
+        
         $this->render('profil/index', $this->data);
     }
 }

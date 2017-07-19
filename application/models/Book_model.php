@@ -167,6 +167,36 @@ class Book_model extends CI_Model {
 			return $row;
 		}
 	}
+	
+	public function getBooksOnTop() {
+		$this->db->select('*');
+		$this->db->from('book');
+		$this->db->join('on_top','on_top.id_book = book.id', 'inner');
+				
+		$query = $this->db->get();
+		
+		$books = array ();
+		if ($query->num_rows () > 0) {
+			foreach ( $query->result () as $row ) {
+				$books [] = new Book_e (
+						$row->id,
+						$row->title,
+						$row->description,
+						$row->date,
+						$row->author,
+						$row->published,
+						$row->editor,
+						$row->ISBN10,
+						$row->ISBN13,
+						$row->accepted,
+						$row->cover
+						);
+			}
+			return $books;
+		}else{
+			return null;
+		}
+	}
 
 	public function getBookAndStatus($id){
         $this->db->select('*');

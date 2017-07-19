@@ -19,165 +19,34 @@
 
     <!-- a la une -->
     <div class="col-md-10" id="alaune">
-        <div class="col-md-11">
-            <h1 class="titre-accueil">A la une</h1>
-            <div class="row bloc">
-                <!--First column-->
-                <div class="col-md-3">
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a href="/book/view/1">
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
+        <div class="col-md-12" id="alaune">
+            <div class="col-md-10 col-md-offset-1">
+
+                <div class="row bloc">
+            <?php 
+            if(! empty($on_top)){
+            	foreach ($on_top as $book){?>
+                   
+                    <article id="<?php echo $book->getId(); ?>" class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
+                            <div class="thumb-pad2 maxheight1"><div class="box_inner">
+                                <div class="thumbnail details-book-content" data-idbook="<?php echo $book->getId(); ?>">
+                                    <figure><a><img class="max-height-img" src="<?php echo $book->getCover(); ?>" alt=""></a></figure>
+                                        <div class="caption">
+                                            <a><?php if(iconv_strlen($book->getTitle()) > 30){ echo substr($book->getTitle(), 0, 30)."..."; }else{ echo $book->getTitle(); } ?></a>
+                                            <p class="title" title="<?php echo $book->getAuthor(); ?>">de <?php if(iconv_strlen($book->getAuthor()) > 20){ echo substr($book->getAuthor(), 0, 20)."..."; }else{ echo $book->getAuthor(); } ?> <br></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
+                        </article>
+                   <?php }
+            } else {
+                   	?>
+                   	<div class="alert alert-warning col-md-6 col-md-offset-3">
+                   	<p class="text-center">Pas de livres pour l'instant!</p>
+                   	</div>
+                  <?php } ?>
                 </div>
-                <!--/First column-->
-
-                <!--Second column-->
-                <div class="col-md-3">
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-                </div>
-                <!--/Second column-->
-
-                <!--Third column-->
-                <div class="col-md-3">
-
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-                </div>
-                <!--/Third column-->
-
-                <!--Fourth column-->
-                <div class="col-md-3">
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-
-                </div>
-                <!--/Fourth column-->
-            </div>
-            <div class="row">
-                <!--First column-->
-                <div class="col-md-3">
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-                </div>
-                <!--/First column-->
-
-                <!--Second column-->
-                <div class="col-md-3">
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-                </div>
-                <!--/Second column-->
-
-                <!--Third column-->
-                <div class="col-md-3">
-
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-                </div>
-                <!--/Third column-->
-
-                <!--Fourth column-->
-                <div class="col-md-3">
-                    <!--Collection card-->
-                    <div class="card collection-card">
-                        <!--Card image-->
-                        <div class="view  hm-zoom">
-                            <img src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
-                            <div class="stripe dark">
-                                <a>
-                                    <p>Title <br> Auteur <br> <i class="fa fa-chevron-right"></i></p>
-                                </a>
-                            </div>
-                        </div>
-                        <!--/.Card image-->
-                    </div>
-                    <!--/.Collection card-->
-
-                </div>
-                <!--/Fourth column-->
             </div>
         </div>
     </div>
