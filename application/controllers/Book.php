@@ -127,6 +127,10 @@ class Book extends MY_Controller {
 	public function getDetailsBook(){
         echo json_encode($this->Book_model->getBookAndStatus($_POST['id']));
     }
+    
+    public function getDetailsBook2(){
+    	echo json_encode($this->Book_model->getBookAndStatus2($_POST['id']));
+    }
 
     public function updateStatus(){
         $data['id_book'] = $_POST['idBook'];

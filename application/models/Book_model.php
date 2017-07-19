@@ -177,6 +177,13 @@ class Book_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+    
+    public function getBookAndStatus2($id){
+    	$this->db->from('book');
+    	$this->db->where('id' , $id);
+    	$query = $this->db->get();
+    	return $query->result();
+    }
 	
 	public function bookListing($searchText = NULL, $category = NULL, $order=null, $status = NULL, $page , $segment) {
 		

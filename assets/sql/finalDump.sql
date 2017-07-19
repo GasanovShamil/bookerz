@@ -308,3 +308,6 @@ INSERT INTO `book_category`(`id_book`, `id_category`) VALUES
 (2,1),
 (1,14);
 
+INSERT INTO `status_book`(`id`, `libelle`) VALUES 
+(1,'Dispo'),
+(2,	'')
