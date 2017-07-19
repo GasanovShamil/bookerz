@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div class="chatroom" data-username="<?php echo $_SESSION['email']; ?>" data-room="<?php echo $id_salon; ?>"  data-idSalonParent="<?php echo $chatroom->getId_salon(); ?>">
+<div class="chatroom" data-username="<?php echo $_SESSION['email']; ?>" data-room="<?php echo $id_salon; ?>"  data-idSalonParent="<?php echo $chatroom[0]->getId_salon(); ?>">
     <div class="sidebar">
         <div class="invite">
             Inviter un ami <span class="fa fa-plus"></span>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="nbViewer">
-            <span id="nbUsers"> <!-- A faire en JS --> </span>connectés
+            <span id="nbUsers"> <!-- A faire en JS --> </span> connectés
         </div>
 
     </div>
@@ -77,6 +77,26 @@
     <form method="post" id="sendMessage">
         <input type="text" class="chatInput" id="chatInput" placeholder="Envoyer un message..." data-room="<?php echo $id_salon; ?>" data-username="<?php echo $_SESSION['first_name']; ?>" data-userid="<?php echo $_SESSION['user_id']; ?>">
     </form>
+
+
+    <div class="modal fade" id="invit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Inviter
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                   <p></p>
+                </div>
+                <div class="modal-body">
+                    Envoyer une invitation par mail à :
+                    <input type="email" id="guest" placeholder="exemple@mail.com" required>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-success" id="confirmInvit">Envoyer</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">

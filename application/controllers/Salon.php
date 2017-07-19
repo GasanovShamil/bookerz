@@ -67,28 +67,53 @@ class Salon extends Auth_Controller
 	}
 
 	public function view($id = NULL)
-    {
-        $this->load->model('Book_model');
+	{
+		if($id == null) {
+			redirect('/salon', 'refresh');
+		}
+		$this->load->model('Book_model');
 		$this->load->model('MessagesSalon_model');
 		$this->load->model('UsersSalon_model');
 		$this->load->model('Salon_model');
 		$this->load->model('Chatroom_to_salon_model');
-        //  'MessagesSalon_model', 'UsersSalon_model', 'Salon_model'
+		$this->load->model('Book_note_model');
+		$this->load->model('Invitation_model');
 
-        $this->data['book'] = $this->Book_model->getBookById($id);
+		$book = $this->Book_model->getBookById($id);
+		$chatroom = $this->Chatroom_to_salon_model->getChatroomsForBook($id);
+		$check_note = $this->Book_note_model->checkNote($_SESSION['user_id'], $book->getId());
+
+		if(!$this->Invitation_model->userIsInvited($_SESSION['user_id'], $id)) {
+			if($check_note) {
+				$this->load->model('Report_model');
+				$check_ban = $this->Report_model->checkBan($_SESSION['user_id'], $chatroom[0]->getId_salon());
+				$max_report = $this->Salon_model->getMaxReport($chatroom[0]->getId_salon());
+				if($check_ban >= $max_report) {
+					redirect('/salon', 'refresh');
+				}
+
+
+				$salon = $this->Salon_model->getSalon($chatroom[0]->getId_salon());
+				$max_user = $salon[0][0]->getNb_max_user();
+				$nbUser = $this->UsersSalon_model->getNbUsers($chatroom[0]->getId_salon());
+				if($nbUser >= $max_user) {
+					redirect('/salon', 'refresh');
+				}
+			}
+		}
+
+		$this->data['book'] = $book;
 		$this->data['messages'] = $this->MessagesSalon_model->getMessagesForRoom($id);
 		$this->data['id_salon'] = $id;
-		$this->data['book'] = $this->data['book'];
 		$this->data['usersIn'] = $this->UsersSalon_model->getUsersIn($id);
+		$this->data['chatroom'] = $chatroom;
 
-		$this->data['chatroom'] = $this->Chatroom_to_salon_model->getSalon($id);
 
+		$this->render('salon/view', $this->data, null);
+	}
 
-        $this->render('salon/view', $this->data, null);
-    }
-
-    public function insertMessage()
-    {
+	public function insertMessage()
+	{
 		$this->load->model('MessagesSalon_model');
 
 		// Vérification à venir
@@ -102,7 +127,7 @@ class Salon extends Auth_Controller
 		} else {
 			echo json_encode('error : true');
 		}
-    }
+	}
 
 	public function userState()
 	{
@@ -173,6 +198,32 @@ class Salon extends Auth_Controller
 			}
 			echo json_encode($response);
 		}
+	}
+
+	public function newInvitation()
+	{
+		if(isset($_POST['email']) && isset($_POST['url']) && isset($_POST['room'])){
+			$this->load->model('Invitation_model');
+			$this->load->library('email');
+
+			$this->email->from('bookerz.project@gmail.com', 'Club des lectures');
+			$this->email->to($_POST['email']);
+
+			$this->email->subject('Invitation à un salon de chat !');
+			$this->email->message('Quelqu\'un vous a envoyé une invitation pour rejoindre un chat ! Pour le rejoindre utilisez ce lien : http://bookerz.dev/salon/view/'.$_POST['room'].'?invitation='.$_POST['url']);
+
+
+			if($this->Invitation_model->sendInvitation($_POST['email'], $_POST['url'], $_POST['room']) && $this->email->send()) {
+				$response['status'] = 'success';
+			} else {
+				$response['status'] = 'error';
+			}
+
+		} else {
+			$response['status'] = 'error';
+		}
+
+		echo json_encode($response);
 	}
 
 }

@@ -276,6 +276,14 @@ $(document).ready(function(){
         window.location.replace(base_url + "salon/view/" + id);
     }
 
+    function countUser(count)
+    {
+        var divCountVal = $(".cc").length;
+        var divCount = $("#nbUsers");
+        divCount.html(divCountVal);
+        console.log(divCountVal);
+    }
+
     if($(".chatroom").length) {
         var socket = io.connect( 'http://localhost:3002' );
         var room = $(".chatroom").data("room");
@@ -286,6 +294,18 @@ $(document).ready(function(){
         var id_salon_parent = $(".chatroom").data("idsalonparent");
 
         $('.loading').show();
+        countUser();
+
+        if(!$('.user_'+userid)[0]) {
+            $('.userList').append(
+                '<div class="user_'
+                +userid+
+                '"><div class="userL" data-user="'+userid+'">'
+                +jsUcfirst(username)+
+                '<span class="fa fa-chevron-right"></span><span class="fa fa-chevron-right"></span></div></div>'
+            );
+        }
+
         $.ajax({
             type : 'POST',
             url : base_url + 'salon/userState',
@@ -338,6 +358,7 @@ $(document).ready(function(){
                             '<span class="fa fa-chevron-right"></span><span class="fa fa-chevron-right"></span></div></div>'
                         );
                     }
+                    countUser();
                 }
             });
 
@@ -363,6 +384,7 @@ $(document).ready(function(){
                         cache: false
                     });
                 }
+                countUser(0);
             });
 
             socket.on('checkReport', function() {
@@ -423,7 +445,8 @@ $(document).ready(function(){
                     +message+
                     '</div></div></div>');
 
-                    div.scrollTop(height);
+
+                div.scrollTop(height);
             }
         });
 
@@ -478,6 +501,34 @@ $(document).ready(function(){
             }
         });
 
+        $('.invite').click(function() {
+            $('#invit-modal').modal('show');
+        });
+
+        $('#confirmInvit').click(function() {
+            var email = $('#guest').val();
+            var url = Math.floor((Math.random() * 100000000000) + 1);
+            $.ajax({
+                type: 'POST',
+                url: base_url+"salon/newInvitation",
+                dataType:'json',
+                data: {email: email, url: url, room: room},
+                success: function(data) {
+                    if(data.status == 'success') {
+                        $('#invite-modal').modal('hide');
+                        $('#alert-modal .modal-header p').html('Invitation envoyé');
+                        $('#alert-modal .modal-body').html('L\'invitation a bien été envoyé');
+                        $('#alert-modal').modal('show');
+                    } else {
+                        $('#invite-modal').modal('hide');
+                        $('#alert-modal .modal-header p').html('Erreur');
+                        $('#alert-modal .modal-body').html('Une erreur a eu lieu, merci de réessayer ultérieurement.');
+                        $('#alert-modal').modal('show');
+                    }
+                }
+            })
+
+        })
 
         /***********************************/
         /*         LISTE SALONS            */

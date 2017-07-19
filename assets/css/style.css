@@ -771,14 +771,20 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 70px;
 }
 
+.invite:hover {
+    cursor: pointer;
+    background-color: beige;
+}
+
 .userList {
     width: 100%;
     height: calc(100% - 140px);
     border-top: 1px solid rgba(128, 128, 128, 0.33);
-    border-bottom: 1px solid rgba(128, 128, 128, 0.33);
+    /*border-bottom: 1px solid rgba(128, 128, 128, 0.33);*/
 }
 
 .nbViewer {
+    display: none;
     width: 100%;
     height: 70px;
     text-align: center;
@@ -902,4 +908,8 @@ footer {
 
 .list-book {
     margin-top: 10px;
+}
+
+.thumbnail .caption {
+    text-align: center;
 }

@@ -58,7 +58,7 @@ class Salon_model extends CI_Model
 		$this->db->join("book", "book.id = salon.id_livre");
 
 		if($params != null && $params > 0) {
-			$this->db->get_where($this->table, array('id' => $id));
+			$this->db->where(array('salon.id' => $params));
 		} elseif ($params == "next") {
 			$this->db->where(array('closed' => 0));
 			$this->db->where(array('start_date >' => date('Y-m-d')));

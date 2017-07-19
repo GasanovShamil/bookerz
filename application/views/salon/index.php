@@ -5,45 +5,43 @@
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
             </p>
             <div class="col-md-12">
-                <h1 class="titre-accueil text-center">Salon</h1>
+                <h1 class="titre-accueil text-center">Salons</h1>
             </div>
         </div>
-            <table id="liste-salon" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Salon</th>
-                        <th>Livre</th>
-                        <th>Date d'ouverture</th>
-                        <th>Date de fin</th>
-                        <th>Rejoindre</th>
-                    </tr>
-                </thead>
+            <?php foreach ($rooms as $room): ?>
+                <?php
+                $infoRoom = $room[0];
+                $book = $room[1];
+                ?>
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
+                        <div class="thumb-pad2 maxheight1">
+                            <div class="box_inner">
+                                <div class="thumbnail">
+                                    <figure>
+                                        <a id="<?php echo $book->getId(); ?>" class="modalNote">
+                                            <img src="<?php echo $book->getCover(); ?>" class="max-height-img" alt="">
+                                        </a>
 
-                <?php if (empty($rooms)): ?>
-                    Aucun salon de chat n'est disponible pour le moment
-                <?php else: ?>
-                    <tbody>
-                    <?php foreach ($rooms as $room): ?>
-                        <?php
-                        $infoRoom = $room[0];
-                        $book = $room[1];
-                        ?>
-                            <tr>
-                                <td><?php echo $infoRoom->getName(); ?></td>
-                                <td><?php echo $book->getTitle(); ?></td>
-                                <td><?php echo $infoRoom->getStart_date(); ?></td>
-                                <td><?php echo $infoRoom->getEnd_date(); ?></td>
-                                <td><a id="<?php echo $book->getId(); ?>" class="modalNote">Rejoindre</a></td>
-                            </tr>
-                    <?php endforeach; ?>
+                                    </figure>
+                                    <div class="caption">
+                                        <a href="#"><?php echo $book->getTitle(); ?></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <?php endif; ?>
-                </tbody>
-            </table>
+                    <h3><?php echo $infoRoom->getName(); ?></h3>
+                    <h4>Date de fin : <span class="countDown"><?php echo $infoRoom->getEnd_date(); ?></span><span id="timeUntilEnd"></span></h4>
+                </div>
+            <?php endforeach ?>
+
+            </div>
         </div>
     </div><!--/row-->
     <?php if (isset($nextRooms) && !empty($nextRooms)): ?>
-        <h1>Prochain salons :</h1>
+        <h1 class="text-center">Prochain salons :</h1>
         <?php foreach ($nextRooms as $room): ?>
             <hr>
             <?php echo $room[1]->getTitle(); ?>
@@ -51,7 +49,7 @@
             le <?php echo $room[0]->getStart_date(); ?>
         <?php endforeach; ?>
     <?php else: ?>
-        <h1>Pas de prochains salons pour le moment</h1>
+        <h1 class="text-center">Pas de prochains salons pour le moment</h1>
     <?php endif; ?>
 </div>
 
