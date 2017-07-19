@@ -15,6 +15,7 @@
     <body>
         <!-- navbar -->
         <!-- Menu -->
+        <div id="status-message"></div>
         <nav class="navbar navbar-fixed-top navbar-inverse">
             <div class="contain">
                 <div class="navbar-header">

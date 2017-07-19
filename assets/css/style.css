@@ -6,6 +6,24 @@
     font-family:"Caviar dreams";
     src:url('../fonts/CaviarDreams.ttf');
 }
+
+#status-message {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    z-index: 99999;
+    border-radius: 10px;
+}
+#status-message .flash_message {
+    color: #ffffff;
+    font-size: 20px;
+    padding-top: 32px !important;
+    padding-bottom: 31px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 3;
+}
 #sidebar {
     position: fixed;
     right: 0;
@@ -612,6 +630,30 @@ h1, h2, h3, h4, h5, h6 {
     100% {
         opacity: 0;
     }
+}
+.color-black {
+    background-color: #25283C !important;
+    color: #ffffff;
+}
+.color-greenf {
+    background-color: #70beb1;
+    color: #ffffff;
+}
+.color-greenc {
+    background-color: #cee8df;
+    color: #ffffff;
+}
+button.color-black:hover, input.color-black:hover {
+    background-color: #25283C !important;
+    color: #ffffff;
+}
+button.color-greenf:hover, input.color-greenf:hover {
+    background-color: #cee8df;
+    color: #ffffff;
+}
+button.color-greenc:hover, input.color-greenc:hover {
+    background-color: #70beb1;
+    color: #ffffff;
 }
 .lds-spinner {
     position: absolute;

@@ -32,19 +32,22 @@ class Book extends MY_Controller {
         $hasbook = $this->Book_model->checkUserHasBook($_POST['id'], $this->session->userdata('user_id'));
         if (!empty($hasbook)){
             //json_encode("error" => "he has this book");
-            echo "Vous avez déjà ce livre";
+            echo json_encode("bookexiste");
         }else{
             $data['id_book'] = $_POST['id'];
             $data['id_user'] = $this->session->userdata('user_id');
-            if($this->Book_model->addBookToUser($data)) {
-                echo "livre ajouter avec succes";
+            $addbook = $this->Book_model->addBookToUser($data);
+            if($addbook) {
+                echo json_encode($this->Book_model->getJsonBook($_POST['id']));
+            }else{
+                echo json_encode("erroraddbook");
             }
         }
     }
 
     public function addPropositionUser()
     {
-        if($this->Book_model->checkBookExist($_POST['isbn13'])){
+        if($this->Book_model->checkBookExist($_POST['isbn13'], $_POST['isbn10'])){
             echo json_encode("existe");
         }else{
             //ajout de du livre
@@ -66,6 +69,7 @@ class Book extends MY_Controller {
                 $data['id_user'] = $this->session->userdata('user_id');
                 $data['id_book'] = $id_book_insert;
                 if($this->Book_model->addBookSuggest($data)) {
+                    $this->Book_model->addBookToUser($data);
                     echo json_encode($this->Book_model->getJsonBook($id_book_insert));
                 }else{
                     echo json_encode("erroraddsuggest");
