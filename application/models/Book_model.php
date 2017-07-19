@@ -81,12 +81,8 @@ class Book_model extends CI_Model {
 		return null;
 	}
 
-	public function checkBookExist($isbn){
-        if(strlen($isbn) == 10){
-            $query =  $this->db->get_where('book', array('ISBN10' => $isbn));
-        }else{
-            $query =  $this->db->get_where('book', array('ISBN13' => $isbn));
-        }
+	public function checkBookExist($isbn13, $isbn10){
+        $query =  $this->db->get_where('book', array('ISBN10' => $isbn10, 'ISBN13' => $isbn13));
         if (!empty($query->result())){
             return true;
         }else{

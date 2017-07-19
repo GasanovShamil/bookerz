@@ -28,9 +28,17 @@ function updateInfoUser(idUser) {
         success: function (data) {
             if(data == "success"){
                 $("#myModalInfo").modal("hide");
-                $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
+                $('#status-message').css('background-color', 'rgba(63, 191, 63, .80)');
+                $('#status-message').flash_message({
+                    text: 'Vos informations de profil ont été modifiées!',
+                    how: 'append'
+                });
             }else{
-                console.log("no ok");
+                $('#status-message').css('background-color', 'rgba(237, 2, 2, .80)');
+                $('#status-message').flash_message({
+                    text: 'Une erreur s\'est produite. Veillez ressayer!',
+                    how: 'append'
+                });
             }
         }, error: function (ts) {
             console.log("error");
@@ -47,13 +55,6 @@ function addPropositionBook(id){
     var monelementdescription = document.getElementById('description'+id);
     var monelementpublished = document.getElementById('published'+id);
     var monelementeditor = document.getElementById('editor'+id);
-    console.log(monelementauthor.dataset.author);
-    console.log(monelementlinkimg.dataset.link);
-    console.log(monelementtitle.dataset.title);
-    console.log(monelementisbn10.dataset.isbn10);
-    console.log(monelementdescription.dataset.description);
-    console.log(monelementpublished.dataset.published);
-    console.log(monelementeditor.dataset.editor);
     var url = base_url + 'book/addPropositionUser';
     $.ajax({
         type: 'POST',
@@ -62,13 +63,41 @@ function addPropositionBook(id){
         data: {author: monelementauthor.dataset.author, linkimg: monelementlinkimg.dataset.link, title: monelementtitle.dataset.title, isbn13: monelementisbn13.dataset.isbn13, isbn10: monelementisbn10.dataset.isbn10, description: monelementdescription.dataset.description, published: monelementpublished.dataset.published, editor: monelementeditor.dataset.editor},
         cache: false,
         success: function (data) {
-            console.log(data);
-            /*if(data == "success"){
-                $("#myModalInfo").modal("hide");
-                $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
+            if (data === Object(data)){
+                var noBook = document.getElementById("no-book-suggest");
+                if (noBook != null) {
+                    noBook.remove();
+                }
+                $("#suggest-book").append("<article class='col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img'>"
+                    + "<div class='thumb-pad2 maxheight1'><div class='box_inner'>"
+                    + "<div class='thumbnail'>"
+                    + "<figure><a href='#'><img class='max-height-img' src='"+data.cover+"' alt='''></a></figure>"
+                    + "<div class='caption'>"
+                    + "<a href='#'>"+data.title+"</a>"
+                    +" <p class='title' title='"+data.author+"'>de "+data.author+"<br></p>"
+                    +" </div>"
+                    + "</div>"
+                    + "</div>"
+                    + "</article>");
+                $("#myModalAddBookAPI").modal("hide");
+                $('#status-message').css('background-color', 'rgba(63, 191, 63, .80)');
+                $('#status-message').flash_message({
+                    text: 'Le livre a bien été ajouté!',
+                    how: 'append'
+                });
+            }else if (data == "existe"){
+                $('#status-message').css('background-color', 'rgba(237, 2, 2, .80)');
+                $('#status-message').flash_message({
+                    text: 'Ce livre existe déjà!',
+                    how: 'append'
+                });
             }else{
-                console.log("no ok");
-            }*/
+                $('#status-message').css('background-color', 'rgba(237, 2, 2, .80)');
+                $('#status-message').flash_message({
+                    text: 'Une erreur s\'est produite. Veillez ressayer!',
+                    how: 'append'
+                });
+            }
         }, error: function (ts) {
             console.log("error");
             console.log(ts.responseText);
@@ -77,7 +106,6 @@ function addPropositionBook(id){
 }
 function addBookUser(idBook) {
     var urladd = base_url + 'book/addBookToUser';
-    console.log("iduser :"+idBook);
     $.ajax({
         type: 'POST',
         url: urladd,
@@ -85,12 +113,43 @@ function addBookUser(idBook) {
         data: {id: idBook},
         cache: false,
         success: function (data) {
-            /*if(data == "success"){
-             $("#myModalInfo").modal("hide");
-             $.alert("Cette fenêtre se fermera dans : ", {withTime: true,type: 'success',title:'Informations modifier avec succès',icon:'glyphicon',minTop: 200});
-             }else{
-             console.log("no ok");
-             }*/
+            if(data === Object(data)){
+                var noBook = document.getElementById("no-book");
+                if (noBook != null) {
+                    noBook.remove();
+                }
+                $("#book-user").after("<article class='col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img'>"
+                    + "<div class='thumb-pad2 maxheight1'><div class='box_inner'>"
+                    + "<div class='thumbnail'>"
+                    + "<figure><a href='#'><img class='max-height-img' src='" + data.cover + "' alt='''></a></figure>"
+                    + "<div class='caption'>"
+                    + "<a href='#'>" + data.title + "</a>"
+                    + " <p class='title' title='" + data.author + "'>de " + data.author + "<br></p>"
+                    + " </div>"
+                    + "</div>"
+                    + "</div>"
+                    + "</article>");
+                $("#myModalAddBookView").modal("hide");
+                $('#status-message').css('background-color', 'rgba(63, 191, 63, .80)');
+                $('#status-message').flash_message({
+                    text: 'Le livre a bien été ajouté!',
+                    how: 'append'
+                });
+            }
+            if(data == "bookexiste"){
+                $('#status-message').css('background-color', 'rgba(63, 191, 63, .80)');
+                $('#status-message').flash_message({
+                    text: 'Vous disposez déjà ce livre!',
+                    how: 'append'
+                });
+            }
+            if(data == "erroraddbook"){
+                $('#status-message').css('background-color', 'rgba(237, 2, 2, .80)');
+                $('#status-message').flash_message({
+                    text: 'Une erreur s\'est produite. Veillez ressayer!',
+                    how: 'append'
+                });
+            }
         }, error: function (ts) {
             console.log("error");
             console.log(ts.responseText);
@@ -117,7 +176,6 @@ function searchBookApi(pagec){
 
     $.ajax({
         url: "https://www.googleapis.com/books/v1/volumes?q="+q+"&maxResults=10&startIndex="+pagec,
-        //url: "https://www.googleapis.com/books/v1/volumes?q="+q+"&maxResults=1&startIndex="+searchID,
         dataType: "json",
 
         success: function(data){
@@ -153,21 +211,7 @@ function searchBookApi(pagec){
                                 + "<div style='display: none' id='published"+i+"' data-published='"+data.items[i].volumeInfo.publishedDate+"'></div>"
                                 + "<div style='display: none' id='editor"+i+"' data-editor='"+data.items[i].volumeInfo.publisher+"'></div>"
                                 + "<a onclick='addPropositionBook("+i+")' class='btn btnajoutlivre'>Ajouter</a>"
-                                //+ "<p>"+resum+"</p></div>"
-                                + ""
                                 + "</div>";
-
-                           /* <p>Renovations</p>
-                            <p></p>
-                            </div><!--/panel-->
-                            </div>" +
-                            "" +
-                            "<h2>" + "Titre: " + title + "</h2>"
-                            + "<h3>" + author + "</h3>"
-                            + "<img src =\"" + linkImg + "\">"
-                            + "<p>"  + resum + "</p>"
-                            // + "<p>"  + data.items[i].volumeInfo.industryIdentifiers + "</p>"
-                            + "</br></br>"*/
                     }
                 }
                 results.innerHTML += "</div>";
@@ -181,7 +225,7 @@ function searchBookApi(pagec){
                     $('#pagination-demo').twbsPagination({
                         totalPages: Math.ceil(data.totalItems/10),
                         visiblePages: 7,
-                        //startPage: pagec,
+                        startPage: pagec,
                         first: "Premier",
                         prev: "Précedent",
                         next: "Suivant",
@@ -197,6 +241,41 @@ function searchBookApi(pagec){
 }
 
 $(document).ready(function(){
+
+    /*message flash*/
+    (function($) {
+        $.fn.flash_message = function(options) {
+
+            options = $.extend({
+                text: 'Done',
+                time: 2000,
+                how: 'before',
+                class_name: ''
+            }, options);
+
+            return $(this).each(function() {
+                if( $(this).parent().find('.flash_message').get(0) )
+                    return;
+
+                var message = $('<span />', {
+                    'class': 'flash_message ' + options.class_name,
+                    text: options.text
+                }).hide().fadeIn('fast');
+
+                $(this)[options.how](message);
+
+                message.delay(options.time).fadeOut('2000', function() {
+                    $(this).remove();
+                });
+
+            });
+        };
+    })(jQuery);
+
+
+    $("#myModalContactAdminBt").click(function () {
+        $("#myModalContactAdmin").modal("show");
+    });
 
     $("#formUpdatePwd").submit(function (e) {
         e.preventDefault();
