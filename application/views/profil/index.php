@@ -33,7 +33,7 @@
                                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="myModalAddBook"></span>
                                         </a><img class="max-height-img" src="<?= base_url('assets/img/blank.png'); ?>" alt=""></a></figure>
                                 <div class="caption">
-                                    <a href="#" id="myModalAddBook" >Ajouter un livre</a>
+                                    <a id="myModalAddBook" >Ajouter un livre</a>
                                     <p class="title"></p>
                                 </div>
                             </div>
@@ -41,13 +41,13 @@
                     </div>
                 </article>
                 <?php if(!empty($has_book)){
-                    foreach ($has_book as $row){  ?>
-                        <article data-myBook= id="<?php echo $row->id; ?>" class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
+                    foreach ($has_book as $row){ ?>
+                        <article id="<?php echo $row->id; ?>" class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
                             <div class="thumb-pad2 maxheight1"><div class="box_inner">
-                                <div class="thumbnail">
-                                    <figure><a href="#"><img class="max-height-img" src="<?php echo $row->cover; ?>" alt=""></a></figure>
+                                <div class="thumbnail details-book" data-idbook="<?php echo $row->id_book; ?>">
+                                    <figure><a><img class="max-height-img" src="<?php echo $row->cover; ?>" alt=""></a></figure>
                                         <div class="caption">
-                                            <a href="#"><?php if(iconv_strlen($row->title) > 30){ echo substr($row->title, 0, 30)."..."; }else{ echo $row->title; } ?></a>
+                                            <a><?php if(iconv_strlen($row->title) > 30){ echo substr($row->title, 0, 30)."..."; }else{ echo $row->title; } ?></a>
                                             <p class="title" title="<?php echo $row->author; ?>">de <?php if(iconv_strlen($row->author) > 20){ echo substr($row->author, 0, 20)."..."; }else{ echo $row->author; } ?> <br></p>
                                         </div>
                                     </div>
@@ -75,9 +75,9 @@
                         <article class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
                             <div class="thumb-pad2 maxheight1"><div class="box_inner">
                                     <div class="thumbnail">
-                                        <figure><a href="#"><img class="max-height-img" src="<?php echo $row->cover; ?>" alt=""></a></figure>
+                                        <figure><a><img class="max-height-img" src="<?php echo $row->cover; ?>" alt=""></a></figure>
                                         <div class="caption">
-                                            <a href="#"><?php if(iconv_strlen($row->title) > 30){ echo substr($row->title, 0, 30)."..."; }else{ echo $row->title; } ?></a>
+                                            <a><?php if(iconv_strlen($row->title) > 30){ echo substr($row->title, 0, 30)."..."; }else{ echo $row->title; } ?></a>
                                             <p class="title" title="<?php echo $row->author; ?>">de <?php if(iconv_strlen($row->author) > 20){ echo substr($row->author, 0, 20)."..."; }else{ echo $row->author; } ?> <br></p>
                                         </div>
                                     </div>
@@ -353,6 +353,60 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal details book-->
+    <div class="modal fade" id="modal-details-book" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Détails livre.</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!--Fourth column-->
+                        <div class="col-md-4 col-sm-6">
+                            <!--Collection card-->
+                            <div class="card collection-card">
+                                <!--Card image-->
+                                <div class="view">
+                                    <img class="width-details-cover" src="http://s2.lemde.fr/image/2016/01/21/534x0/4850777_6_a70a_premiere-de-couverture-du-livre-une-colere_3f1256ec4c3ff75e75caefd3cfc193d9.jpg" class="img-fluid" alt="">
+                                </div>
+                                <!--/.Card image-->
+                            </div>
+                            <!--/.Collection card-->
+                        </div>
+                        <!--/Fourth column-->
+
+                        <!--Details-->
+                        <div class="col-md-8 col-sm-6">
+                            <h3>Titre: <span id="title-details"></span></h3>
+                            <h5>Auteur: <span id="author-details"></span></h5>
+                            <h5><strong>Status:</strong> <span id="status-details"></span></h5>
+                            <?php if(!empty($category)){ ?>
+                            <select class="select-status" data-width="auto">
+                                <?php foreach ($category as $row){ ?>
+                                    <option value="<?php echo $row->id; ?>"><?php echo $row->libelle; ?></option>
+                                <?php } ?>
+                            </select>
+                            <?php } ?><br /><br />
+                            <p><h5>Resumé</h5> <br><span id="resum-details"></span></p>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+        </div>
+    </div>
+
         </div>
     </div>
 </div><!--/row-->

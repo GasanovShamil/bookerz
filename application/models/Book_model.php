@@ -167,6 +167,16 @@ class Book_model extends CI_Model {
 			return $row;
 		}
 	}
+
+	public function getBookAndStatus($id){
+        $this->db->select('*');
+        $this->db->from('book');
+        $this->db->join('has_book', 'has_book.id_book = book.id');
+        $this->db->join('status_book', 'status_book.id = has_book.id_status');
+        $this->db->where(array('book.id' => $id, 'has_book.id_book' => $id));
+        $query = $this->db->get();
+        return $query->result();
+    }
 	
 	public function bookListing($searchText = NULL, $category = NULL, $order=null, $status = NULL, $page , $segment) {
 		
@@ -270,5 +280,13 @@ class Book_model extends CI_Model {
 		$this->db->update($this->table, $data);
 		return  $this->db->affected_rows () == 1;
 	}
+
+	public function updateStatusBook($data){
+        $this->db->set('id_status', $data['id_status']);
+        $this->db->where('id_user', $data['id_user']);
+        $this->db->where('id_book', $data['id_book']);
+
+        return $this->db->update('has_book');
+    }
 
 }

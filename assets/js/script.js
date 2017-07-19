@@ -242,6 +242,75 @@ function searchBookApi(pagec){
 
 $(document).ready(function(){
 
+
+    $(".details-book").click(function () {
+        var id = $(this).data("idbook");
+        var url = base_url + 'book/getDetailsBook';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: {id: id},
+            cache: false,
+            success: function (data) {
+                if (data === Object(data)){
+                    console.log(data[0]);
+                    var title = document.getElementById('title-details');
+                    var author = document.getElementById('author-details');
+                    var resum = document.getElementById('resum-details');
+                    var status = document.getElementById('status-details');
+                    title.innerHTML = data[0].title;
+                    author.innerHTML = data[0].author;
+                    resum.innerHTML = data[0].description;
+                    status.innerHTML = data[0].libelle;
+                    $("#modal-details-book img").attr("src", data[0].cover)
+                    $("#modal-details-book").modal("show");
+
+                    $( ".select-status" ).change(function () {
+                        var idstatus = $(this).val();
+                        var url = base_url + 'book/updateStatus';
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            dataType: 'json',
+                            data: {idStatus: idstatus, idBook:id},
+                            cache: false,
+                            success: function (data) {
+                                console.log(data);
+                                if(data){
+                                    $('#status-message').css('background-color', 'rgba(63, 191, 63, .80)');
+                                    $('#status-message').flash_message({
+                                        text: 'Statut changé!',
+                                        how: 'append'
+                                    });
+                                    $("#modal-details-book").modal("hide");
+                                }else{
+                                    $('#status-message').css('background-color', 'rgba(237, 2, 2, .80)');
+                                    $('#status-message').flash_message({
+                                        text: 'Une erreur s\'est produite. Veillez ressayer!',
+                                        how: 'append'
+                                    });
+                                }
+                            }, error: function (ts) {
+                                console.log("error");
+                                console.log(ts.responseText);
+                            }
+                        });
+                    });
+                }else{
+                    $('#status-message').css('background-color', 'rgba(237, 2, 2, .80)');
+                    $('#status-message').flash_message({
+                        text: 'Une erreur s\'est produite. Veillez ressayer!',
+                        how: 'append'
+                    });
+                }
+            }, error: function (ts) {
+                console.log("error");
+                console.log(ts.responseText);
+            }
+        });
+    });
+
     /*message flash*/
     (function($) {
         $.fn.flash_message = function(options) {

@@ -6,7 +6,13 @@
     font-family:"Caviar dreams";
     src:url('../fonts/CaviarDreams.ttf');
 }
-
+.width-details-cover { width: 100%; }
+.details-book img {
+    cursor: pointer;
+}
+.details-book a {
+    cursor: pointer;
+}
 #status-message {
     position: fixed;
     left: 50%;
