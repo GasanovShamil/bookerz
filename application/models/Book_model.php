@@ -172,7 +172,7 @@ class Book_model extends CI_Model {
 		}
 	}
 	
-	public function bookListing($searchText = NULL, $category = NULL,$status = NULL, $page , $segment) {
+	public function bookListing($searchText = NULL, $category = NULL, $order=null, $status = NULL, $page , $segment) {
 		
 		$this->db->limit ( $page, $segment);
 		
@@ -190,6 +190,10 @@ class Book_model extends CI_Model {
 		
 		if($status != -1){
 			$this->db->like('accepted', $status);
+		}
+		
+		if($order){
+			$this->db->order_by($order);
 		}
 		
 		$query = $this->db->get();
@@ -216,7 +220,7 @@ class Book_model extends CI_Model {
 		return false;
 	}
 	
-	public function bookListingCount($searchText=NULL, $category = NULL) {
+	public function bookListingCount($searchText=NULL, $category = NULL,  $order=null, $status = NULL) {
 		
 		$this->db->select('b.*');
 		$this->db->from($this->table.' b');
@@ -227,6 +231,14 @@ class Book_model extends CI_Model {
 		
 		if ($category != 0){
 			$this->db->join('book_category bc','bc.id_book = b.id', 'inner')->where('bc.id_category', $category);
+		}
+		
+		if($status != -1){
+			$this->db->like('accepted', $status);
+		}
+		
+		if($order){
+			$this->db->order_by($order);
 		}
 		
 		$query = $this->db->get();
@@ -248,9 +260,19 @@ class Book_model extends CI_Model {
 		$this->db->where('id_book', $id);
 		$this->db->delete('book_category');
 		
+		$this->db->where('id_book', $id);
+		$this->db->delete('has_book');
+		
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
 		return  $this->db->affected_rows () > 0;
+	}
+	
+	public function updateBook($data, $id){
+		$id = isset ( $id ) ? $id : $this->session->userdata ( 'user_id' );
+		$this->db->where('id',$id);
+		$this->db->update($this->table, $data);
+		return  $this->db->affected_rows () == 1;
 	}
 
 }

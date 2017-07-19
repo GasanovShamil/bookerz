@@ -131,4 +131,42 @@ class Content extends MY_Controller {
 			  // $data['links']=$this->pagination->create_links();
 			  // $this->render('content/index', $data);
 	}
+	
+	public function contentListing()
+	{
+		$searchText = $this->input->post('searchText');
+		$this->data['searchText'] = $searchText;
+		$category= $this->input->post('category');
+		$this->data['category'] = $category;
+		$status= 1;
+		$order= $this->input->post('order');
+		$this->data['order'] = $order;
+		
+		$count = $this->Book_model->bookListingCount($searchText,$category, $order, $status);
+		$returns = $this->paginationCompress ( "contentListing/", $count, 5 );
+		
+		$this->data['bookRecords'] = $this->Book_model->bookListing($searchText, $category,$order, $status, $returns["page"], $returns["segment"]);
+		if ($this->data['bookRecords']){
+			foreach ($this->data['bookRecords'] as $k => $book)
+			{
+				$this->data['bookRecords'][$k]->setCategories($this->Category_model->getBookCategories($book->getId()));
+			}
+		}
+		
+				
+		// here is category search dropdown
+		$catArray = $this->Category_model->getCategories();
+		$categories ['0'] = 'All categories';
+		foreach ($catArray as $cat ) {
+			$categories [$cat->getId()] = $cat->getName();
+		}
+		// end category search dropdown
+		
+		// here is order by search dropdown
+		$this->data['orders']= array('id' => 'Order by','title' => 'Title', 'author' => 'Author');
+		
+		$this->data['categories'] = $categories;
+		
+		$this->render ( 'content/index', $this->data);
+	}
 }

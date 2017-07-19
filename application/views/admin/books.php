@@ -23,6 +23,7 @@
                         <form action="<?php echo base_url() ?>bookListing" method="POST" id="searchList" class="form-inline">
                             <div class="input-group">
                              <?php echo form_dropdown('category', $categories, $category,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
+                             <?php echo form_dropdown('order', $orders, $order,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
                            	<?php echo form_dropdown('status', $statuses, $status,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
                               <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
                               <div class="input-group-btn">

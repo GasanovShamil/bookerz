@@ -35,6 +35,8 @@ $route['deleteCategory'] = 'admin/deleteCategory';
 $route['activateUser'] = 'admin/activate';
 $route['desactivateUser'] = 'admin/deactivate';
 $route['deleteBook'] = 'admin/deleteBook';
+$route['content'] = 'content/contentListing';
+$route['content/(:num)'] = 'content/contentListing/$1';
 
 // STATIC PAGES ROUTE
 $route['pages/(:any)'] = 'templates/index/$1';

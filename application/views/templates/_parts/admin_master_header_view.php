@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <title>Admin</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <script src="<?php echo base_url(); ?>assets/js/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.4 -->
-    <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    
+    <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js"></script>
+    <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> 
+    <script src="<?php echo base_url(); ?>assets/js/bootstrap-select.js"></script>
     <!-- FontAwesome 4.3.0 -->
     <link href="<?php echo base_url(); ?>assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons 2.0.0 -->
@@ -25,7 +28,10 @@
     	}
     </style>
     <!-- jQuery 2.1.4 -->
-    <script src="<?php echo base_url(); ?>assets/js/jQuery-2.1.4.min.js"></script>
+    
+    
+    
+    
     <script type="text/javascript">
         var baseURL = "<?php echo base_url(); ?>";
     </script>

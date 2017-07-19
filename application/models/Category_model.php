@@ -59,6 +59,17 @@ class Category_model extends CI_Model {
 		}
 	}
 	
+	public function updateBookCategories($id_book = NULL, $data) {
+		
+		$this->db->where('id_book', $id_book);
+		$this->db->delete('book_category');
+		
+		foreach ($data as $cat){	
+			$this->db->insert('book_category', array('id_book'=> $id_book, 'id_category' => $cat));	
+		}
+		return  $this->db->affected_rows () > 0;
+	}
+	
 	public function isCategoryUsed($id = NULL) {
 		
 		$this->db->select ( '*' );

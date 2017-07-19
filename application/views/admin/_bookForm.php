@@ -9,55 +9,48 @@
 <?php echo form_open(uri_string());?>
 
       <p>
-            <?php echo lang('Cover', 'cover');?> <br />
+      		<?php echo form_label('Page de couverture: ', 'cover');?> <br />
             <?php echo form_input($cover);?>
       </p>
 
       <p>
-            <?php echo lang('edit_user_lname_label', 'last_name');?> <br />
-            <?php echo form_input($last_name);?>
+            <?php echo form_label('Titre:', 'title');?> <br />
+            <?php echo form_input($title);?>
       </p>
 
       <p>
-            <?php echo lang('edit_user_phone_label', 'phone');?> <br />
-            <?php echo form_input($phone);?>
+            <?php echo form_label('Description:', 'description');?> <br />
+            <?php echo form_input($description);?>
       </p>
 
       <p>
-            <?php echo lang('edit_user_password_label', 'password');?> <br />
-            <?php echo form_input($password);?>
+            <?php echo form_label('Auteur:', 'author');?> <br />
+            <?php echo form_input($author);?>
       </p>
 
       <p>
-            <?php echo lang('edit_user_password_confirm_label', 'password_confirm');?><br />
-            <?php echo form_input($password_confirm);?>
+            <?php echo form_label('Date de publication:', 'published');?> <br />
+            <?php echo form_input($published);?>
       </p>
-
-      <?php if ($this->ion_auth->is_admin()): ?>
-
-          <h3><?php echo lang('edit_user_groups_heading');?></h3>
-          <?php foreach ($groups as $group):?>
-              <label class="checkbox">
-              <?php
-                  $gID=$group['id'];
-                  $checked = null;
-                  $item = null;
-                  foreach($currentGroups as $grp) {
-                      if ($gID == $grp->id) {
-                          $checked= ' checked="checked"';
-                      break;
-                      }
-                  }
-              ?>
-              <input type="checkbox" name="groups[]" value="<?php echo $group['id'];?>"<?php echo $checked;?>>
-              <?php echo htmlspecialchars($group['name'],ENT_QUOTES,'UTF-8');?>
-              </label>
-          <?php endforeach?>
-
-      <?php endif ?>
-
-      <?php echo form_hidden('id', $user->id);?>
-      <?php echo form_hidden($csrf); ?>
+      <p>
+            <?php echo form_label('L\'editeur:', 'editor');?> <br />
+            <?php echo form_input($editor);?>
+      </p>
+      
+      
+      <div class="checkbox">
+		<label> <input type="checkbox" name="accepted" value="1"<?php echo $accepted;?>> Accepted </label>			
+		</div>
+      
+     
+      
+      <p>
+		<?php echo form_label('Categorie:', 'category');?> <br />
+     		 <?php echo form_multiselect('category[]', $categories, $bookcategories,  'multiple required'); ?>
+		</p>
+		
+      <?php echo form_hidden('id', $id);?>
+     
 
       <p><?php echo form_submit('submit', lang('edit_user_submit_btn'));?></p>
 

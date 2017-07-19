@@ -13,30 +13,19 @@
           <div class="col-md-10 col-md-offset-1">
           
           
- <?php
-           
-            $attributes = array('id' => 'myform');
-            $data_submit = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => 'Go');
-            $options_order_type = array('Asc' => 'Asc', 'Desc' => 'Desc');
-            //save the columns names in a array that we will use as filter   
-            $options_order = array('title' => 'title', 'author' => 'author');
-            $options_category = array();    
-            if(! empty($categories)){
-            foreach ($categories as $array) {
-            	$options_category[$array->getName()] = $array->getName();
-            }
-            }
-            echo form_open('content/index', $attributes);
-           ?> <div class="filtre"> <?php 
-            echo form_label('Search:', 'search_string');
-            echo form_input('search_string', $search_string_selected, ['class' => 'form-control']);
-            ?></div>   <?php 
-            echo form_label('Order by:', 'order');
-            echo form_dropdown('order', $options_order, $order, ['class' => 'form-control']);
-            echo form_dropdown('order_type', $options_order_type, $order_type_selected, 'class="span1"');
-            echo form_submit($data_submit);
-            echo form_close();
-        ?>
+ 
+        <form action="<?php echo base_url() ?>content" method="POST" id="searchList" class="form-inline">
+            			<div class="input-group">
+                             <?php echo form_dropdown('category', $categories, $category,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
+                             <?php echo form_dropdown('order', $orders, $order,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
+                           	
+                              <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                              <div class="input-group-btn">
+                                <button class="btn btn-sm btn-default searchList"><i class="fa fa-search"></i></button>
+                              </div>
+                            </div>
+                           
+        </form>
         </div>
         </div>
         
@@ -46,8 +35,8 @@
 
                 <div class="row bloc">
             <?php 
-            if(! empty($books)){
-            foreach ($books as $book){?>
+            if(! empty($bookRecords)){
+            	foreach ($bookRecords as $book){?>
                    
                     <article class="col-lg-3 col-md-4 col-sm-4 col-xs-6 min-height-bloc-img">
                     <div class="thumb-pad2 maxheight1"><div class="box_inner">
@@ -69,11 +58,9 @@
                    	</div>
                   <?php } ?>
                 </div>
-                 <div class="pagination">
-    				<ul>
-                		<?php echo $links; ?>
-                	</ul>    
-    			</div>
+                <div class="box-footer clearfix">
+                    <?php echo $this->pagination->create_links(); ?>
+                </div>
             </div>
         </div>
         <!-- fin a la une -->
@@ -182,3 +169,14 @@
 
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('ul.pagination li a').click(function (e) {
+            e.preventDefault();            
+            var link = $(this).get(0).href;            
+            var value = link.substring(link.lastIndexOf('/') + 1);
+            $("#searchList").attr("action", baseURL + "bookListing/" + value);
+            $("#searchList").submit();
+        });
+    });
+    </script>
