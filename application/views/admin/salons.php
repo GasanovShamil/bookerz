@@ -2,99 +2,111 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fa fa-users"></i> Book Management
-        <small>Add, Edit, Delete</small>
+        <i class="fa fa-users"></i> Salon Management
+        <small> Edit, Close, Delete</small>
       </h1>
     </section>
     <section class="content">
         <div class="row">
-            <div class="col-xs-12 text-right">
-                <div class="form-group">
-                <a href="#" id="modal-book-api" class="btn btn-primary"><i class="fa fa-plus"></i> Add New</a>
-                   
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-xs-12">
               <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Books List</h3>
-                    <div class="box-tools">
-                        <form action="<?php echo base_url() ?>bookListing" method="POST" id="searchList" class="form-inline">
-                            <div class="input-group">
-                             <?php echo form_dropdown('category', $categories, $category,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
-                             <?php echo form_dropdown('order', $orders, $order,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
-                           	<?php echo form_dropdown('status', $statuses, $status,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
-                              <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
-                              <div class="input-group-btn">
-                                <button class="btn btn-sm btn-default searchList"><i class="fa fa-search"></i></button>
-                              </div>
-                            </div>
-                           
-                        </form>
-                    </div>
+                    <h3 class="box-title">Salon List</h3>
+                    
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
-                  <table class="table table-hover">
-                    <tr>
-                      <th>Cover</th>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Date</th>
-                      <th>Author</th>
-                      <th>Published</th>
-                      <th>Editor</th>
-                      <th>Categories</th>
-                      <th>ISBN10</th>
-                      <th>ISBN13</th>
-                      <th>Accepted</th>
-                      <th class="text-center">Actions</th>
-                    </tr>
-                    <?php
-                    if(!empty($bookRecords))
-                    {
-                    	foreach($bookRecords as $book)
-                        {
-                    ?>
-                    <tr>
-                      <td><img src="<?php echo $book->getCover(); ?>"></td>
-                      <td><?php echo $book->getTitle(); ?></td>
-                      <td><?php echo $book->getDescription();?></td>
-                      <td><?php echo $book->getDate(); ?></td>
-                      <td><?php echo $book->getAuthor(); ?></td>
-                      <td><?php echo $book->getPublished(); ?></td>
-                      <td><?php echo $book->getEditor(); ?></td>
-                      <td><?php 
-                      if(! empty($book->getCategories())){
-                      			foreach ($book->getCategories() as $cat):?>
-								<?php echo '<span class="label label-primary">'.htmlspecialchars($cat->getName(),ENT_QUOTES,'UTF-8').'</span>';?><br />
-			                <?php endforeach;     
-                      }?></td>
-                      <td><?php echo $book->getISBN10(); ?></td>
-                      <td><?php echo $book->getISBN13(); ?></td>
-                      <td class="text-center"><?php if($book->isAccepted()){ 
-                      	echo '<i class="fa fa-check-square fa-2x" aria-hidden="true" style="color:green"></i>'; 
-                      }else{
-                      	echo '<i class="fa fa-minus-square fa-2x" aria-hidden="true" style="color:red"></i>';
-                        }?></td>
-                      	<td class="text-center">
-                      	<a class="btn btn-sm btn-success" href="<?php echo base_url().'admin/createSalon/'.$book->getId();?>"><i class="fa fa-plus"></i></i></a>
-                        <a class="btn btn-sm btn-info" href="<?php echo base_url().'admin/editBook/'.$book->getId();?>"><i class="fa fa-pencil"></i></i></a>
-                        <a class="btn btn-sm btn-danger deleteBook" href="#" data-bookid="<?php echo $book->getId(); ?>"><i class="fa fa-trash"></i></a>
-                        
-                      </td>
-                    </tr>
-                    <?php
-                        }
-                    }
-                    ?>
-                  </table>
-                  
+                  <table id="admin-liste-salon" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				        <thead>
+				            <tr>
+				                <th>Titre</th>
+				                <th>Dates</th>
+				                <th>Nom du salon</th>
+				                <th>Action</th>
+				            </tr>
+				        </thead>
+				        <?php if (empty($rooms)): ?>
+				            Aucun salon de chat n'est disponible pour le moment
+				        <?php else: ?>
+				            <tbody>
+				                <?php foreach ($rooms as $room): ?>
+				                    <?php
+				                    $infoRoom = $room[0];
+				                    $book = $room[1];
+				                    ?>
+				                    <tr>
+				                        <td><?php echo $book->getTitle(); ?> closed : <?php echo $infoRoom->getClosed(); ?></td>
+				                        <td><?php echo $infoRoom->getStart_date()." / ".$infoRoom->getEnd_date(); ?></td>
+				                        <td><?php echo $infoRoom->getName(); ?></td>
+				                        <td>
+				                           
+				
+				                            <?php if ($infoRoom->getClosed()): ?>
+				                                <?php echo form_open('/admin/reopenSalon/'.$infoRoom->getId()) ?>
+				                                    <input type="submit" value="Re open" class="btn btn-warning">
+				                                </form>
+				                            <?php else: ?>
+				                                <?php echo form_open('/admin/deleteSalon/'.$infoRoom->getId()) ?>
+				                                    <input type="submit" value="Delete" class="btn btn-danger">
+				                                </form>
+				                            <?php endif; ?>
+				                        </td>
+				                    </tr>
+				                <?php endforeach; ?>
+				        <?php endif; ?>
+						<?php if(!empty($closedRooms)): ?>
+						        <tr>
+						            <td colspan="4" class="full-row"><h3>Salons fermés par un administrateur</h3></td>
+						        </tr>
+						        <?php foreach ($closedRooms as $room): ?>
+						            <?php
+						            $infoRoom = $room[0];
+						            $book = $room[1];
+						            ?>
+						            <tr>
+						                <td><?php echo $book->getTitle(); ?> closed : <?php echo $infoRoom->getClosed(); ?></td>
+						                <td><?php echo $infoRoom->getStart_date()." / ".$infoRoom->getEnd_date(); ?></td>
+						                <td><?php echo $infoRoom->getName(); ?></td>
+						                <td>
+						                     <?php if ($infoRoom->getClosed()): ?>
+						                        <?php echo form_open('/admin/reopenSalon/'.$infoRoom->getId()) ?>
+						                            <input type="submit" value="Re open" class="btn btn-warning">
+						                        </form>
+						                    <?php else: ?>
+						                        <?php echo form_open('/admin/deleteSalon/'.$infoRoom->getId()) ?>
+						                            <input type="submit" value="Delete" class="btn btn-danger">
+						                        </form>
+						                    <?php endif; ?>
+						                </td>
+						            </tr>
+						        <?php endforeach; ?>
+						    </tbody>
+						<?php endif; ?>
+						</table>
                 </div><!-- /.box-body -->
-                <div class="box-footer clearfix">
-                    <?php echo $this->pagination->create_links(); ?>
-                </div>
+               <hr>
+<?php if (isset($nextRooms) && !empty($nextRooms)): ?>
+    <h1>Prochain salons :</h1>
+    <?php foreach ($nextRooms as $room): ?>
+        <hr>
+        <?php echo $room[1]->getTitle(); ?>
+        <br>
+        le <?php echo $room[0]->getStart_date(); ?>
+    <?php endforeach; ?>
+<?php else: ?>
+    <h1>Pas de prochains salons pour le moment</h1>
+<?php endif; ?>
+
+<hr>
+<?php if (isset($endedRooms) && !empty($endedRooms)): ?>
+    <h1>Anciens salons :</h1>
+    <?php foreach ($endedRooms as $room): ?>
+        <?php echo $room[1]->getTitle(); ?>
+        <br>
+        le <?php echo $room[0]->getStart_date(); ?>
+    <?php endforeach; ?>
+<?php else: ?>
+    <h1>Aucun ancien salon trouvé</h1>
+<?php endif; ?> 
               </div><!-- /.box -->
             </div>
         </div>

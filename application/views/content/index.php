@@ -10,22 +10,23 @@
         </div>
         <!-- section filtre -->
          <div class="well col-md-12">
-          <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-8 col-md-offset-3">
           
-          
- 
-        <form action="<?php echo base_url() ?>content" method="POST" id="searchList" class="form-inline">
-            			<div class="input-group">
-                             <?php echo form_dropdown('category', $categories, $category,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
-                             <?php echo form_dropdown('order', $orders, $order,  'class="form-control input-sm pull-right" style="width: 150px;"'); ?>
-                           	
-                              <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
-                              <div class="input-group-btn">
-                                <button class="btn btn-sm btn-default searchList"><i class="fa fa-search"></i></button>
-                              </div>
-                            </div>
-                           
-        </form>
+          <form action="<?php echo base_url() ?>content" method="POST" id="searchList" class="form-inline">
+			  <div class="form-group">
+			   <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control" placeholder="Search"/>
+			  </div>
+			  <div class="form-group">
+			     <?php echo form_dropdown('order', $orders, $order,  'class="form-control"'); ?>
+			  </div>
+			  <div class="form-group">
+			     <?php echo form_dropdown('category', $categories, $category,  'class="form-control"'); ?>
+			  </div>
+			  
+			  <button type="submit" class="btn btn-default">Search</button>
+			</form>
+ 		
+       
         </div>
         </div>
         
@@ -58,9 +59,9 @@
                    	</div>
                   <?php } ?>
                 </div>
-                <div class="box-footer clearfix">
+                <div class="box-footer clearfix text-center">
                     <?php echo $this->pagination->create_links(); ?>
-                </div>
+                </div>	
             </div>
         </div>
         <!-- fin a la une -->
@@ -175,7 +176,7 @@
             e.preventDefault();            
             var link = $(this).get(0).href;            
             var value = link.substring(link.lastIndexOf('/') + 1);
-            $("#searchList").attr("action", baseURL + "bookListing/" + value);
+            $("#searchList").attr("action", baseURL + "content/" + value);
             $("#searchList").submit();
         });
     });

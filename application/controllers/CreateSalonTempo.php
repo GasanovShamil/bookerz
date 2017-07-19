@@ -53,20 +53,5 @@ class CreateSalonTempo extends Auth_Controller {
             }
         }
 
-        public function delete($id)
-        {
-            $this->Salon_model->delete($id);
-            redirect('createsalontempo/create');
-        }
-
-        public function reopen($id)
-        {
-            $this->Salon_model->reopen($id);
-            redirect('createsalontempo/create');
-        }
-
-        public function checkSalon()
-        {
-            $this->Salon_model->checkSalonstatus();
-        }
+        
 }

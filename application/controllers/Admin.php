@@ -11,6 +11,7 @@ class Admin extends Admin_Controller {
 		$this->load->model ( 'User_model' );
 		$this->load->model ( 'Category_model' );
 		$this->load->model ( 'Config_model' );
+		$this->load->model ( 'Salon_model' );
 		$this->load->helper ( "url", 'language' );
 		$this->load->library ( 'pagination' );
 		$this->load->library ( array (
@@ -458,20 +459,73 @@ class Admin extends Admin_Controller {
 	// END CATEGORY ADMINISTRATION
 	
 	// START SALON ADMINISTRATION
-	public function salonListing() {
-		$searchText = $this->input->post ( 'searchText' );
-		$this->data ['searchText'] = $searchText;
+	public function salonListing() {	
+		$this->data['rooms'] = $this->Salon_model->getSalon();
+		$this->data['nextRooms'] = $this->Salon_model->getSalon("next");
+		$this->data['endedRooms'] = $this->Salon_model->getSalon("finished");
+		$this->data['closedRooms'] = $this->Salon_model->getSalon("closed");
 		
-		$count = $this->User_model->userListingCount ( $searchText );
-		$returns = $this->paginationCompress ( "userListing/", $count, 5 );
+		$this->render ( 'admin/salons', NULL );
+	}
+	
+	
+	public function createSalon($id)
+	{
 		
-		$this->data ['userRecords'] = $this->User_model->userListing ( NULL, $searchText, $returns ["page"], $returns ["segment"] )->result ();
+		$this->data['book_id'] = $id;
 		
-		foreach ( $this->data ['userRecords'] as $k => $user ) {
-			$this->data ['userRecords'] [$k]->groups = $this->User_model->get_users_groups ( $user->id )->result ();
+		$this->form_validation->set_rules('name', 'nom du salon', 'required');
+		$this->form_validation->set_rules('start_date_day', 'jour d\'ouverture du salon', 'required');
+		$this->form_validation->set_rules('start_date_hour','champs heure d\'ouverture du salon','required');
+		$this->form_validation->set_rules('end_date_day','jour de fin du salon','required');
+		$this->form_validation->set_rules('end_date_hour','champs heure de fin du salon','required');
+		$this->form_validation->set_rules('id_livre','livre','required');
+		$this->form_validation->set_rules('nb_max_report_needed','nombre de signalement maximal par utilisateur','required');
+		
+		if($this->form_validation->run() === FALSE) {
+			$this->render('admin/createSalon', $this->data);
+		} else {
+			$start_date = $this->input->post('start_date_day') . " " . $this->input->post('start_date_hour');
+			$end_date = $this->input->post('end_date_day') . " " . $this->input->post('end_date_hour');
+			
+			if($start_date <= date('Y-m-d H:i:s')) {
+				$status = 1;
+			} else {
+				$status = 0;
+			}
+			
+			$salon = new Salon_e(
+					0,
+					$this->input->post('name'),
+					$start_date,
+					$end_date,
+					$this->input->post('id_livre'),
+					$this->input->post('nb_max_user'),
+					$status,
+					$this->input->post('nb_max_report_needed'),
+					0
+					);
+			$this->Salon_model->createSalon($salon);
+			$this->data['success'] = "Le salon vient d'être crée";
+			redirect ( 'salonListing', 'refresh' );
 		}
-		
-		$this->render ( 'admin/users', $this->data );
+	}
+	
+	public function deleteSalon($id)
+	{
+		$this->Salon_model->delete($id);
+		redirect('salonListing');
+	}
+	
+	public function reopenSalon($id)
+	{
+		$this->Salon_model->reopen($id);
+		redirect('salonListing');
+	}
+	
+	public function checkSalon()
+	{
+		$this->Salon_model->checkSalonstatus();
 	}
 	
 	// END SALON ADMINISTRATION
@@ -619,7 +673,7 @@ class Admin extends Admin_Controller {
 		$this->data ['published'] = array (
 				'name' => 'published',
 				'id' => 'published',
-				'type' => 'text',
+				'type' => 'date',
 				'value' => $this->form_validation->set_value ( 'published', $book->getPublished () ) 
 		);
 		$this->data ['editor'] = array (
