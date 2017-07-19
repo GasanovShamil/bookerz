@@ -22,6 +22,7 @@
         <script src="<?= base_url('assets/js/jquery.bootpag.min.js');  ?>"></script>
         <script src="<?= base_url('assets/js/jquery.twbsPagination.min.js');  ?>"></script>
         <script src="<?= base_url('assets/js/emojionearea.min.js');  ?>"></script>
+        <script src="<?= base_url('assets/js/date.js'); ?>"></script>
         <script src="<?= base_url('assets/js/socket.js'); ?>"></script>
         <script src="<?= base_url('assets/js/script.js'); ?>"></script>
         <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
